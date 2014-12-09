@@ -24,9 +24,12 @@ router.post('/:id', function(req, res) {
 });
 
 router.get('/:id/edit', function(req, res) {
-    find_by_id(req.params.id).then(function(oos) {
-        res.render('oos_edit', {
-            oos: oos
+    find_by_id(req.params.id).then(function(record) {
+        record.Program.Model.all().then(function(programs) {
+            res.render('oos_edit', {
+                oos: record,
+                programs: programs
+            });
         });
     });
 });
