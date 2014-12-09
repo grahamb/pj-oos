@@ -1,0 +1,31 @@
+<h1>{{oos.first_name}} {{oos.last_name}}</h1>
+<h2>
+    {{#if oos.Program.name}}
+        {{oos.Program.name}}
+    {{else}}
+        Unassigned
+    {{/if}}
+</h2>
+
+{{#with oos}}
+<table>
+    <tr><td>Desired Department</td><td>{{desired_department}}</td></tr>
+    <tr><td>Recruited By</td><td>{{recruited_by}}</td></tr>
+    <tr><td>Previous Experience</td><td>{{previous_experience}}</td></tr>
+    <tr><td>Certifications</td><td>{{certifications}}</td></tr>
+</table>
+
+<h3>Personal Information</h3>
+<table>
+    <tr><td>Address</td><td>{{address}}</td></tr>
+    <tr><td>City</td><td>{{city}}</td></tr>
+    <tr><td>Province</td><td{{province}}</td></tr>
+    <tr><td>Postal Code</td><td>{{postal_code}}</td></tr>
+    <tr><td>Country</td><td>{{country}}</td></tr>
+    <tr><td>Phone</td><td>{{phone}}</td></tr>
+    <tr><td>Cell Phone</td><td>{{cell_phone}}</td></tr>
+    <tr><td>Date of Birth</td><td>{{dob}}</td></tr>
+</table>
+
+<p><a href="/oos/{{id}}/edit">Edit</a></p>
+{{/with}}

@@ -1,2 +1,30 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<h1>Program OOS Assignments</h1>
+
+<table>
+    <thead>
+        <tr>
+            <td>OOS ID</td>
+            <td>First Name</td>
+            <td>Last Name</td>
+            <td>Assigned To</td>
+            <td>Program</td>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each staff}}
+          <tr>
+            <td><a href="/oos/{{this.id}}">{{this.oos_number}}</a></td>
+            <td>{{this.first_name}}</td>
+            <td>{{this.last_name}}</td>
+            <td>{{this.assigned_program}}</td>
+            <td>
+                {{#if this.Program.name}}
+                    {{this.Program.name}}
+                {{else}}
+                    Unassigned
+                {{/if}}
+            </td>
+          </tr>
+        {{/each}}
+    </tbody>
+</table>
