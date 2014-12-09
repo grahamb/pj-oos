@@ -14,7 +14,20 @@ var app = express();
 // view engine setup
 app.engine('hbs', exphbs({
     defaultLayout: 'main',
-    extname: '.hbs'
+    extname: '.hbs',
+    partialsDir: 'views/partials',
+    helpers: {
+        selected: function(option, value) {
+            console.log("OPTION", option);
+            console.log("VALUE", value);
+            return option === value ? 'selected' : '';
+        },
+        whatis: function(value) {
+            console.log('---');
+            console.dir(value);
+            console.log('---');
+        }
+    }
 }));
 app.set('view engine', 'hbs');
 
