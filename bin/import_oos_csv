@@ -1,0 +1,42 @@
+#!/usr/bin/env node
+var Staff = require('../models').Staff;
+var parse = require('csv-parse');
+var fs = require('fs');
+var file = process.argv[2];
+
+if (!file) {
+    console.log('No CSV file');
+    process.exit(1);
+}
+
+var data = fs.readFileSync(file);
+console.log(data.toString());
+var parseOptions = {
+    autoParse: true,
+    columns: true
+};
+parse(data, parseOptions, function(err, data) {
+    if (err) {
+        throw err;
+    }
+    var rows = [];
+    var fields = Object.keys(Staff.tableAttributes);
+    data.forEach(function(record) {
+        var obj = {};
+        for (var prop in record) {
+            if (fields.indexOf(prop) > -1) {
+                obj[prop] = record[prop];
+            }
+        }
+        obj.pre_recruited = obj.pre_recruited === 'Yes' ? true : false;
+        rows.push(obj);
+    });
+    Staff.bulkCreate(rows).success(function() {
+        Staff.findAll().success(function(staff) {
+            console.log(staff) // ... in order to get the array of user objects
+            process.exit();
+          });
+    });
+
+});
+

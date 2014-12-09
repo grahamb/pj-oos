@@ -1,0 +1,6 @@
+#!/usr/bin/env node
+var Program = require('../models').Program;
+
+var records = [{name: "Mountain Biking"}, {name: "Salish Lagoon Challenges (Barnard Beach Challenge)"}, {name: "Path of the Ancestors (Juan De Fuca Trail Overnight Hike)"}, {name: "Dragon Boat Racing"}, {name: "The Wall (Rock Climbing)"}, {name: "Exploring Victoria"}, {name: "Sooke Potholes"}, {name: "Log Jam (Logger Sports)"}, {name: "Fisrt Nation/Pioneering Village"}, {name: "SUP Boarding/Kites/Beach (Whiffen Spit)"}, {name: "Geocaching"}, {name: "Kayaking"}, {name: "Legacy '15 Meredith Laidlaw"}, {name: "Cutmist - Vision Quest (Mt. Bluff Hike)"}, {name: "Obstacle Course"}, {name: "Salish Pond (Canoeing)"}, {name: "Calypso (SCUBA Diving)"}, {name: "Wild Play"}, {name: "Pirates of the Salish Seas"}];
+
+Program.bulkCreate(records);
