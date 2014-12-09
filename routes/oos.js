@@ -12,9 +12,13 @@ function find_by_id(id) {
 }
 
 router.get('/:id', function(req, res) {
-    find_by_id(req.params.id).then(function(oos) {
+    find_by_id(req.params.id).then(function(record) {
         res.render('oos', {
-            oos: oos
+            oos: record
+        });
+    });
+});
+
 router.post('/:id', function(req, res) {
     find_by_id(req.params.id).then(function(record) {
         record.updateAttributes(req.body).then(function() {
