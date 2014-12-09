@@ -15,6 +15,10 @@ router.get('/:id', function(req, res) {
     find_by_id(req.params.id).then(function(oos) {
         res.render('oos', {
             oos: oos
+router.post('/:id', function(req, res) {
+    find_by_id(req.params.id).then(function(record) {
+        record.updateAttributes(req.body).then(function() {
+            res.redirect(req.params.id);
         });
     });
 });
