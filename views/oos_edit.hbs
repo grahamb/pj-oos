@@ -1,9 +1,9 @@
 <h1>Edit OOS Record</h1>
 
-{{#with oos}}
-<form action="/oos/{{id}}" method="POST">
+<form action="/oos/{{oos.id}}" method="POST">
     <h2>Personal Information</h2>
     <table>
+        {{#with oos}}
         <tr><td>Address</td><td><input type="text" name="address" id="address" value="{{address}}"></td></tr>
         <tr><td>City</td><td><input type="text" name="city" id="city" value="{{city}}"></td></tr>
         <tr><td>Province</td><td><input type="text" name="province" id="province" value="{{province}}"></td></tr>
@@ -11,16 +11,22 @@
         <tr><td>Country</td><td><input type="text" name="country" id="country" value="{{country}}"></td></tr>
         <tr><td>Phone</td><td><input type="text" name="phone" id="phone" value="{{phone}}"></td></tr>
         <tr><td>Cell Phone</td><td><input type="text" name="cell_phone" id="cell_phone" value="{{cell_phone}}"></td></tr>
+        {{/with}}
     </table>
-
 
     <h2>PJ Information</h2>
     <table>
-        <tr><td>Assigned To</td><td><input type="text" name="Program.name" id="Program.name" value="{{Program.name}}"></td></tr>
+        <tr>
+            <td>Assigned To</td>
+            <td>
+                {{> program_select}}
+            </td>
+        </tr>
+        {{#with oos}}
         <tr><td>Recruited By</td><td><input type="text" name="recruited_by" id="recruited_by" value="{{recruited_by}}"></td></tr>
         <tr><td>Previous Experience</td><td><input type="text" name="previous_experience" id="previous_experience" value="{{previous_experience}}"></td></tr>
         <tr><td>Certifications</td><td><input type="text" name="certifications" id="certifications" value="{{certifications}}"></td></tr>
+        {{/with}}
     </table>
     <input type="submit" value="Save">
 </form>
-{{/with}}
