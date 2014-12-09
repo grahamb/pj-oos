@@ -6,7 +6,7 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        Program.hasMany(models.Staff, { foreignKey: 'assigned_program' });
+        Program.hasMany(models.Staff, { as: 'Staff' });
       }
     }
   });

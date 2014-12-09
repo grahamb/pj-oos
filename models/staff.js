@@ -15,7 +15,6 @@ module.exports = function(sequelize, DataTypes) {
     cell_phone: DataTypes.STRING,
     pre_recruited: DataTypes.BOOLEAN,
     recruited_by: DataTypes.STRING,
-    assigned_program: DataTypes.INTEGER,
     desired_department: DataTypes.STRING,
     previous_experience: DataTypes.TEXT,
     certifications: DataTypes.TEXT,
@@ -25,7 +24,7 @@ module.exports = function(sequelize, DataTypes) {
     freezeTableName: true,
     classMethods: {
       associate: function(models) {
-        Staff.hasOne(models.Program);
+        Staff.belongsTo(models.Program);
       }
     }
   });
