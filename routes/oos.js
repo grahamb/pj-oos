@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var models = require('../models');
+var QueryChainer = require('sequelize').Utils.QueryChainer;
 
 /* GET users listing. */
 
@@ -28,14 +29,17 @@ router.post('/:id', function(req, res) {
 });
 
 router.get('/:id/edit', function(req, res) {
-    find_by_id(req.params.id).then(function(record) {
-        record.Program.Model.all().then(function(programs) {
+    var chainer = new QueryChainer;
+    chainer
+        .add(models.Program.all())
+        .add(find_by_id(req.params.id))
+        .run()
+        .success(function(results) {
             res.render('oos_edit', {
-                oos: record,
-                programs: programs
+                programs: results[0],
+                oos: results[1]
             });
         });
-    });
 });
 
 module.exports = router;
