@@ -1,5 +1,4 @@
 <h1>Program OOS Assignments</h1>
-
 <table>
     <thead>
         <tr>
@@ -18,11 +17,7 @@
             <td>{{this.last_name}}</td>
             <td>{{this.assigned_program}}</td>
             <td>
-                {{#if this.Program.name}}
-                    {{this.Program.name}}
-                {{else}}
-                    Unassigned
-                {{/if}}
+                {{> program_select oos=this programs=../programs}}
             </td>
           </tr>
         {{/each}}
