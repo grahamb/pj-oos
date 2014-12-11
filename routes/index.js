@@ -5,10 +5,25 @@ var models = require('../models');
 
 /* GET home page. */
 router.get('/', function(req, res) {
+    var staffFilter;
+    switch (req.query.program) {
+        case 'all':
+        case undefined:
+            staffFilter = {};
+            break;
+        case 'unassigned':
+            staffFilter = { ProgramId: null };
+            break;
+        default:
+            staffFilter = { ProgramId: req.query.program };
+            break;
+    }
+    console.log(staffFilter);
     var chainer = new QueryChainer;
     chainer
         .add(models.Program.all())
         .add(models.Staff.findAll({
+            where: staffFilter,
             include: [ models.Program ]
         }))
         .run()

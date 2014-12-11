@@ -1,4 +1,16 @@
 <h1>Program OOS Assignments</h1>
+
+<p>
+    Filter by Assignment:
+    <select class="assignmentFilter">
+        <option value="all">All</option>
+        <option value="unassigned" selected>Unassigned</option>
+        {{> program_select}}
+    </select>
+</p>
+
+<p>Total: {{staff.length}}</p>
+
 <table>
     <thead>
         <tr>
@@ -23,3 +35,15 @@
         {{/each}}
     </tbody>
 </table>
+
+<script>
+
+    var filter = window.location.search.substring(1).split('=')[1] || 'all';
+    $('.assignmentFilter [value="' + filter + '"]').attr('selected', true);
+
+    $('.assignmentFilter').on('change', function(el) {
+        var val = $(this).val();
+        window.location = '/?program=' + val;
+    });
+
+</script>
