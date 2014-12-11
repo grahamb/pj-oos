@@ -18,14 +18,11 @@ app.engine('hbs', exphbs({
     partialsDir: 'views/partials',
     helpers: {
         selected: function(option, value) {
-            // console.log("OPTION", option);
-            // console.log("VALUE", value);
+
             return option === value ? 'selected' : '';
         },
         whatis: function(value) {
-            // console.log('vvv');
             console.dir(value);
-            // console.log('^^^');
         }
     }
 }));
