@@ -21,6 +21,7 @@ router.get('/:id', function(req, res) {
 });
 
 router.post('/:id', function(req, res) {
+    if (req.body.ProgramId === '') { req.body.ProgramId = null; }
     find_by_id(req.params.id).then(function(record) {
         record.updateAttributes(req.body).then(function() {
             res.redirect(req.params.id);
