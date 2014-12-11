@@ -47,4 +47,9 @@
         window.location = '/?program=' + val;
     });
 
+    $('.ProgramId').on('change', function(el) {
+        var $this = $(this);
+        var oosId = $this.data('id');
+        $.post('/oos/' + oosId, {ProgramId: $this.val()}, function(data, status, xhr) { console.log(arguments);});
+    });
 </script>
