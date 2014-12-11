@@ -18,7 +18,6 @@
             <td>First Name</td>
             <td>Last Name</td>
             <td>Assigned To</td>
-            <td>Program</td>
         </tr>
     </thead>
     <tbody>
@@ -27,7 +26,6 @@
             <td><a href="/oos/{{this.id}}">{{this.oos_number}}</a></td>
             <td>{{this.first_name}}</td>
             <td>{{this.last_name}}</td>
-            <td>{{this.assigned_program}}</td>
             <td>
                 {{> program_select oos=this programs=../programs}}
             </td>
