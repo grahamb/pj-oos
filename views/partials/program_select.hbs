@@ -1,6 +1,3 @@
-<select name="ProgramId" id="ProgramId">
-    <option value="0">UNASSIGNED</option>
-    {{#each programs}}
-    <option value="{{this.id}}" {{selected this.dataValues.id ../oos.ProgramId}}>{{this.name}}</option>
-    {{/each}}
-</select>
+{{#each programs}}
+<option value="{{this.id}}" {{selected this.dataValues.id ../oos.ProgramId}}>{{this.name}}</option>
+{{/each}}

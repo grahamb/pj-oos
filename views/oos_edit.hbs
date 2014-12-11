@@ -19,7 +19,10 @@
         <tr>
             <td>Assigned To</td>
             <td>
-                {{> program_select}}
+                <select name="ProgramId" class="ProgramId">
+                    <option value="">UNASSIGNED</option>
+                    {{> program_select}}
+                </select>
             </td>
         </tr>
         {{#with oos}}

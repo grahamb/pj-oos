@@ -27,7 +27,10 @@
             <td>{{this.first_name}}</td>
             <td>{{this.last_name}}</td>
             <td>
-                {{> program_select oos=this programs=../programs}}
+                <select data-id="{{this.id}} "name="ProgramId" class="ProgramId">
+                    <option value="">UNASSIGNED</option>
+                    {{> program_select oos=this programs=../programs}}
+                </select>
             </td>
           </tr>
         {{/each}}
