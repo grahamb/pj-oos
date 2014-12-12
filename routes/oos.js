@@ -3,8 +3,6 @@ var router = express.Router();
 var models = require('../models');
 var QueryChainer = require('sequelize').Utils.QueryChainer;
 
-/* GET users listing. */
-
 function find_by_id(id) {
     return models.Staff.find({
         where: {id: id},
@@ -12,9 +10,44 @@ function find_by_id(id) {
     });
 }
 
+router.get('/', function(req, res) {
+    var staffFilter;
+    switch (req.query.program) {
+        case 'all':
+        case undefined:
+            staffFilter = {};
+            break;
+        case 'unassigned':
+            staffFilter = { ProgramId: null };
+            break;
+        default:
+            staffFilter = { ProgramId: req.query.program };
+            break;
+    }
+    var chainer = new QueryChainer;
+    chainer
+        .add(models.Program.all())
+        .add(models.Staff.findAll({
+            where: staffFilter,
+            include: [ models.Program ]
+        }))
+        .run()
+        .success(function(results) {
+            res.render('oos/index', {
+                title: 'PJ 2015 Program OOS',
+                programs: results[0],
+                staff: results[1]
+            });
+        })
+        .error(function(err) {
+            console.log(err);
+            res.render('error');
+        });
+});
+
 router.get('/:id', function(req, res) {
     find_by_id(req.params.id).then(function(record) {
-        res.render('oos', {
+        res.render('oos/oos', {
             oos: record
         });
     });
@@ -40,7 +73,7 @@ router.get('/:id/edit', function(req, res) {
         .add(find_by_id(req.params.id))
         .run()
         .success(function(results) {
-            res.render('oos_edit', {
+            res.render('oos/oos_edit', {
                 programs: results[0],
                 oos: results[1]
             });
