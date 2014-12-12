@@ -27,7 +27,8 @@ module.exports = function(sequelize, DataTypes) {
     fee: {
       type: DataTypes.FLOAT,
       defaultValue: 0.00
-    }
+    },
+    hidden: DataTypes.BOOLEAN
   }, {
     classMethods: {
       associate: function(models) {
