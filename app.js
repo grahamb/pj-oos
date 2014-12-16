@@ -13,6 +13,8 @@ routeFiles.forEach(function(route) {
     routes[path.basename(route, '.js')] = require('./routes/' + route);
 });
 
+app.use(favicon(path.join(__dirname,'public', 'favicon.ico')));
+
 // view engine setup
 app.engine('hbs', exphbs({
     defaultLayout: 'main',
@@ -30,8 +32,6 @@ app.engine('hbs', exphbs({
 }));
 app.set('view engine', 'hbs');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
