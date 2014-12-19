@@ -26,7 +26,9 @@ router.get('/', function(req, res) {
     }
     var chainer = new QueryChainer;
     chainer
-        .add(models.Program.all())
+        .add(models.Program.findAll({
+            order: 'id ASC'
+        }))
         .add(models.Staff.findAll({
             where: staffFilter,
             include: [ models.Program ]
@@ -60,7 +62,7 @@ router.post('/:id', function(req, res) {
             if (req.xhr) {
                 res.send(200);
             } else {
-                res.redirect(req.params.id);
+                res.redirect('/oos/' + req.params.id);
             }
         });
     });
