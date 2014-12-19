@@ -23,4 +23,27 @@ router.get('/:id', function(req, res) {
     });
 });
 
+router.post('/:id', function(req, res) {
+    Program.find({
+        where: { id: req.params.id }
+    }).then(function(record) {
+        record.updateAttributes(req.body).then(function() {
+            res.redirect(req.params.id);
+        }).catch(function(error) {
+            res.redirect('error', { message: 'oops', error: error });
+        });
+    });
+});
+
+router.get('/:id/edit', function(req, res) {
+    Program.find({
+        where: { id: req.params.id }
+    }).then(function(program) {
+        res.render('programs/program_edit', {
+            title: 'PJ 2015 - Edit Program Record',
+            program: program
+        });
+    });
+});
+
 module.exports = router;
