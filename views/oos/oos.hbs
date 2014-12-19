@@ -1,5 +1,5 @@
-<a href="/">&larr; Back</a>
-<h1>{{oos.first_name}} {{oos.last_name}}</h1>
+<a href="/oos">&larr; Back</a>
+<h1>{{oos.first_name}} {{oos.last_name}} ({{oos.oos_number}})</h1>
 <h2>
     {{#if oos.Program.name}}
         {{oos.Program.name}}
@@ -23,6 +23,7 @@
     <tr><td>Province</td><td>{{province}}</td></tr>
     <tr><td>Postal Code</td><td>{{postal_code}}</td></tr>
     <tr><td>Country</td><td>{{country}}</td></tr>
+    <tr><td>Email</td><td>{{email}}</td></tr>
     <tr><td>Phone</td><td>{{phone}}</td></tr>
     <tr><td>Cell Phone</td><td>{{cell_phone}}</td></tr>
     <tr><td>Date of Birth</td><td>{{dob}}</td></tr>
