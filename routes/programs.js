@@ -28,7 +28,7 @@ router.post('/:id', function(req, res) {
         where: { id: req.params.id }
     }).then(function(record) {
         record.updateAttributes(req.body).then(function() {
-            res.redirect(req.params.id);
+            res.redirect('/programs/' + req.params.id);
         }).catch(function(error) {
             res.redirect('error', { message: 'oops', error: error });
         });
