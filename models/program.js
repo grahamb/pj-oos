@@ -38,8 +38,20 @@ module.exports = function(sequelize, DataTypes) {
       associate: function(models) {
         Program.hasMany(models.Staff, { as: 'Staff' });
       }
+    },
+    setterMethods: {
+      programPeriodsAvailable: castEmptyStringToNull,
+      maxParticipantsPerPeriod: castEmptyStringToNull,
+      programPeriodsRequired: castEmptyStringToNull,
+      fee: castEmptyStringToNull,
+      oosRequired: castEmptyStringToNull,
     }
   });
 
+
   return Program;
 };
+
+function castEmptyStringToNull(value) {
+  return value === '' ? null : value;
+}
