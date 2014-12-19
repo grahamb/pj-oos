@@ -28,7 +28,11 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.FLOAT,
       defaultValue: 0.00
     },
-    hidden: DataTypes.BOOLEAN
+    hidden: DataTypes.BOOLEAN,
+    oosRequired: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    }
   }, {
     classMethods: {
       associate: function(models) {
