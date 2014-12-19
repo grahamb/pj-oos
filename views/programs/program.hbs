@@ -1,1 +1,19 @@
-<h1>{{program.name}}</h1>
+{{#with program}}
+<h1>{{name}}</h1>
+<h2>{{shortName}}</h2>
+
+<p>{{description}}</p>
+
+<table>
+    <tr><td>Fitness Level</td><td>{{fitnessLevel}}</td></tr>
+    <tr><td>Prerequesites</td><td>{{prerequesites}}</td></tr>
+    <tr><td>Knowledge, Skills, Equipment</td><td>{{knowledgeSkillsEquipment}}</td></tr>
+    <tr><td>Premium Activity</td><td>{{premiumActivity}}</td></tr>
+    <tr><td>Location</td><td>{{location}}</td></tr>
+    <tr><td>Program Periods Available</td><td>{{programPeriodsAvailable}}</td></tr>
+    <tr><td>Max Participants per Period</td><td>{{maxParticipantsPerPeriod}}</td></tr>
+    <tr><td>Program Periods Required</td><td>{{programPeriodsRequired}}</td></tr>
+    <tr><td>Fee</td><td>{{fee}}</td></tr>
+    <tr><td>Hidden</td><td>{{hidden}}</td></tr>
+</table>
+{{/with}}
