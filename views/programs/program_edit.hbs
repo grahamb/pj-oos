@@ -1,0 +1,33 @@
+<h1>Edit Program Record</h1>
+
+<form action="/programs/{{program.id}}" method="POST">
+
+    {{#with program}}
+
+    <table>
+        <tr><td>Full Name</td><td><input type="text" name="name" id="name" value="{{name}}"></td></tr>
+        <tr><td>Short Name</td><td><input type="text" name="shortName" id="shortName" value="{{shortName}}"></td></tr>
+    </table>
+
+    <label for="description">
+        Description
+        <textarea name="description" id="description">{{description}}</textarea>
+    </label>
+
+    <table>
+        <tr><td>Fitness Level</td><td>{{fitnessLevel}}</td></tr>
+        <tr><td>Prerequesites</td><td>{{prerequesites}}</td></tr>
+        <tr><td>Knowledge, Skills, Equipment</td><td>{{knowledgeSkillsEquipment}}</td></tr>
+        <tr><td>Premium Activity</td><td>{{premiumActivity}}</td></tr>
+        <tr><td>Location</td><td>{{location}}</td></tr>
+        <tr><td>Program Periods Available</td><td><input type="text" name="programPeriodsAvailable" id="programPeriodsAvailable" value={{programPeriodsAvailable}}></td></tr>
+        <tr><td>Max Participants per Period</td><td><input type="text" name="maxParticipantsPerPeriod" id="maxParticipantsPerPeriod" value={{maxParticipantsPerPeriod}}></td></tr>
+        <tr><td>Program Periods Required</td><td><input type="text" name="programPeriodsRequired" id="programPeriodsRequired" value={{programPeriodsRequired}}></td></tr>
+        <tr><td>Fee</td><td><input type="text" name="fee" id="fee" value={{fee}}></td></tr>
+        <tr><td>Hidden</td><td>{{hidden}}</td></tr>
+    </table>
+
+    <input type="submit" value="Save">
+
+    {{/with}}
+</form>
