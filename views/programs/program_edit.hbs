@@ -24,7 +24,12 @@
         <tr><td>Max Participants per Period</td><td><input type="text" name="maxParticipantsPerPeriod" id="maxParticipantsPerPeriod" value={{maxParticipantsPerPeriod}}></td></tr>
         <tr><td>Program Periods Required</td><td><input type="text" name="programPeriodsRequired" id="programPeriodsRequired" value={{programPeriodsRequired}}></td></tr>
         <tr><td>Fee</td><td><input type="text" name="fee" id="fee" value={{fee}}></td></tr>
-        <tr><td>Hidden</td><td>{{hidden}}</td></tr>
+        <tr><td>Hidden</td><td>
+            <select name="hidden" id="hidden">
+                <option value="false" {{selected hidden false}}>false</option>
+                <option value="false" {{selected hidden true}}>true</option>
+            </select>
+        </td></tr>
     </table>
 
     <input type="submit" value="Save">
