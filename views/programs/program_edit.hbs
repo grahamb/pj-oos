@@ -19,15 +19,22 @@
         <tr><td>Prerequesites</td><td>{{prerequesites}}</td></tr>
         <tr><td>Knowledge, Skills, Equipment</td><td>{{knowledgeSkillsEquipment}}</td></tr>
         <tr><td>Premium Activity</td><td>{{premiumActivity}}</td></tr>
-        <tr><td>Location</td><td>{{location}}</td></tr>
-        <tr><td>Program Periods Available</td><td><input type="text" name="programPeriodsAvailable" id="programPeriodsAvailable" value={{programPeriodsAvailable}}></td></tr>
-        <tr><td>Max Participants per Period</td><td><input type="text" name="maxParticipantsPerPeriod" id="maxParticipantsPerPeriod" value={{maxParticipantsPerPeriod}}></td></tr>
-        <tr><td>Program Periods Required</td><td><input type="text" name="programPeriodsRequired" id="programPeriodsRequired" value={{programPeriodsRequired}}></td></tr>
+        <tr><td>Location</td><td>
+            <select name="location" id="location">
+                <option value=""></option>
+                <option value="onsite" {{selected location 'onsite'}}>On-Site</option>
+                <option value="offsite" {{selected location 'offsite'}}>Off-Site</option>
+            </select>
+        </td></tr>
+        <tr><td>Program Periods Available</td><td><input type="number" name="programPeriodsAvailable" id="programPeriodsAvailable" value={{programPeriodsAvailable}}></td></tr>
+        <tr><td>Max Participants per Period</td><td><input type="number" name="maxParticipantsPerPeriod" id="maxParticipantsPerPeriod" value={{maxParticipantsPerPeriod}}></td></tr>
+        <tr><td>Program Periods Required</td><td><input type="number" name="programPeriodsRequired" id="programPeriodsRequired" value={{programPeriodsRequired}}></td></tr>
         <tr><td>Fee</td><td><input type="text" name="fee" id="fee" value={{fee}}></td></tr>
+        <tr><td>OOS Required</td><td><input type="number" name="oosRequired" id="oosRequired" value={{oosRequired}}></td></tr>
         <tr><td>Hidden</td><td>
             <select name="hidden" id="hidden">
-                <option value="false" {{selected hidden false}}>false</option>
-                <option value="false" {{selected hidden true}}>true</option>
+                <option value="" {{selected hidden false}}>false</option>
+                <option value="true" {{selected hidden true}}>true</option>
             </select>
         </td></tr>
     </table>
