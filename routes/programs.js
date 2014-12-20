@@ -4,7 +4,7 @@ var Program = require('../models').Program;
 var QueryChainer = require('sequelize').Utils.QueryChainer;
 
 router.get('/', function(req, res) {
-    Program.findAll().then(function(programs) {
+    Program.findAll({ order: 'id ASC', where: { hidden: false }}).then(function(programs) {
         res.render('programs/index', {
             title: 'PJ 2015 Programs',
             programs: programs
