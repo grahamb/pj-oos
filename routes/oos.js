@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var models = require('../models');
+var OOS = models.OOS, Program = models.Program;
 var QueryChainer = require('sequelize').Utils.QueryChainer;
 
 function find_by_id(id) {
@@ -11,34 +12,27 @@ function find_by_id(id) {
 }
 
 router.get('/', function(req, res) {
-    var staffFilter;
-    switch (req.query.program) {
-        case 'all':
-        case undefined:
-            staffFilter = {};
-            break;
-        case 'unassigned':
-            staffFilter = { ProgramId: null };
-            break;
-        default:
-            staffFilter = { ProgramId: req.query.program };
-            break;
+    var assignmentFilter;
+    if (req.query.program && (!isNaN(req.query.program))) {
+        assignmentFilter = { id: req.query.program };
+    } else {
+        assignmentFilter = {};
     }
+
     var chainer = new QueryChainer;
     chainer
-        .add(models.Program.findAll({
+        .add(Program.findAll({
             order: 'id ASC'
         }))
-        .add(models.Staff.findAll({
-            where: staffFilter,
-            include: [ models.Program ]
+        .add(OOS.findAll({
+            include: [ { model: Program, where: assignmentFilter } ]
         }))
         .run()
         .success(function(results) {
             res.render('oos/index', {
                 title: 'PJ 2015 Program OOS',
                 programs: results[0],
-                staff: results[1]
+                oos: results[1]
             });
         })
         .error(function(err) {
@@ -83,3 +77,5 @@ router.get('/:id/edit', function(req, res) {
 });
 
 module.exports = router;
+
+

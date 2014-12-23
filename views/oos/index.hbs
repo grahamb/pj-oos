@@ -8,7 +8,7 @@
     </select>
 </p>
 
-<p>Total: {{staff.length}}</p>
+<p>Total: {{oos.length}}</p>
 
 <table>
     <thead>
@@ -21,7 +21,7 @@
         </tr>
     </thead>
     <tbody>
-        {{#each staff}}
+        {{#each oos}}
           <tr>
             <td><a href="/oos/{{this.id}}">{{this.oos_number}}</a></td>
             <td>{{this.first_name}}</td>
@@ -44,7 +44,8 @@
 
     $('.assignmentFilter').on('change', function(el) {
         var val = $(this).val();
-        window.location = '/oos/?program=' + val;
+        var location = '/oos';
+        window.location = val.toLowerCase() === 'all' ? location : location + '?program=' + val;
     });
 
     $('.ProgramId').on('change', function(el) {
