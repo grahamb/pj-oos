@@ -29,7 +29,7 @@ router.post('/:id', function(req, res) {
     Program.find({
         where: { id: req.params.id }
     }).then(function(record) {
-        record.updateAttributes(req.body).then(function() {
+        record.updateAttributes(req.body, { fields: Object.keys(req.body) }).then(function() {
             res.redirect('/programs/' + req.params.id);
         }).catch(function(error) {
             res.redirect('error', { message: 'oops', error: error });
