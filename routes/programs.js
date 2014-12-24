@@ -32,7 +32,8 @@ router.post('/:id', function(req, res) {
         record.updateAttributes(req.body, { fields: Object.keys(req.body) }).then(function() {
             res.redirect('/programs/' + req.params.id);
         }).catch(function(error) {
-            res.redirect('error', { message: 'oops', error: error });
+            console.log(error);
+            res.render('error', { message: 'oops', error: error });
         });
     });
 });
