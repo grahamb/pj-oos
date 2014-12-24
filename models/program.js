@@ -59,12 +59,27 @@ module.exports = function(sequelize, DataTypes) {
       program_periods_required: castEmptyStringToNull,
       fee: castEmptyStringToNull,
       oos_required: castEmptyStringToNull,
+      hidden: castStringToBoolean
     }
   });
 
   return Program;
 };
 
-function castEmptyStringToNull(value) {
-  return value === '' ? null : value;
+function castStringToBoolean(value, field) {
+  switch (value) {
+    case 'true':
+      value = true;
+      break;
+    case 'false':
+    deafult:
+      value = false;
+      break;
+  }
+  this.setDataValue(field, value);
+}
+
+function castEmptyStringToNull(value, field) {
+  value = value === '' ? null : value;
+  this.setDataValue(field, value);
 }
