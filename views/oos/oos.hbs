@@ -1,14 +1,8 @@
 <a href="/oos">&larr; Back</a>
-<h1>{{oos.first_name}} {{oos.last_name}} ({{oos.oos_number}})</h1>
-<h2>
-    {{#if oos.Program.name}}
-        {{oos.Program.name}}
-    {{else}}
-        Unassigned
-    {{/if}}
-</h2>
-
 {{#with oos}}
+<h1>{{first_name}} {{last_name}} ({{oos_number}})</h1>
+<h2>{{Programs.0.name}}</h2>
+
 <table>
     <tr><td>Desired Department</td><td>{{desired_department}}</td></tr>
     <tr><td>Recruited By</td><td>{{recruited_by}}</td></tr>
