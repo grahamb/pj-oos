@@ -54,11 +54,11 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     setterMethods: {
-      programPeriodsAvailable: castEmptyStringToNull,
-      maxParticipantsPerPeriod: castEmptyStringToNull,
-      programPeriodsRequired: castEmptyStringToNull,
+      program_periods_available: castEmptyStringToNull,
+      max_participants_per_period: castEmptyStringToNull,
+      program_periods_required: castEmptyStringToNull,
       fee: castEmptyStringToNull,
-      oosRequired: castEmptyStringToNull,
+      oos_required: castEmptyStringToNull,
     }
   });
 
