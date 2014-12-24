@@ -67,15 +67,10 @@ module.exports = function(sequelize, DataTypes) {
 };
 
 function castStringToBoolean(value, field) {
-  switch (value) {
-    case 'true':
-      value = true;
-      break;
-    case 'false':
-    deafult:
-      value = false;
-      break;
-  }
+  if (value === 'true') { value = true; }
+  if (value === 'false') { value = false; }
+  if (typeof value === 'string') { value = false; }
+  console.log('*********', value, typeof value);
   this.setDataValue(field, value);
 }
 
