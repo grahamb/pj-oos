@@ -1,23 +1,48 @@
 <p><a href="/programs">&larr; Back</a></p>
 {{#with program}}
 <h1>{{name}}</h1>
-<h2>{{shortName}}</h2>
+<h2>{{short_name}}</h2>
 
 <p>{{description}}</p>
 
 <table>
-    <tr><td>Fitness Level</td><td>{{fitnessLevel}}</td></tr>
+    <tr><td>Fitness Level</td><td>{{fitness_level}}</td></tr>
     <tr><td>Prerequesites</td><td>{{prerequesites}}</td></tr>
-    <tr><td>Knowledge, Skills, Equipment</td><td>{{knowledgeSkillsEquipment}}</td></tr>
-    <tr><td>Premium Activity</td><td>{{premiumActivity}}</td></tr>
+    <tr><td>Knowledge, Skills, Equipment</td><td>{{knowledge_skills_equipment}}</td></tr>
+    <tr><td>Premium Activity</td><td>{{premium_activity}}</td></tr>
     <tr><td>Location</td><td>{{location}}</td></tr>
-    <tr><td>Program Periods Available</td><td>{{programPeriodsAvailable}}</td></tr>
-    <tr><td>Max Participants per Period</td><td>{{maxParticipantsPerPeriod}}</td></tr>
-    <tr><td>Program Periods Required</td><td>{{programPeriodsRequired}}</td></tr>
+    <tr><td>Program Periods Available</td><td>{{program_periods_available}}</td></tr>
+    <tr><td>Max Participants per Period</td><td>{{max_participants_per_period}}</td></tr>
+    <tr><td>Program Periods Required</td><td>{{program_periods_required}}</td></tr>
     <tr><td>Fee</td><td>{{fee}}</td></tr>
-    <tr><td>OOS Required</td><td>{{oosRequired}}</td></tr>
+    <tr><td>OOS Required</td><td>{{oos_required}}</td></tr>
+    <tr><td>OOS Assigned</td><td>{{OOS.length}}</td></tr>
     <tr><td>Hidden</td><td>{{hidden}}</td></tr>
 </table>
+
+<h3>OOS Assigned</h3>
+<table>
+    <thead>
+        <tr>
+            <th>OOS Number</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each OOS}}
+        <tr>
+            <td><a href="/oos/{{this.id}}">{{this.oos_number}}</a></td>
+            <td>{{this.first_name}}</td>
+            <td>{{this.last_name}}</td>
+            <td>{{this.email}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+
 
 <p><a href="/programs/{{id}}/edit">Edit</a></p>
 {{/with}}

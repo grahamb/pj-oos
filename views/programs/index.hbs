@@ -12,7 +12,8 @@
         {{#each programs}}
             <tr>
                 <td><a href="/programs/{{this.id}}">{{this.name}}</a></td>
-                <td>{{oosRequired}}</td>
+                <td>{{this.oos_required}}</td>
+                <td>{{this.OOS.length}}</td>
             </tr>
         {{/each}}
     </tbody>

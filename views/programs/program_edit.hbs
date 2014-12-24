@@ -15,10 +15,10 @@
     </label>
 
     <table>
-        <tr><td>Fitness Level</td><td>{{fitnessLevel}}</td></tr>
+        <tr><td>Fitness Level</td><td>{{fitness_level}}</td></tr>
         <tr><td>Prerequesites</td><td>{{prerequesites}}</td></tr>
-        <tr><td>Knowledge, Skills, Equipment</td><td>{{knowledgeSkillsEquipment}}</td></tr>
-        <tr><td>Premium Activity</td><td>{{premiumActivity}}</td></tr>
+        <tr><td>Knowledge, Skills, Equipment</td><td>{{knowledge_skills_equipment}}</td></tr>
+        <tr><td>Premium Activity</td><td>{{premium_activity}}</td></tr>
         <tr><td>Location</td><td>
             <select name="location" id="location">
                 <option value=""></option>
@@ -26,11 +26,11 @@
                 <option value="offsite" {{selected location 'offsite'}}>Off-Site</option>
             </select>
         </td></tr>
-        <tr><td>Program Periods Available</td><td><input type="number" name="programPeriodsAvailable" id="programPeriodsAvailable" value={{programPeriodsAvailable}}></td></tr>
-        <tr><td>Max Participants per Period</td><td><input type="number" name="maxParticipantsPerPeriod" id="maxParticipantsPerPeriod" value={{maxParticipantsPerPeriod}}></td></tr>
-        <tr><td>Program Periods Required</td><td><input type="number" name="programPeriodsRequired" id="programPeriodsRequired" value={{programPeriodsRequired}}></td></tr>
+        <tr><td>Program Periods Available</td><td><input type="number" name="program_periods_available" id="program_periods_available" value={{program_periods_available}}></td></tr>
+        <tr><td>Max Participants per Period</td><td><input type="number" name="max_participants_per_period" id="max_participants_per_period" value={{max_participants_per_period}}></td></tr>
+        <tr><td>Program Periods Required</td><td><input type="number" name="program_periods_required" id="program_periods_required" value={{program_periods_required}}></td></tr>
         <tr><td>Fee</td><td><input type="text" name="fee" id="fee" value={{fee}}></td></tr>
-        <tr><td>OOS Required</td><td><input type="number" name="oosRequired" id="oosRequired" value={{oosRequired}}></td></tr>
+        <tr><td>OOS Required</td><td><input type="number" name="oos_required" id="oosRequired" value={{oos_required}}></td></tr>
         <tr><td>Hidden</td><td>
             <select name="hidden" id="hidden">
                 <option value="" {{selected hidden false}}>false</option>
