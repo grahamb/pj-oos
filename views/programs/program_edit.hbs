@@ -6,7 +6,7 @@
 
     <table>
         <tr><td>Full Name</td><td><input type="text" name="name" id="name" value="{{name}}"></td></tr>
-        <tr><td>Short Name</td><td><input type="text" name="shortName" id="shortName" value="{{shortName}}"></td></tr>
+        <tr><td>Short Name</td><td><input type="text" name="short_name" id="short_name" value="{{short_name}}"></td></tr>
     </table>
 
     <label for="description">
@@ -33,7 +33,7 @@
         <tr><td>OOS Required</td><td><input type="number" name="oos_required" id="oosRequired" value={{oos_required}}></td></tr>
         <tr><td>Hidden</td><td>
             <select name="hidden" id="hidden">
-                <option value="" {{selected hidden false}}>false</option>
+                <option value="false" {{selected hidden false}}>false</option>
                 <option value="true" {{selected hidden true}}>true</option>
             </select>
         </td></tr>
