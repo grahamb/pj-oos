@@ -1,0 +1,19 @@
+{
+    "server": {
+        "port": 3000
+    },
+    "sessions": {
+        "redis": {
+            "host": "127.0.0.1",
+            "port": 6379
+        }
+    },
+    "database": {
+        "dialect": "postgres",
+        "host": "127.0.0.1",
+        "port": 5432
+    },
+    "email": {
+        "from_address": "programselection@pj2015.ca"
+    }
+}

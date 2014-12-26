@@ -2,8 +2,9 @@
 var debug = require('debug')('oos');
 var app = require('../app');
 var models = require('../models');
+var config = require('config').get('server');
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', config.get('port') || 3000);
 
 models.sequelize.sync().success(function() {
     var server = app.listen(app.get('port'), function() {
