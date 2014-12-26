@@ -1,6 +1,8 @@
 var config = require('config');
 var express = require('express');
 var app = express();
+var session = require('express-session');
+var ConnectRedisStore = require('connect-redis')(session);
 var fs = require('fs');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -32,6 +34,11 @@ app.engine('hbs', exphbs({
     }
 }));
 app.set('view engine', 'hbs');
+
+app.use(session({
+    store: new ConnectRedisStore({ host: config.get('sessions.redis.host'), port: config.get('sessions.redis.port') }),
+    secret: config.get('sessions.secret')
+}));
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
