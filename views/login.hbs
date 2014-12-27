@@ -1,0 +1,16 @@
+<h1>Login</h1>
+
+{{#if auth_message}}
+<h2>Oops!</h2>
+<ul>
+    {{#each auth_message}}
+    <li>{{this}}</li>
+    {{/each}}
+</ul>
+{{/if}}
+
+<form action="/sendtoken" method="POST">
+    Email:
+    <br><input name="user" type="text" value="hello@grahamballantyne.com">
+    <br><input type="submit" value="Login">
+</form>
