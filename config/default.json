@@ -20,6 +20,7 @@
         "port": 5432
     },
     "email": {
-        "from_address": "programselection@pj2015.ca"
+        "from": "programselection@pj2015.ca",
+        "fromname": "PJ 2015 Program Selection"
     }
 }
