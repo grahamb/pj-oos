@@ -8,7 +8,6 @@ router.get('/', function(req, res) {
 });
 
 router.get('/login', function(req, res) {
-    console.log(req.flash);
     res.render('login', { auth_message: req.flash('passwordless') });
 });
 
