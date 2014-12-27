@@ -15,10 +15,10 @@ router.get('/login', function(req, res) {
 });
 
 /* POST login details. */
-router.post('/sendtoken',
     passwordless.requestToken(requestTokenFn, { failureRedirect: '/login', failureFlash: 'This user is unknown!' }),
         function(req, res) {
             // success!
+router.post('/login',
         originField: 'origin'
         res.send('sent');
 });
