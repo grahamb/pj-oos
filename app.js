@@ -53,12 +53,16 @@ app.use(session({
 }));
 app.use(flash());
 app.use(passwordless.sessionSupport());
-app.use(passwordless.acceptToken({ successRedirect: '/'}));
+app.use(passwordless.acceptToken({ enableOriginRedirect: true, successRedirect: '/'}));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes.index);
-app.use('/oos', passwordless.restricted(), routes.oos);
+app.use('/oos', passwordless.restricted({
+    failureRedirect: '/login',
+    originField: 'origin'
+}), routes.oos);
+
 app.use('/programs', routes.programs);
 
 // catch 404 and forward to error handler

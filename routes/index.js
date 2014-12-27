@@ -8,7 +8,10 @@ router.get('/', function(req, res) {
 });
 
 router.get('/login', function(req, res) {
-    res.render('login', { auth_message: req.flash('passwordless') });
+    res.render('login', {
+        auth_message: req.flash('passwordless'),
+        origin: req.query.origin
+    });
 });
 
 /* POST login details. */
@@ -16,6 +19,7 @@ router.post('/sendtoken',
     passwordless.requestToken(requestTokenFn, { failureRedirect: '/login', failureFlash: 'This user is unknown!' }),
         function(req, res) {
             // success!
+        originField: 'origin'
         res.send('sent');
 });
 
