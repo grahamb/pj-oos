@@ -19,5 +19,9 @@ router.post('/sendtoken',
         res.send('sent');
 });
 
+router.get('/logout', passwordless.logout(),
+    function(req, res) {
+        res.redirect('/');
+});
 
 module.exports = router;
