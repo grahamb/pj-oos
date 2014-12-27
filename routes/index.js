@@ -14,14 +14,16 @@ router.get('/login', function(req, res) {
     });
 });
 
-/* POST login details. */
-    passwordless.requestToken(requestTokenFn, { failureRedirect: '/login', failureFlash: 'This user is unknown!' }),
-        function(req, res) {
-            // success!
 router.post('/login',
+    passwordless.requestToken(requestTokenFn, {
+        failureRedirect: '/login',
+        failureFlash: 'The email address you entered could not be found.',
         originField: 'origin'
+    }),
+    function(req, res) {
         res.send('sent');
-});
+    }
+);
 
 router.get('/logout', passwordless.logout(),
     function(req, res) {
