@@ -15,31 +15,9 @@ var routes = {};
 var routeFiles = fs.readdirSync('./routes');
 var passwordless = require('passwordless');
 var PasswordlessRedisStore = require('passwordless-redisstore');
-var sendgrid  = require('sendgrid')(config.get('email.username'), config.get('email.password'));
 
 passwordless.init(new PasswordlessRedisStore(config.get('passwordless.redis.port'), config.get('passwordless.redis.host')));
-
-passwordless.addDelivery(
-    function(tokenToSend, uidToSend, recipient, callback) {
-        console.log(arguments);
-        var host = 'localhost:3000';
-        var payload = {
-            fromname: config.get('email.fromname'),
-            from: config.get('email.from'),
-            to: recipient,
-            subject: 'PJ 2015 Program Selection Login Information',
-            text: 'Hello!\nAccess your account here: http://' + host + '?token=' + tokenToSend + '&uid=' + encodeURIComponent(uidToSend)
-        }
-        sendgrid.send(payload, function(err, json) {
-            if (err) {
-                console.log(err);
-                return callback(err, null);
-            }
-            console.log(json);
-            callback(null, json);
-        });
-    }
-);
+passwordless.addDelivery(require('./lib/passwordless/sendgridDelivery'));
 
 routeFiles.forEach(function(route) {
     routes[path.basename(route, '.js')] = require('./routes/' + route);
