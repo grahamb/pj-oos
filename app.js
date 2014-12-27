@@ -3,6 +3,7 @@ var express = require('express');
 var app = express();
 var session = require('express-session');
 var ConnectRedisStore = require('connect-redis')(session);
+var flash = require('connect-flash');
 var fs = require('fs');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -67,7 +68,7 @@ app.use(session({
     store: new ConnectRedisStore({ host: config.get('sessions.redis.host'), port: config.get('sessions.redis.port') }),
     secret: config.get('sessions.secret')
 }));
-
+app.use(flash());
 app.use(passwordless.sessionSupport());
 app.use(passwordless.acceptToken({ successRedirect: '/'}));
 
