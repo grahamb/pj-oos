@@ -64,6 +64,11 @@ app.engine('hbs', exphbs({
 }));
 app.set('view engine', 'hbs');
 
+
+app.use(cookieParser());
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({
     store: new ConnectRedisStore({ host: config.get('sessions.redis.host'), port: config.get('sessions.redis.port') }),
     secret: config.get('sessions.secret')
@@ -72,10 +77,6 @@ app.use(flash());
 app.use(passwordless.sessionSupport());
 app.use(passwordless.acceptToken({ successRedirect: '/'}));
 
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes.index);
