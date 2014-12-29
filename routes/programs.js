@@ -3,6 +3,7 @@ var router = express.Router();
 var models = require('../models');
 var Program = models.Program, OOS = models.OOS;
 var QueryChainer = require('sequelize').Utils.QueryChainer;
+var passwordless = require('passwordless');
 
 router.get('/', function(req, res) {
     Program.findAll({ order: 'id ASC', where: { hidden: false }, include: [{model: OOS, as: 'OOS'}] }).then(function(programs) {
@@ -25,7 +26,10 @@ router.get('/:id', function(req, res) {
     });
 });
 
-router.post('/:id', function(req, res) {
+router.post('/:id', passwordless.restricted({
+    failureRedirect: '/login',
+    originField: 'origin'
+}), function(req, res) {
     Program.find({
         where: { id: req.params.id }
     }).then(function(record) {
@@ -38,7 +42,10 @@ router.post('/:id', function(req, res) {
     });
 });
 
-router.get('/:id/edit', function(req, res) {
+router.get('/:id/edit', passwordless.restricted({
+    failureRedirect: '/login',
+    originField: 'origin'
+}), function(req, res) {
     Program.find({
         where: { id: req.params.id }
     }).then(function(program) {
