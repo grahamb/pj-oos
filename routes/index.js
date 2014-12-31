@@ -4,7 +4,7 @@ var passwordless = require('passwordless');
 var requestTokenFn = require('../lib/passwordless/requestToken');
 
 router.get('/', function(req, res) {
-    res.send('hello');
+    res.render('index');
 });
 
 router.get('/login', function(req, res) {
