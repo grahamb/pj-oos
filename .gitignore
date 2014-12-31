@@ -3,4 +3,4 @@ config/local*
 tmp/*
 log/*
 public/css
-.sass_cache
+.sass-cache
