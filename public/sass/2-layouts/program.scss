@@ -1,0 +1,58 @@
+section.program {
+    @include outer-container;
+    margin-top: 3em;
+}
+
+section.program_list {
+    @include span-columns(4);
+}
+
+section.program_entry {
+    @include span-columns(8);
+
+    .title_controls {
+        @include clearfix;
+
+        .title {
+            @include span-columns (6 of 8);
+        }
+
+        .controls {
+            float: right;
+        }
+    }
+
+    .program_quickfacts {
+        font-size: .75em;
+        thead td {
+            background: #333;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        td {
+            border-bottom: none;
+            padding: 8px;
+            text-transform: capitalize;
+        }
+    }
+
+    .fa-star {
+        color: gold;
+    }
+
+    span.program_short_name {
+        font-size: .6em;
+        color: rgb(87, 87, 87);
+    }
+
+    .prerequisites_skills_equipment {
+        @include clearfix;
+        section {
+            @include span-columns(4 of 8);
+            h2 {
+                font-size: 1em;
+            }
+        }
+    }
+}
