@@ -37,6 +37,19 @@ app.engine('hbs', exphbs({
         },
         whatis: function(value) {
             console.dir(value);
+        },
+        starred_activity: function(program) {
+            console.log(program.premium_activity);
+            var html = '<i class="fa fa-star"></i>';
+            return program.premium_activity === true ? html : '';
+        },
+        list_or_none: function(context) {
+            var arr = [];
+            context = context || [];
+            context.forEach(function(item) {
+                arr.push('<li>' + item + '</li>');
+            });
+            return arr.length ? arr.join('') : '<li>None</li>';
         }
     }
 }));
