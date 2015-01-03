@@ -15,15 +15,22 @@ router.get('/', function(req, res) {
 });
 
 router.get('/:id', function(req, res) {
-    Program.find({
-        where: { id: req.params.id },
-        include: [{model: OOS, as: 'OOS'}]
-    }).then(function(program) {
-        res.render('programs/program', {
-            title: 'PJ 2015 Programs - ' + program.name,
-            program: program
+    var chainer = new QueryChainer;
+    chainer
+        .add(Program.find({
+            where: { id: req.params.id },
+            include: [{model: OOS, as: 'OOS'}]
+        }))
+        .add(Program.findAll({ where: {hidden: false} }))
+        .run()
+        .success(function(results) {
+            console.log(results[1]);
+            res.render('programs/program', {
+                title: 'PJ 2015 Programs - ' + results[0].name,
+                program: results[0],
+                all_programs: results[1]
+            });
         });
-    });
 });
 
 router.post('/:id', passwordless.restricted({
