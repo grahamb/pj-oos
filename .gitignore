@@ -4,3 +4,4 @@ tmp/*
 log/*
 public/css
 .sass-cache
+config/config.json
