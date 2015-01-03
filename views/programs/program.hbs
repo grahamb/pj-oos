@@ -1,48 +1,74 @@
-<p><a href="/programs">&larr; Back</a></p>
-{{#with program}}
-<h1>{{name}}</h1>
-<h2>{{short_name}}</h2>
+<section class="program">
 
-<p>{{description}}</p>
+{{!--     <p>Select a program activity from the list on the left to read that program's details. It is important to review all of the information before adding an activity to your selection list. Some programs require special equipment, or may have extra costs. Read carefully before choosing!</p>
 
-<table>
-    <tr><td>Fitness Level</td><td>{{fitness_level}}</td></tr>
-    <tr><td>Prerequesites</td><td>{{prerequesites}}</td></tr>
-    <tr><td>Knowledge, Skills, Equipment</td><td>{{knowledge_skills_equipment}}</td></tr>
-    <tr><td>Premium Activity</td><td>{{premium_activity}}</td></tr>
-    <tr><td>Location</td><td>{{location}}</td></tr>
-    <tr><td>Program Periods Available</td><td>{{program_periods_available}}</td></tr>
-    <tr><td>Max Participants per Period</td><td>{{max_participants_per_period}}</td></tr>
-    <tr><td>Program Periods Required</td><td>{{program_periods_required}}</td></tr>
-    <tr><td>Fee</td><td>{{fee}}</td></tr>
-    <tr><td>OOS Required</td><td>{{oos_required}}</td></tr>
-    <tr><td>OOS Assigned</td><td>{{OOS.length}}</td></tr>
-    <tr><td>Hidden</td><td>{{hidden}}</td></tr>
-</table>
+    <p>Some activities are marked with a <span class="glyphicon glyphicon-star"></span>. These activities are the high-cost, low participant-ratio activities. You will only receive one of these activities.</p>
 
-<h3>OOS Assigned</h3>
-<table>
-    <thead>
-        <tr>
-            <th>OOS Number</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each OOS}}
-        <tr>
-            <td><a href="/oos/{{this.id}}">{{this.oos_number}}</a></td>
-            <td>{{this.first_name}}</td>
-            <td>{{this.last_name}}</td>
-            <td>{{this.email}}</td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
+    <p>To add a program activity to your selection, click the "Select Activity" button.</p> --}}
 
 
+    <section class="program_list">
+        <ul>
+            {{#each all_programs}}
+            <li>{{{this.full_name_html}}}</li>
+            {{/each}}
+        </ul>
+    </section>
 
-<p><a href="/programs/{{id}}/edit">Edit</a></p>
-{{/with}}
+    <section class="program_entry">
+
+        {{#with program}}
+
+        <section class="title_controls">
+          <div class="title"><h1>{{{starred_activity this}}}{{{full_name_html}}}</h1>
+          </div>
+          {{!-- <div><button><i class="fa fa-plus-square"></i>Select Program</button></div> --}}
+          <div class="controls"><button><i class="fa fa-edit"></i>Edit Program</button></div>
+        </section>
+
+
+        <hr>
+
+        <section class="program_quickfacts">
+            <table>
+                <thead>
+                    <tr>
+                        <td><i class="fa fa-clock-o"></i>Duration</td>
+                        <td><i class="fa fa-map-marker"></i>Location</td>
+                        <td><i class="fa fa-heart-o"></i>Fitness Level</td>
+                        <td><i class="fa fa-dollar"></i>Additional Cost</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{duration}}</td>
+                        <td>{{location}}</td>
+                        <td>{{fitness_level}}</td>
+                        <td>{{additional_cost}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <p>{{description}}</p>
+
+        <section class="prerequisites_skills_equipment">
+            <section class="prerequisites">
+                <h2>Prerequisites</h2>
+                {{{list_or_none prerequisites}}}
+            </section>
+
+            <section class="skills_equipment">
+                <h2>Skills/Equipment Required</h2>
+                {{{list_or_none knowledge_skills_equipment}}}
+            </section>
+        </section>
+
+        {{> program_oos_assigned}}
+
+        <p><a href="/programs/{{id}}/edit">Edit</a></p>
+        {{/with}}
+
+    </section>
+
+</section>
