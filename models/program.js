@@ -22,7 +22,17 @@ module.exports = function(sequelize, DataTypes) {
     location: {
       type: DataTypes.ENUM('onsite', 'offsite'),
       defaultValue: 'onsite',
-      allowNull: false
+      allowNull: false,
+      get: function() {
+        switch (this.getDataValue('location')) {
+          case 'onsite':
+            return 'On-Site';
+            break;
+          case 'offsite':
+            return 'Off-Site';
+            break;
+        }
+      }
     },
     program_periods_available: DataTypes.INTEGER,
     max_participants_per_period: DataTypes.INTEGER,
@@ -51,6 +61,27 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         Program.hasMany(models.OOS, { as: 'OOS', through: 'program_oos_assignments' })
+      }
+    },
+    getterMethods: {
+      full_name_html: function() {
+        return this.short_name ? this.name + ' <span class="program_short_name">(' + this.short_name + ')</span>' : this.name;
+      },
+      duration: function() {
+        switch (this.program_periods_required) {
+          case 1:
+            return "Half-Day";
+            break;
+          case 2:
+            return "Full-Day";
+            break;
+          case 3:
+            return "Overnight";
+            break;
+        }
+      },
+      additional_cost: function() {
+        return this.fee > 0 ? '$' + this.fee : 'None';
       }
     },
     setterMethods: {
