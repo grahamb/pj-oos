@@ -18,7 +18,7 @@ module.exports = {
         allowNull: false
       },
       source_type: {
-        DataTypes.STRING
+        type: DataTypes.STRING
       },
       source_id: {
         type: DataTypes.INTEGER
