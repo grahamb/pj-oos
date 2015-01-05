@@ -1,6 +1,6 @@
 <section class="list-group">
     {{#each all_programs}}
-    <a href="/programs/{{this.id}}" class="list-group-item">
+    <a href="/programs/{{this.id}}" class="list-group-item {{selected this.id ../program.id}}">
         {{{starred_activity this true}}}
         {{{this.full_name_html}}}
     </a>
