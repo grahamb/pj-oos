@@ -13,17 +13,14 @@
 
     <section class="program_entry">
 
-        {{#with program}}
-
         <section class="title_controls">
-          <div class="title"><h1>{{{starred_activity this false}}}{{{full_name_html}}}</h1>
+          <div class="title"><h1>{{{starred_activity program false}}}{{{program.full_name_html}}}</h1>
           </div>
-          {{!-- <div><button><i class="fa fa-plus-square"></i>Select Program</button></div> --}}
-          <div class="controls"><button><i class="fa fa-edit"></i>Edit Program</button></div>
         </section>
 
 
         <hr>
+        {{#with program}}
 
         <section class="program_quickfacts">
             <table>
