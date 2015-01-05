@@ -5,6 +5,13 @@ section.program {
 
 section.program_list {
     @include span-columns(3);
+
+    span.program_short_name {
+        display: block;
+        font-size: .75em;
+        color: #575757;
+    }
+
 }
 
 section.program_entry {
