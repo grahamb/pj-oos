@@ -1,0 +1,37 @@
+.list-group {
+    .list-group-item {
+
+        &:first-child {
+            @include border-top-radius(3px);
+        }
+
+        &:last-child {
+            @include border-bottom-radius(3px);
+        }
+
+        &:hover {
+            @include transition(background-color 0.3s ease-in-out);
+            background-color: #f5f5f5;
+        }
+
+        &.selected {
+            background-color: rgba(71, 125, 202, 0.1);
+        }
+
+        color: #333;
+        display: block;
+        border: 1px solid #ddd;
+        margin-bottom: -1px;
+        padding: 10px 15px;
+
+        .badge {
+            background-color: gold;
+            i.fa {
+                color: white;
+                &:after {
+                    content: "";
+                }
+            }
+        }
+    }
+}
