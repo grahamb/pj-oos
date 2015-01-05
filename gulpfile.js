@@ -9,7 +9,8 @@ gulp.task('styles', function () {
         .pipe(sourcemaps.init())
         .pipe(sass({
              includePaths: ['styles'].concat(refills),
-             // errLogToConsole: true
+             errLogToConsole: true,
+             sourceComments: false
          }))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('./public/css'))
