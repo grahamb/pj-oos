@@ -1,0 +1,8 @@
+<section class="list-group">
+    {{#each all_programs}}
+    <a href="/programs/{{this.id}}" class="list-group-item">
+        {{{starred_activity this true}}}
+        {{{this.full_name_html}}}
+    </a>
+    {{/each}}
+</section>

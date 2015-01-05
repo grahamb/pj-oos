@@ -8,11 +8,7 @@
 
 
     <section class="program_list">
-        <ul>
-            {{#each all_programs}}
-            <li>{{{this.full_name_html}}}</li>
-            {{/each}}
-        </ul>
+        {{>program_list}}
     </section>
 
     <section class="program_entry">
