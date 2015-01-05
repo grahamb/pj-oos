@@ -38,10 +38,18 @@ app.engine('hbs', exphbs({
         whatis: function(value) {
             console.dir(value);
         },
-        starred_activity: function(program) {
-            console.log(program.premium_activity);
-            var html = '<i class="fa fa-star"></i>';
-            return program.premium_activity === true ? html : '';
+        starred_activity: function(program, badge) {
+
+            if (program.premium_activity === false) {
+                return '';
+            }
+
+            var star_icon = '<i class="fa fa-star"></i>';
+            if (badge === false) {
+                return star_icon;
+            }
+
+            return html = '<div class="premium_activity_badge"><span class="badge" style="float:right">' + star_icon + '</span></div>';
         },
         list_or_none: function(context) {
             var arr = [];
