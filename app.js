@@ -78,6 +78,13 @@ app.use(passwordless.acceptToken({ enableOriginRedirect: true, successRedirect: 
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+// add the user id to every request
+app.use(function(req, res, next){
+    res.locals.user = req.user;
+    next();
+});
+
 app.use('/', routes.index);
 app.use('/oos', passwordless.restricted({
     failureRedirect: '/login',
