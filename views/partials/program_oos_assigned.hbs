@@ -1,22 +1,27 @@
-<h3>OOS Assigned</h3>
-<p>{{OOS.length}} of {{oos_required}} required</p>
-<table>
-    <thead>
-        <tr>
-            <th></th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each OOS}}
-        <tr>
-            <td><a href="/oos/{{this.id}}">{{this.oos_number}}</a></td>
-            <td>{{this.first_name}}</td>
-            <td>{{this.last_name}}</td>
-            <td>{{this.email}}</td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
+<hr>
+<section class="oos_assigned">
+    <h3>OOS Assigned</h3>
+    <p>{{OOS.length}} of {{oos_required}} required</p>
+    {{#if OOS.length}}
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each OOS}}
+            <tr>
+                <td><a href="/oos/{{this.id}}">{{this.oos_number}}</a></td>
+                <td>{{this.first_name}}</td>
+                <td>{{this.last_name}}</td>
+                <td>{{this.email}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    {{/if}}
+</section>
