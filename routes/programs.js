@@ -24,7 +24,6 @@ router.get('/:id', function(req, res) {
         .add(Program.findAll({ where: {hidden: false} }))
         .run()
         .success(function(results) {
-            console.log(results[1]);
             res.render('programs/program', {
                 title: 'PJ 2015 Programs - ' + results[0].name,
                 program: results[0],
