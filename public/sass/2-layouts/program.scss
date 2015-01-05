@@ -4,11 +4,12 @@ section.program {
 }
 
 section.program_list {
-    @include span-columns(4);
+    @include span-columns(3);
 }
 
 section.program_entry {
     @include span-columns(8);
+    @include shift(1);
 
     .title_controls {
         @include clearfix;
