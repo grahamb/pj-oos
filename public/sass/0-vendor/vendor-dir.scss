@@ -1,6 +1,4 @@
 @import 'normalize';
-@import 'bourbon';
-@import 'base/grid-settings';
-@import 'neat';
+@import 'bourbon/bourbon';
+@import 'neat/neat';
 @import 'base/base';
-@import 'base/extends/_button.scss';

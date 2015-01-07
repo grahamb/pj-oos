@@ -1,31 +1,24 @@
 var gulp = require('gulp');
-var sass = require('gulp-sass');
-var sourcemaps = require('gulp-sourcemaps');
-var refills = require('node-refills').includePaths;
+var sass = require('gulp-ruby-sass');
 var livereload = require('gulp-livereload');
 
-gulp.task('styles', function () {
+
+gulp.task('sass', function() {
     return gulp.src('./public/sass/style.scss')
-        .pipe(sourcemaps.init())
-        .pipe(sass({
-             includePaths: ['styles'].concat(refills),
-             errLogToConsole: true,
-             sourceComments: false
-         }))
-        .pipe(sourcemaps.write())
+        .pipe(sass({sourcemap: true, sourcemapPath: '../sass'}))
+        .on('error', function (err) { console.log(err.message); })
         .pipe(gulp.dest('./public/css'))
         .pipe(livereload());
-});
-
+})
 
 gulp.task('watch', function() {
     livereload.listen();
-    gulp.watch('./public/sass/**/*.scss', ['styles']);
+    gulp.watch('./public/sass/**/*.scss', ['sass']);
     gulp.watch(['./views/**/*.hbs']).on('change', function(file) {
         livereload.changed(file);
     });
 });
 
 gulp.task('default',function(){
-    gulp.start('styles');
+    gulp.start('sass');
 });

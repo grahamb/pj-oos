@@ -1,4 +1,15 @@
 .hero {
+  ///////////////////////////////////////////////////////////////////////////////////
+  $base-border-radius: 3px !default;
+  $base-accent-color: #477DCA !default;
+  $large-screen: em(860) !default;
+  -webkit-font-smoothing: antialiased;
+
+  button {
+    -webkit-font-smoothing: antialiased;
+  }
+  //////////////////////////////////////////////////////////////////////////////////
+
   // @include outer-container;
   $hero-background-top: #7F99BE;
   $hero-background-bottom: #20392B;
