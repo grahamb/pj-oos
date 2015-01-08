@@ -6,8 +6,17 @@ var QueryChainer = require('sequelize').Utils.QueryChainer;
 var passwordless = require('passwordless');
 
 router.get('/', function(req, res) {
-    Program.findAll({ order: 'id ASC', where: { hidden: false }, include: [{model: OOS, as: 'OOS'}] }).then(function(programs) {
-        res.render('programs/index', {
+    Program.findAll({ where: {hidden: false} }).success(function(programs) {
+        res.render('programs/program', {
+            title: 'PJ 2015 Programs',
+            all_programs: programs
+        });
+    });
+});
+
+router.get('/oos', function(req, res) {
+    Program.findAll({ order: 'id ASC', where: { hidden: false }, include: [{model: OOS, as: 'OOS'}] }).success(function(programs) {
+        res.render('programs/oos_count', {
             title: 'PJ 2015 Programs',
             programs: programs
         });
@@ -61,5 +70,6 @@ router.get('/:id/edit', passwordless.restricted({
         });
     });
 });
+
 
 module.exports = router;
