@@ -1,0 +1,16 @@
+button,
+input[type="submit"],
+.button {
+    @extend button;
+    $blue-button-color: $base-button-color;
+    $green-button-color: #5cb85c;
+    $red-button-color: #d9534f;
+
+    &.green {
+        background-color: $green-button-color;
+    }
+
+    &.red {
+        background-color: $red-button-color;
+    }
+}
