@@ -12,55 +12,58 @@
     </section>
 
     <section class="program_entry">
-
-        <section class="title_controls">
-          <div class="title"><h1>{{{starred_activity program false}}}{{{program.full_name_html}}}</h1>
-          </div>
-          {{> programs/program_controls_button this }}
-        </section>
-
-        <hr>
-        {{#with program}}
-
-        <section class="program_quickfacts">
-            <table>
-                <thead>
-                    <tr>
-                        <td><i class="fa fa-clock-o"></i>Duration</td>
-                        <td><i class="fa fa-map-marker"></i>Location</td>
-                        <td><i class="fa fa-heart-o"></i>Fitness Level</td>
-                        <td><i class="fa fa-dollar"></i>Additional Cost</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>{{duration}}</td>
-                        <td>{{location}}</td>
-                        <td>{{fitness_level}}</td>
-                        <td>{{additional_cost}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <p>{{description}}</p>
-
-        <section class="prerequisites_skills_equipment">
-            <section class="prerequisites">
-                <h2>Prerequisites</h2>
-                {{{list_or_none prerequisites}}}
+        {{#if program}}
+            <section class="title_controls">
+              <div class="title"><h1>{{{starred_activity program false}}}{{{program.full_name_html}}}</h1>
+              </div>
+              {{> programs/program_controls_button this }}
             </section>
 
-            <section class="skills_equipment">
-                <h2>Skills/Equipment Required</h2>
-                {{{list_or_none knowledge_skills_equipment}}}
-            </section>
-        </section>
+            <hr>
+            {{#with program}}
 
-        {{> programs/program_oos_assigned}}
+            <section class="program_quickfacts">
+                <table>
+                    <thead>
+                        <tr>
+                            <td><i class="fa fa-clock-o"></i>Duration</td>
+                            <td><i class="fa fa-map-marker"></i>Location</td>
+                            <td><i class="fa fa-heart-o"></i>Fitness Level</td>
+                            <td><i class="fa fa-dollar"></i>Additional Cost</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{duration}}</td>
+                            <td>{{location}}</td>
+                            <td>{{fitness_level}}</td>
+                            <td>{{additional_cost}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <p>{{description}}</p>
+
+            <section class="prerequisites_skills_equipment">
+                <section class="prerequisites">
+                    <h2>Prerequisites</h2>
+                    {{{list_or_none prerequisites}}}
+                </section>
+
+                <section class="skills_equipment">
+                    <h2>Skills/Equipment Required</h2>
+                    {{{list_or_none knowledge_skills_equipment}}}
+                </section>
+            </section>
+
+            {{> programs/program_oos_assigned}}
 
         {{/with}}
 
+        {{else}}
+            <p>Select a program</p>
+        {{/if}}
     </section>
 
 </section>
