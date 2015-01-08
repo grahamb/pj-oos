@@ -90,6 +90,7 @@ module.exports = function(sequelize, DataTypes) {
       program_periods_required: castEmptyStringToNull,
       fee: castEmptyStringToNull,
       oos_required: castEmptyStringToNull,
+      premium_activity: castStringToBoolean,
       hidden: castStringToBoolean
     }
   });
