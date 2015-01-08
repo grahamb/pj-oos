@@ -6,7 +6,7 @@
     Filter by Assignment:
     <select class="assignmentFilter">
         <option value="all">All</option>
-        {{> program_select}}
+        {{> programs/program_select}}
     </select>
 </p>
 
@@ -29,8 +29,8 @@
             <td>{{this.first_name}}</td>
             <td>{{this.last_name}}</td>
             <td>
-                <select data-id="{{this.id}} "name="ProgramId" class="ProgramId">
-                    {{> program_select oos=this programs=../programs}}
+                <select data-id="{{this.id}} "name="program_id" class="program_id">
+                    {{> programs/program_select oos=this programs=../programs}}
                 </select>
             </td>
             <td>{{this.recruited_by}}</td>
