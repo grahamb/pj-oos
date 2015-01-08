@@ -319,7 +319,7 @@ header.navigation {
       }
 
       button[type=submit] {
-        @include button(flat, $navigation-search-background);
+        @extend button;
         bottom: 0.3em;
         left: auto;
         outline: none;
