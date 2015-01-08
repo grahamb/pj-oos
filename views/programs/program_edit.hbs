@@ -1,45 +1,87 @@
-<h1>Edit Program Record</h1>
-
-<form action="/programs/{{program.id}}" method="POST">
+<section class="program program_edit">
+    <h1>Edit Program</h1>
 
     {{#with program}}
 
-    <table>
-        <tr><td>Full Name</td><td><input type="text" name="name" id="name" value="{{name}}"></td></tr>
-        <tr><td>Short Name</td><td><input type="text" name="short_name" id="short_name" value="{{short_name}}"></td></tr>
-    </table>
+    <form action="/programs/{{id}}" method="POST">
 
-    <label for="description">
-        Description
-        <textarea name="description" id="description">{{description}}</textarea>
-    </label>
+        <fieldset>
+            <label for="name">Jamboree Theme Name</label>
+            <input type="text" name="name" value="{{name}}">
 
-    <table>
-        <tr><td>Fitness Level</td><td>{{fitness_level}}</td></tr>
-        <tr><td>Prerequesites</td><td>{{prerequesites}}</td></tr>
-        <tr><td>Knowledge, Skills, Equipment</td><td>{{knowledge_skills_equipment}}</td></tr>
-        <tr><td>Premium Activity</td><td>{{premium_activity}}</td></tr>
-        <tr><td>Location</td><td>
-            <select name="location" id="location">
-                <option value=""></option>
+            <label for="short_name">Common Name</label>
+            <input type="text" name="short_name" value="{{short_name}}">
+
+            <label for="description">Program Description</label>
+            <textarea name="description">{{description}}</textarea>
+        </fieldset>
+
+        <fieldset>
+            <label for="prerequisites">prerequisites</label>
+            {{#each prerequisites}}
+                <input type="text" name="prerequisites" value="{{this}}">
+            {{/each}}
+            <button data-field="prerequisites"><i class="fa fa-plus"></i>Add item</button>
+
+            <label for="knowledge_skills_equipment">Skills &amp; Equipment Required</label>
+            {{#each knowledge_skills_equipment}}
+                <input type="text" name="knowledge_skills_equipment[]" value="{{this}}">
+            {{/each}}
+            <button data-field="knowledge_skills_equipment"><i class="fa fa-plus"></i>Add item</button>
+        </fieldset>
+
+        <fieldset>
+            <label for="location">Location</label>
+            <select name="location">
                 <option value="onsite" {{selected location 'onsite'}}>On-Site</option>
                 <option value="offsite" {{selected location 'offsite'}}>Off-Site</option>
             </select>
-        </td></tr>
-        <tr><td>Program Periods Available</td><td><input type="number" name="program_periods_available" id="program_periods_available" value={{program_periods_available}}></td></tr>
-        <tr><td>Max Participants per Period</td><td><input type="number" name="max_participants_per_period" id="max_participants_per_period" value={{max_participants_per_period}}></td></tr>
-        <tr><td>Program Periods Required</td><td><input type="number" name="program_periods_required" id="program_periods_required" value={{program_periods_required}}></td></tr>
-        <tr><td>Fee</td><td><input type="text" name="fee" id="fee" value={{fee}}></td></tr>
-        <tr><td>OOS Required</td><td><input type="number" name="oos_required" id="oosRequired" value={{oos_required}}></td></tr>
-        <tr><td>Hidden</td><td>
-            <select name="hidden" id="hidden">
+
+            <label for="fitness_level">Fitness Level Required</label>
+            <select name="fitness_level">
+                <option value="average" {{selected fitness_level 'average'}}>Average</option>
+                <option value="good" {{selected fitness_level 'good'}}>Good</option>
+                <option value="high" {{selected fitness_level 'high'}}>High</option>
+            </select>
+
+            <label for="premium_activity">Premuim Activity <i class="fa fa-star"></i></label>
+            <select name="premium_activity">
+                <option value="false" {{selected premium_activity false}}>false</option>
+                <option value="true" {{selected premium_activity true}}>true</option>
+            </select>
+
+
+            <label for="fee">Additional Fee</label>
+            <input type="number" name="fee" value="{{fee}}">
+        </fieldset>
+
+        <fieldset>
+            <label for="program_periods_available">Program Periods Availble</label>
+            <input type="number" name="program_periods_available" value="{{program_periods_available}}">
+
+            <label for="program_periods_required">Program Duration</label>
+            <select name="program_periods_required">
+                <option value="1" {{selected program_periods_required 1}}>Half-Day</option>
+                <option value="2" {{selected program_periods_required 2}}>Full-Day</option>
+                <option value="3" {{selected program_periods_required 3}}>Overnight</option>
+            </select>
+
+            <label for="max_participants_per_period">Maximum Participants Per Period</label>
+            <input type="number" name="max_participants_per_period" value="{{max_participants_per_period}}">
+
+            <label for="oos_required">Offers of Service Required</label>
+            <input type="number" name="oos_required" value="{{oos_required}}">
+        </fieldset>
+
+        <fieldset>
+            <label for="hidden">Hidden Program</label>
+            <select name="hidden">
                 <option value="false" {{selected hidden false}}>false</option>
                 <option value="true" {{selected hidden true}}>true</option>
             </select>
-        </td></tr>
-    </table>
+        </fieldset>
+        {{/with}}
 
-    <input type="submit" value="Save">
-
-    {{/with}}
-</form>
+        <input type="submit" value="Save">
+    </form>
+</section>
