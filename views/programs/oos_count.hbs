@@ -1,0 +1,22 @@
+<section class="program">
+    <h1>Program OOS Count</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>OOS Required</td>
+                <td>OOS Assigned</td>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each programs}}
+                <tr>
+                    <td><a href="/programs/{{this.id}}">{{this.name}}</a></td>
+                    <td>{{this.oos_required}}</td>
+                    <td>{{this.OOS.length}}</td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</section>
