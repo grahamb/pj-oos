@@ -277,14 +277,14 @@ header.navigation {
     }
   }
 
-  .sign-up {
-    @include button(flat, $base-accent-color);
+  .sign-in-out {
+    @extend button;
     display: inline;
     float: right;
     font-size: .8em;
     margin-top: 1em;
     padding: .75em 1em;
-    text-transform: uppercase;
+    // text-transform: uppercase;
   }
 
   // Search bar
