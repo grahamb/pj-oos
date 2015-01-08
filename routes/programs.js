@@ -6,7 +6,7 @@ var QueryChainer = require('sequelize').Utils.QueryChainer;
 var passwordless = require('passwordless');
 
 router.get('/', function(req, res) {
-    Program.findAll({ where: {hidden: false} }).success(function(programs) {
+    Program.findAll({ where: {hidden: false}, order: 'name ASC' }).success(function(programs) {
         res.render('programs/program', {
             title: 'PJ 2015 Programs',
             all_programs: programs
@@ -30,7 +30,7 @@ router.get('/:id', function(req, res) {
             where: { id: req.params.id },
             include: [{model: OOS, as: 'OOS'}]
         }))
-        .add(Program.findAll({ where: {hidden: false} }))
+        .add(Program.findAll({ where: {hidden: false}, order: 'name ASC' }))
         .run()
         .success(function(results) {
             res.render('programs/program', {
