@@ -1,15 +1,18 @@
 var gulp = require('gulp');
 var sass = require('gulp-ruby-sass');
 var livereload = require('gulp-livereload');
-
+var sourcemaps = require('gulp-sourcemaps');
 
 gulp.task('sass', function() {
-    return gulp.src('./public/sass/style.scss')
-        .pipe(sass({sourcemap: true, sourcemapPath: '../sass'}))
-        .on('error', function (err) { console.log(err.message); })
+    return sass('./public/sass/style.scss', { sourcemap: true })
+        .on('error', function (err) {
+            console.error('Error!', err.message);
+        })
+        .pipe(sourcemaps.write())
         .pipe(gulp.dest('./public/css'))
         .pipe(livereload());
-})
+});
+
 
 gulp.task('watch', function() {
     livereload.listen();
