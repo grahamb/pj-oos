@@ -8,7 +8,7 @@
 
 
     <section class="program_list">
-        {{>program_list}}
+        {{>programs/program_list}}
     </section>
 
     <section class="program_entry">
@@ -16,7 +16,7 @@
         <section class="title_controls">
           <div class="title"><h1>{{{starred_activity program false}}}{{{program.full_name_html}}}</h1>
           </div>
-          {{> program_controls_button}}
+          {{> programs/program_controls_button this }}
         </section>
 
         <hr>
@@ -57,7 +57,7 @@
             </section>
         </section>
 
-        {{> program_oos_assigned}}
+        {{> programs/program_oos_assigned}}
 
         {{/with}}
 
