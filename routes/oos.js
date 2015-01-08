@@ -70,7 +70,7 @@ router.post('/:id', function(req, res) {
 
     var success = function() {
         if (req.xhr) {
-            res.send(200);
+            res.status(200).end();
         } else {
             res.redirect('/oos/' + req.params.id);
         }
