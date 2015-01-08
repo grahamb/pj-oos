@@ -5,3 +5,8 @@ body {
 h1 {
     margin-bottom: 15px;
 }
+
+.outer {
+    @include outer-container;
+    margin-top: 3em;
+}
