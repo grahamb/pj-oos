@@ -12,7 +12,8 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     source_type: DataTypes.STRING,
-    source_id: DataTypes.INTEGER
+    source_id: DataTypes.INTEGER,
+    role: DataTypes.ENUM('unit leader', 'pal', 'hq staff', 'admin')
   }, {
     underscored: true,
     classMethods: {
