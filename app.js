@@ -15,6 +15,7 @@ var routes = {};
 var routeFiles = fs.readdirSync('./routes');
 var passwordless = require('passwordless');
 var PasswordlessRedisStore = require('passwordless-redisstore');
+var role = require('connect-acl')(require('./lib/roles'));
 
 passwordless.init(new PasswordlessRedisStore(config.get('passwordless.redis.port'), config.get('passwordless.redis.host')));
 passwordless.addDelivery(require('./lib/passwordless/sendgridDelivery'));
@@ -90,15 +91,33 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // add the user id to every request
 app.use(function(req, res, next){
-    res.locals.user = req.user;
-    next();
+    var roles = require('./lib/roles');
+    if (req.user) {
+        var models = require('./models');
+        models.Login.find(req.user).then(function(login) {
+            login = login.dataValues;
+            login.roles = roles[login.role].can;
+            req.session.user = login;
+            res.locals.user = req.user;
+            next();
+        });
+    } else {
+        req.session.user = {
+            role: 'anonymous',
+            roles: roles['anonymous'].can
+        };
+        next();
+    }
 });
 
+app.use(role.middleware());
+
 app.use('/', routes.index);
+
 app.use('/oos', passwordless.restricted({
     failureRedirect: '/login',
     originField: 'origin'
-}), routes.oos);
+}), role.can('view oos'), routes.oos);
 
 app.use('/programs', routes.programs);
 

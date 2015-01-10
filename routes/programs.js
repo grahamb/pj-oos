@@ -4,8 +4,9 @@ var models = require('../models');
 var Program = models.Program, OOS = models.OOS;
 var QueryChainer = require('sequelize').Utils.QueryChainer;
 var passwordless = require('passwordless');
+var role = require('connect-acl')(require('../lib/roles'));
 
-router.get('/', function(req, res) {
+router.get('/', role.can('view program'), function(req, res) {
     Program.findAll({ where: {hidden: false}, order: 'name ASC' }).success(function(programs) {
         res.render('programs/program', {
             title: 'PJ 2015 Programs',
@@ -14,7 +15,7 @@ router.get('/', function(req, res) {
     });
 });
 
-router.get('/oos', function(req, res) {
+router.get('/oos', role.isAny(['admin', 'hq staff']), function(req, res) {
     Program.findAll({ order: 'id ASC', where: { hidden: false }, include: [{model: OOS, as: 'OOS'}] }).success(function(programs) {
         res.render('programs/oos_count', {
             title: 'PJ 2015 Programs',
@@ -23,7 +24,7 @@ router.get('/oos', function(req, res) {
     });
 });
 
-router.get('/:id', function(req, res) {
+router.get('/:id', role.can('view program'), function(req, res) {
     var chainer = new QueryChainer;
     chainer
         .add(Program.find({
@@ -41,7 +42,7 @@ router.get('/:id', function(req, res) {
         });
 });
 
-router.post('/:id', passwordless.restricted({
+router.post('/:id', role.can('edit program'), passwordless.restricted({
     failureRedirect: '/login',
     originField: 'origin'
 }), function(req, res) {
@@ -57,7 +58,7 @@ router.post('/:id', passwordless.restricted({
     });
 });
 
-router.get('/:id/edit', passwordless.restricted({
+router.get('/:id/edit', role.can('edit program'), passwordless.restricted({
     failureRedirect: '/login',
     originField: 'origin'
 }), function(req, res) {

@@ -3,6 +3,7 @@ var router = express.Router();
 var models = require('../models');
 var OOS = models.OOS, Program = models.Program;
 var QueryChainer = require('sequelize').Utils.QueryChainer;
+var role = require('connect-acl')(require('../lib/roles'));
 
 function find_by_id(id) {
     return OOS.find({
@@ -11,7 +12,7 @@ function find_by_id(id) {
     });
 }
 
-router.get('/', function(req, res) {
+router.get('/', role.can('view oos'), function(req, res) {
     var assignmentFilter;
     if (req.query.program && (!isNaN(req.query.program))) {
         assignmentFilter = { id: req.query.program };
@@ -41,7 +42,7 @@ router.get('/', function(req, res) {
         });
 });
 
-router.get('/:id', function(req, res) {
+router.get('/:id', role.can('view oos'), function(req, res) {
     find_by_id(req.params.id).then(function(record) {
         res.render('oos/oos', {
             oos: record
@@ -49,7 +50,7 @@ router.get('/:id', function(req, res) {
     });
 });
 
-router.post('/:id', function(req, res) {
+router.post('/:id', role.can('edit oos'), function(req, res) {
     var data = req.body;
     var program_id = parseInt(data.program_id);
     delete data.program_id;
@@ -105,7 +106,7 @@ router.post('/:id', function(req, res) {
     });
 });
 
-router.get('/:id/edit', function(req, res) {
+router.get('/:id/edit', role.can('edit oos'), function(req, res) {
     var chainer = new QueryChainer;
     chainer
         .add(models.Program.all({ order: 'id ASC'}))
