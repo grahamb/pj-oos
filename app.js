@@ -58,6 +58,15 @@ app.engine('hbs', exphbs({
                 arr.push('<li>' + item + '</li>');
             });
             return arr.length ? arr.join('') : '<li>None</li>';
+        },
+        user_can: function(action, options) {
+            var role = options.data.root.role;
+            if (role.can(action)) {
+                console.log('yup')
+                return options.fn(this);
+            } else {
+                console.log('nope');
+            }
         }
     }
 }));
