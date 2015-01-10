@@ -25,9 +25,13 @@ router.post('/login',
     }
 );
 
-router.get('/logout', passwordless.logout(),
-    function(req, res) {
+router.get('/logout', passwordless.logout(), function(req, res) {
+    req.session.destroy(function(err) {
+        if (err) {
+            debug(err);
+        }
         res.redirect('/');
+    });
 });
 
 module.exports = router;
