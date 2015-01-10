@@ -1,7 +1,14 @@
-{{#if user}}
 <div class="controls">
+{{#user_can 'edit program'}}
     <a href="/programs/{{program.id}}/edit" class="button">
         <i class="fa fa-edit"></i>Edit Program
     </a>
+{{/user_can}}
+
+{{#user_can 'select program'}}
+{{!-- if program not selected, show select button, else show remove button --}}
+{{!--     <a href="/programs/{{program.id}}/edit" class="button green">
+        <i class="fa fa-plus"></i>Select Program
+    </a> --}}
+{{/user_can}}
 </div>
-{{/if}}
