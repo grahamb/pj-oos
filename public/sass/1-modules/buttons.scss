@@ -8,9 +8,17 @@ input[type="submit"],
 
     &.green {
         background-color: $green-button-color;
+
+        &:hover {
+            background-color: darken($green-button-color, 15);
+        }
     }
 
     &.red {
         background-color: $red-button-color;
+
+        &:hover {
+            background-color: darken($red-button-color, 15);
+        }
     }
 }
