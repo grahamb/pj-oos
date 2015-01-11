@@ -45,12 +45,9 @@ module.exports = function(sequelize, DataTypes) {
     tableName: 'OOS',
     freezeTableName: true,
     getterMethods: {
-      certifications_na: function() {
-        return this.certifications ? this.certifications : 'N/A';
-      },
-      previous_experience_na: function() {
-        return this.previous_experience ? this.previous_experience : 'N/A';
-      }
+      certifications_na: return_na,
+      previous_experience_na: return_na,
+      recruited_by_na: return_na
     },
     classMethods: {
       associate: function(models) {
@@ -61,3 +58,8 @@ module.exports = function(sequelize, DataTypes) {
 
   return OOS;
 };
+
+function return_na(field) {
+  var val = this.getDataValue(field);
+  return val ? val : 'N/A';
+}
