@@ -78,7 +78,7 @@ router.post('/:id', role.can('edit oos'), function(req, res) {
         }
     };
 
-    var failure = function() {
+    var failure = function(err) {
         console.log(err);
         res.render('error');
     };
