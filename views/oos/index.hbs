@@ -29,9 +29,13 @@
             <td>{{this.first_name}}</td>
             <td>{{this.last_name}}</td>
             <td>
-                <select data-id="{{this.id}} "name="program_id" class="program_id">
-                    {{> programs/program_select oos=this programs=../programs}}
-                </select>
+                {{#user_can "edit oos"}}
+                    <select data-id="{{this.id}} "name="program_id" class="program_id">
+                        {{> programs/program_select oos=this programs=../../programs}}
+                    </select>
+                {{else}}
+                    {{this.Programs.0.name}}
+                {{/user_can}}
             </td>
             <td>{{this.recruited_by}}</td>
           </tr>
