@@ -57,7 +57,9 @@
                 </section>
             </section>
 
+            {{#user_can 'view oos'}}
             {{> programs/program_oos_assigned}}
+            {{/user_can}}
 
         {{/with}}
 
