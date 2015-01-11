@@ -8,7 +8,12 @@
       <ul id="js-navigation-menu" class="navigation-menu show">
         <li class="nav-link"><a href="javascript:void(0)">Program Guide</a></li>
         <li class="nav-link"><a href="/programs">Program Activities</a></li>
+
+        {{#user_can 'view oos'}}
         <li class="nav-link"><a href="/oos">OOS</a></li>
+        {{/user_can}}
+
+       {{#user_is 'admin'}}
         <li class="nav-link more"><a href="javascript:void(0)">Admin</a>
           <ul class="submenu">
             <li><a href="javascript:void(0)">Users</a></li>
@@ -20,6 +25,7 @@
             </li>
           </ul>
         </li>
+        {{/user_is}}
       </ul>
     </div>
     <div class="navigation-tools">
