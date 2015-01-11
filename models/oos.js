@@ -44,6 +44,14 @@ module.exports = function(sequelize, DataTypes) {
     underscored: true,
     tableName: 'OOS',
     freezeTableName: true,
+    getterMethods: {
+      certifications_na: function() {
+        return this.certifications ? this.certifications : 'N/A';
+      },
+      previous_experience_na: function() {
+        return this.previous_experience ? this.previous_experience : 'N/A';
+      }
+    },
     classMethods: {
       associate: function(models) {
         OOS.hasMany(models.Program, { through: 'program_oos_assignments' });
