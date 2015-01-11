@@ -1,27 +1,51 @@
-<a href="/oos">&larr; Back</a>
 {{#with oos}}
-<h1>{{first_name}} {{last_name}} ({{oos_number}})</h1>
-<h2>{{Programs.0.name}}</h2>
 
-<table>
-    <tr><td>Desired Department</td><td>{{desired_department}}</td></tr>
-    <tr><td>Recruited By</td><td>{{recruited_by}}</td></tr>
-    <tr><td>Previous Experience</td><td>{{previous_experience}}</td></tr>
-    <tr><td>Certifications</td><td>{{certifications}}</td></tr>
-</table>
+<section class="oos outer">
+    <h1>{{first_name}} {{last_name}} <span class="lighter_weight">&mdash;</span> OOS<span class="lighter_weight">#</span> {{oos_number}}</h1>
 
-<h3>Personal Information</h3>
-<table>
-    <tr><td>Address</td><td>{{address}}</td></tr>
-    <tr><td>City</td><td>{{city}}</td></tr>
-    <tr><td>Province</td><td>{{province}}</td></tr>
-    <tr><td>Postal Code</td><td>{{postal_code}}</td></tr>
-    <tr><td>Country</td><td>{{country}}</td></tr>
-    <tr><td>Email</td><td>{{email}}</td></tr>
-    <tr><td>Phone</td><td>{{phone}}</td></tr>
-    <tr><td>Cell Phone</td><td>{{cell_phone}}</td></tr>
-    <tr><td>Date of Birth</td><td>{{dob}}</td></tr>
-</table>
+    <section class="jamboree_information">
+        <h2>Assignment: {{Programs.0.name}}</h2>
+        <p class="label">Recruited By</p>
+        <p>{{recruited_by_na}}</p>
 
-<p><a href="/oos/{{id}}/edit">Edit</a></p>
+        <p class="label">Previous Experience</p>
+        <p>{{previous_experience_na}}</p>
+
+        <p class="label">Certifications</p>
+        <p>{{certifications_na}}</p>
+
+    </section>
+
+    <section class="personal_information">
+        <h2>Personal Information</h2>
+
+        <p class="label">Address</p>
+        <p>
+            {{address}} <br>
+            {{city}}, {{province}} <br>
+            {{postal_code}} <br>
+            {{country}}
+        </p>
+
+        <p class="label">Phone Numbers</p>
+        <p>{{phone_number}}<br>{{cell_phone}}</p>
+
+        <p class="label">Email</p>
+        <p>{{email}}</p>
+
+        <p class="label">Date of Birth</p>
+        <p>{{dob}}</p>
+
+    </section>
+
+</section>
+
+{{#user_can 'edit oos'}}
+<section class="outer">
+        <a href="/oos/{{id}}/edit" class="button">
+            <i class="fa fa-edit"></i>Edit OOS
+        </a>
+</section>
+{{/user_can}}
+
 {{/with}}
