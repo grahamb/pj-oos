@@ -10,6 +10,7 @@ router.get('/', function(req, res) {
 router.get('/login', function(req, res) {
     res.render('login', {
         auth_message: req.flash('passwordless'),
+        success_flash: req.flash('passwordless-success'),
         origin: req.query.origin
     });
 });
@@ -17,11 +18,12 @@ router.get('/login', function(req, res) {
 router.post('/login',
     passwordless.requestToken(requestTokenFn, {
         failureRedirect: '/login',
-        failureFlash: 'The email address you entered could not be found.',
-        originField: 'origin'
+        failureFlash: 'The email address you entered could not be found. Access to this site is restricted to PJ Program Staff, and registered Unit Leaders whose final payment has been received. If you are a unit leader, you will receive an email once your registration is fully paid. For further assistance, please contact us at <a href="mailto:programselection@pj2015.ca">programselection@pj2015.ca</a>.',
+        originField: 'origin',
+        successFlash: 'Your sign in email has been sent. Please check your email for a message from programselection@pj2015.ca.'
     }),
     function(req, res) {
-        res.send('sent');
+        res.redirect('/login');
     }
 );
 
