@@ -1,17 +1,33 @@
-<h1>Login</h1>
+<section class="outer">
+    {{#if success_flash}}
+    <div class="flash-success">
+        {{#each success_flash}}
+        <span>{{this}}</span>
+        {{/each}}
+    </div>
+    {{/if}}
 
-{{#if auth_message}}
-<h2>Oops!</h2>
-<ul>
-    {{#each auth_message}}
-    <li>{{this}}</li>
-    {{/each}}
-</ul>
-{{/if}}
+    {{#if auth_message}}
+    <div class="flash-error">
+      <h2>Oops! There was a problem signing you in.</h2>
+      <ul>
+          {{#each auth_message}}
+          <li>{{{this}}}</li>
+          {{/each}}
+      </ul>
+    </div>
+    {{/if}}
 
-<form action="/login" method="POST">
-    Email:
-    <br><input name="user" type="text" value="hello@grahamballantyne.com">
-    <br><input type="submit" value="Login">
-    <input type="hidden" name="origin" value="{{origin}}">
-</form>
+
+    <h1>Sign In</h1>
+
+    <p>Enter your email address below to sign in. After you click <b>Sign In</b>, check your email for a message from <i>programselection@pj2015.ca</i>. The email will contain a link &ndash; click it to sign in.</p>
+
+
+    <form action="/login" method="POST">
+        <input type="hidden" name="origin" value="{{origin}}">
+        <label for="user">Email Address</label>
+        <input name="user" type="text">
+        <button type="submit"><i class="fa fa-sign-in"></i>Sign In</button>
+    </form>
+</section>
