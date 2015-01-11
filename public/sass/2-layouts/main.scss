@@ -2,11 +2,15 @@ body {
     margin-bottom: 50px;
 }
 
-h1 {
+h1, h2 {
     margin-bottom: 15px;
 }
 
 .outer {
     @include outer-container;
     margin-top: 3em;
+}
+
+.lighter_weight {
+    font-weight: lighter;
 }
