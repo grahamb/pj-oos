@@ -44,6 +44,9 @@ module.exports = function(sequelize, DataTypes) {
     underscored: true,
     tableName: 'OOS',
     freezeTableName: true,
+    setterMethods: {
+      dob: castEmptyStringToNull
+    },
     getterMethods: {
       certifications_na: return_na,
       previous_experience_na: return_na,
@@ -62,4 +65,9 @@ module.exports = function(sequelize, DataTypes) {
 function return_na(field) {
   var val = this.getDataValue(field);
   return val ? val : 'N/A';
+}
+
+function castEmptyStringToNull(value, field) {
+  value = value === '' ? null : value;
+  this.setDataValue(field, value);
 }
