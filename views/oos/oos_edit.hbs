@@ -1,34 +1,70 @@
-<h1>Edit OOS Record</h1>
 
-<form action="/oos/{{oos.id}}" method="POST">
-    <h2>Personal Information</h2>
-    <table>
-        {{#with oos}}
-        <tr><td>Address</td><td><input type="text" name="address" id="address" value="{{address}}"></td></tr>
-        <tr><td>City</td><td><input type="text" name="city" id="city" value="{{city}}"></td></tr>
-        <tr><td>Province</td><td><input type="text" name="province" id="province" value="{{province}}"></td></tr>
-        <tr><td>Postal Code</td><td><input type="text" name="postal_code" id="postal_code" value="{{postal_code}}"></td></tr>
-        <tr><td>Country</td><td><input type="text" name="country" id="country" value="{{country}}"></td></tr>
-        <tr><td>Phone</td><td><input type="text" name="phone" id="phone" value="{{phone}}"></td></tr>
-        <tr><td>Cell Phone</td><td><input type="text" name="cell_phone" id="cell_phone" value="{{cell_phone}}"></td></tr>
-        {{/with}}
-    </table>
+<section class="oos outer">
+    <h1>Edit OOS Record</h1>
 
-    <h2>PJ Information</h2>
-    <table>
-        <tr>
-            <td>Assigned To</td>
-            <td>
-                <select name="program_id" class="program_id">
-                    {{> programs/program_select}}
-                </select>
-            </td>
-        </tr>
-        {{#with oos}}
-        <tr><td>Recruited By</td><td><input type="text" name="recruited_by" id="recruited_by" value="{{recruited_by}}"></td></tr>
-        <tr><td>Previous Experience</td><td><input type="text" name="previous_experience" id="previous_experience" value="{{previous_experience}}"></td></tr>
-        <tr><td>Certifications</td><td><input type="text" name="certifications" id="certifications" value="{{certifications}}"></td></tr>
-        {{/with}}
-    </table>
-    <input type="submit" value="Save">
-</form>
+    <form action="/oos/{{oos.id}}" method="POST">
+
+        <section class="jamboree_information">
+            <h2>Jamboree Information</h2>
+
+            {{#user_is 'admin,hq staff'}}
+            <label for="oos_number">OOS Number</label>
+            <input type="text" name="oos_number" value="{{oos.oos_number}}">
+            {{/user_is}}
+
+            <label for="progam_id">Program Assignment</label>
+            <select name="program_id" class="program_id">
+                {{> programs/program_select}}
+            </select>
+
+            {{#with oos}}
+            <label for="recruited_by">Recruited By</label>
+            <input type="text" name="recruited_by" value="{{recruited_by}}">
+
+            <label for="previous_experience">Previous Experience</label>
+            <input type="text" name="previous_experience" value="{{previous_experience}}">
+
+            <label for="certifications">Certifications</label>
+            <input type="text" name="certifications" value="{{certifications}}">
+
+        </section>
+
+        <section class="personal_information">
+            <h2>Personal Information</h2>
+
+            <label for="address">Address</label>
+            <input type="text" name="address" value="{{address}}">
+
+            <label for="city">City</label>
+            <input type="text" name="city" value="{{city}}">
+
+            <label for="province">Province</label>
+            <input type="text" name="province" value="{{province}}">
+
+            <label for="postal_code">Postal Code</label>
+            <input type="text" name="postal_code" value="{{postal_code}}">
+
+            <label for="country">Country</label>
+            <input type="text" name="country" value="{{country}}">
+
+            <label for="phone_number">Phone Number</label>
+            <input type="text" name="phone_number" value="{{phone_number}}">
+
+            <label for="cell_phone">Cell Phone Number</label>
+            <input type="text" name="cell_phone" value="{{cell_phone}}">
+
+            <label for="email">Email</label>
+            <input type="text" name="email" value="{{email}}">
+
+            <label for="dob">Date of Birth</label>
+            <input type="text" name="dob" value="{{dob}}">
+
+        </section>
+
+</section>
+{{/with}}
+
+<section class="outer">
+    <button class="button green" type="submit"><i class="fa fa-save"></i>Save Record</button>
+    <a href="/oos/{{oos.id}}" class="button"><i class="fa fa-arrow-left"></i>Cancel</a>
+</section>
