@@ -1,0 +1,15 @@
+section.oos {
+    select {
+        margin-bottom: 1.05em;
+        width: 100%;
+        margin-top: 1em;
+    }
+    section.jamboree_information, section.personal_information {
+        @include span-columns(6);
+        margin-top: 25px;
+        label, p.label {
+            @extend label;
+            border-bottom: 1px dotted #ddd;
+        }
+    }
+}
