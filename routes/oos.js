@@ -26,7 +26,8 @@ router.get('/', role.can('view oos'), function(req, res) {
             order: 'id ASC'
         }))
         .add(OOS.findAll({
-            include: [ { model: Program, where: assignmentFilter } ]
+            include: [ { model: Program, where: assignmentFilter } ],
+            order: 'oos_number ASC'
         }))
         .run()
         .success(function(results) {
