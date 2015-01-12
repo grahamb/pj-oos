@@ -9,7 +9,7 @@ var role = require('connect-acl')(require('../lib/roles'));
 router.get('/', role.can('view program'), function(req, res) {
     Program.findAll({ where: {hidden: false}, order: 'name ASC' }).success(function(programs) {
         res.render('programs/program', {
-            title: 'PJ 2015 Programs',
+            title: 'PJ 2015 Program - All Programs',
             all_programs: programs
         });
     });
@@ -18,7 +18,7 @@ router.get('/', role.can('view program'), function(req, res) {
 router.get('/oos', role.isAny(['admin', 'hq staff']), function(req, res) {
     Program.findAll({ order: 'id ASC', where: { hidden: false }, include: [{model: OOS, as: 'OOS'}] }).success(function(programs) {
         res.render('programs/oos_count', {
-            title: 'PJ 2015 Programs',
+            title: 'PJ 2015 Program - Program OOS Count',
             programs: programs
         });
     });
@@ -35,7 +35,7 @@ router.get('/:id', role.can('view program'), function(req, res) {
         .run()
         .success(function(results) {
             res.render('programs/program', {
-                title: 'PJ 2015 Programs - ' + results[0].name,
+                title: 'PJ 2015 Program - ' + results[0].name,
                 program: results[0],
                 all_programs: results[1]
             });
@@ -66,7 +66,7 @@ router.get('/:id/edit', role.can('edit program'), passwordless.restricted({
         where: { id: req.params.id }
     }).then(function(program) {
         res.render('programs/program_edit', {
-            title: 'PJ 2015 - Edit Program Record',
+            title: 'PJ 2015 Progarm - Edit Program Record',
             program: program
         });
     });

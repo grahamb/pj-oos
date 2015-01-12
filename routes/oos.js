@@ -31,8 +31,8 @@ router.get('/', role.can('view oos'), function(req, res) {
         }))
         .run()
         .success(function(results) {
-            res.render('oos/index', {
-                title: 'PJ 2015 Program OOS',
+            res.render('oos/index', {,
+                title: 'PJ 2015 Program - OOS Listing',
                 programs: results[0],
                 oos: results[1]
             });
@@ -46,7 +46,8 @@ router.get('/', role.can('view oos'), function(req, res) {
 router.get('/:id', role.can('view oos'), function(req, res) {
     find_by_id(req.params.id).then(function(record) {
         res.render('oos/oos', {
-            oos: record
+            oos: record,
+            title: 'PJ 2015 Program - OOS - ' + record.first_name + ' ' + record.last_name
         });
     });
 });
@@ -116,7 +117,8 @@ router.get('/:id/edit', role.can('edit oos'), function(req, res) {
         .success(function(results) {
             res.render('oos/oos_edit', {
                 programs: results[0],
-                oos: results[1]
+                oos: results[1],
+                title: 'PJ 2015 Program - OOS - Edit'
             });
         });
 });
