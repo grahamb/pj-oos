@@ -63,6 +63,7 @@ module.exports = function(sequelize, DataTypes) {
 };
 
 function return_na(field) {
+  field = field.split('_na')[0];
   var val = this.getDataValue(field);
   return val ? val : 'N/A';
 }
