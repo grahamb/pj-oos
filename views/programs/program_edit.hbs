@@ -16,18 +16,18 @@
             <textarea name="description">{{description}}</textarea>
         </fieldset>
 
-        <fieldset>
+        <fieldset id="prerequisites_knowledge_skills_equipment">
             <label for="prerequisites">prerequisites</label>
             {{#each prerequisites}}
                 <input type="text" name="prerequisites" value="{{this}}">
             {{/each}}
-            <button data-field="prerequisites"><i class="fa fa-plus"></i>Add item</button>
+            <button type="button" data-field="prerequisites"><i class="fa fa-plus"></i>Add item</button>
 
             <label for="knowledge_skills_equipment">Skills &amp; Equipment Required</label>
             {{#each knowledge_skills_equipment}}
-                <input type="text" name="knowledge_skills_equipment[]" value="{{this}}">
+                <input type="text" name="knowledge_skills_equipment" value="{{this}}">
             {{/each}}
-            <button data-field="knowledge_skills_equipment"><i class="fa fa-plus"></i>Add item</button>
+            <button type="button" data-field="knowledge_skills_equipment"><i class="fa fa-plus"></i>Add item</button>
         </fieldset>
 
         <fieldset>
@@ -85,3 +85,13 @@
         <button class="button green" type="submit"><i class="fa fa-save"></i>Save Program</button>
     </form>
 </section>
+
+<script>
+    $('#prerequisites_knowledge_skills_equipment').off().on('click', 'button', function(e) {
+        var $this = $(this);
+        var field = $this.data('field');
+        var html = '<input type="text" name="' + field + '" value="">';
+        $this.prev().after(html);
+        $this.prev().focus();
+    });
+</script>
