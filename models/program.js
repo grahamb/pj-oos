@@ -91,7 +91,9 @@ module.exports = function(sequelize, DataTypes) {
       fee: castEmptyStringToNull,
       oos_required: castEmptyStringToNull,
       premium_activity: castStringToBoolean,
-      hidden: castStringToBoolean
+      hidden: castStringToBoolean,
+      knowledge_skills_equipment: castStringToArray,
+      prerequisites: castStringToArray
     }
   });
 
@@ -102,11 +104,18 @@ function castStringToBoolean(value, field) {
   if (value === 'true') { value = true; }
   if (value === 'false') { value = false; }
   if (typeof value === 'string') { value = false; }
-  console.log('*********', value, typeof value);
   this.setDataValue(field, value);
 }
 
 function castEmptyStringToNull(value, field) {
   value = value === '' ? null : value;
   this.setDataValue(field, value);
+}
+
+function castStringToArray(value, field) {
+  if (typeof value === 'string') {
+    this.setDataValue(field, [value]);
+  } else {
+    this.setDataValue(field, value);
+  }
 }
