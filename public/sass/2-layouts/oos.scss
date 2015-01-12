@@ -13,3 +13,18 @@ section.oos {
         }
     }
 }
+
+section.oos_assignment {
+    select {
+        display: inline;
+        margin-bottom: 0;
+    }
+
+    .fa-check-circle {
+        color: #5cb85c
+    }
+
+    .fa-times-circle-o {
+        color: #d9534f;
+    }
+}

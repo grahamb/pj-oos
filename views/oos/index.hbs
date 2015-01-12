@@ -1,4 +1,4 @@
-<section class="outer">
+<section class="outer oos_assignment">
 
 <h1>Program OOS Assignments</h1>
 
@@ -30,9 +30,10 @@
             <td>{{this.last_name}}</td>
             <td>
                 {{#user_can "edit oos"}}
-                    <select data-id="{{this.id}} "name="program_id" class="program_id">
+                    <select data-id="{{this.id}}" name="program_id" class="program_id">
                         {{> programs/program_select oos=this programs=../../programs}}
                     </select>
+                    <span><i data-id="{{this.id}}" class="status fa"></i></span>
                 {{else}}
                     {{this.Programs.0.name}}
                 {{/user_can}}
@@ -60,6 +61,23 @@
     $('.program_id').on('change', function(el) {
         var $this = $(this);
         var oosId = $this.data('id');
-        $.post('/oos/' + oosId, {program_id: $this.val()}, function(data, status, xhr) { console.log(arguments);});
+        var $status_icon = $('i[data-id="' + oosId + '"]');
+        $.ajax({
+            url: '/oos/' + oosId,
+            type: 'post',
+            data: {program_id: $this.val()},
+            success: function(data, status, xhr) {
+
+                $status_icon.addClass('fa-check-circle');
+                window.setTimeout(function() {
+                    $status_icon.removeClass('fa-check-circle');
+                }, 5000);
+            },
+            error: function(xhr, status, error) {
+                $status_icon.addClass('fa-times-circle-o');
+            }
+
+        });
+        // $.post('/oos/' + oosId, {program_id: $this.val()}, function(data, status, xhr) { console.log(arguments);});
     });
 </script>
