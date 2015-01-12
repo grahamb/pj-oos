@@ -6,6 +6,7 @@
                 <td>Name</td>
                 <td>OOS Required</td>
                 <td>OOS Assigned</td>
+                <td></td>
             </tr>
         </thead>
         <tbody>
@@ -14,6 +15,7 @@
                     <td><a href="/programs/{{this.id}}">{{this.name}}</a></td>
                     <td>{{this.oos_required}}</td>
                     <td>{{this.OOS.length}}</td>
+                    <td>{{percent this.OOS.length this.oos_required}}</td>
                 </tr>
             {{/each}}
         </tbody>
