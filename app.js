@@ -10,6 +10,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var multer  = require('multer');
 var exphbs = require('express-handlebars');
 var routes = {};
 var routeFiles = fs.readdirSync('./routes');
@@ -49,7 +50,9 @@ app.use(passwordless.sessionSupport());
 app.use(passwordless.acceptToken({ enableOriginRedirect: true, successRedirect: '/'}));
 
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(multer({
+    dest: './tmp/imports'
+}));
 
 // add the user id to every request
 app.use(function(req, res, next){
