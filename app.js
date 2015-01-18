@@ -85,6 +85,7 @@ app.use('/oos', passwordless.restricted({
 }), role.can('view oos'), routes.oos);
 
 app.use('/programs', routes.programs);
+app.use('/admin', routes.admin);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
