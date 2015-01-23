@@ -39,7 +39,9 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       defaultValue: null
     },
-    dob: DataTypes.DATE,
+    dob: DataTypes.DATEONLY,
+    notes: DataTypes.TEXT,
+    import_id: DataTypes.INTEGER
   }, {
     underscored: true,
     tableName: 'OOS',
