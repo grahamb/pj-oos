@@ -13,11 +13,15 @@ function find_by_id(id) {
 }
 
 router.get('/', role.can('view oos'), function(req, res) {
-    var assignmentFilter;
+    var assignmentFilter = {};
+    var where = {};
+
     if (req.query.program && (!isNaN(req.query.program))) {
-        assignmentFilter = { id: req.query.program };
-    } else {
-        assignmentFilter = {};
+        assignmentFilter.id = req.query.program;
+    }
+
+    if (req.query.import_id) {
+        where.import_id = req.query.import_id;
     }
 
     var chainer = new QueryChainer;
@@ -26,6 +30,7 @@ router.get('/', role.can('view oos'), function(req, res) {
             order: 'id ASC'
         }))
         .add(OOS.findAll({
+            where: where,
             include: [ { model: Program, where: assignmentFilter } ],
             order: 'oos_number ASC'
         }))
