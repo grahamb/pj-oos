@@ -31,20 +31,9 @@ router.post('/import/oos', role.can('import oos'), function(req, res) {
     });
 });
 
-router.get('/import/oos/:id', role.can('import oos'), function(req, res) {
-    Import.find(req.params.id).success(function(record) {
-        if (!record) { res.send(404); return false; }
-        fs.readFile(record.path, function(err, data) {
-            if (err) {
-                console.log(err);
-                res.send(500);
-                return false;
-            }
-            console.log(data);
-            res.send(data.toString());
         });
+
     });
-    // fs.readFile()
 });
 
 module.exports = router;
