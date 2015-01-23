@@ -82,7 +82,7 @@ router.post('/import/oos', role.can('import oos'), function(req, res) {
                     return record.setPrograms([0]);
                 });
             }).then(function() {
-                res.redirect('/oos');
+                res.redirect('/oos?import_id=import_id');
             });
 
         });
