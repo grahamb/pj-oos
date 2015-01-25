@@ -57,6 +57,7 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         OOS.hasMany(models.Program, { through: 'program_oos_assignments' });
+        OOS.hasMany(models.Program, { through: 'program_pals' });
       }
     }
   });
