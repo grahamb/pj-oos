@@ -79,13 +79,19 @@ app.use(role.middleware());
 
 app.use('/', routes.index);
 
-app.use('/oos', passwordless.restricted({
-    failureRedirect: '/login',
-    originField: 'origin'
-}), role.can('view oos'), routes.oos);
+app.use('/oos',
+    passwordless.restricted({ failureRedirect: '/login', originField: 'origin' }),
+    role.can('view oos'),
+    routes.oos
+);
 
 app.use('/programs', routes.programs);
-app.use('/admin', routes.admin);
+
+app.use('/admin',
+    passwordless.restricted({ failureRedirect: '/login', originField: 'origin' }),
+    role.isAny(['admin']),
+    routes.admin
+);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -15,7 +15,7 @@ router.get('/', role.can('view program'), function(req, res) {
     });
 });
 
-router.get('/oos', role.isAny(['admin', 'hq staff']), function(req, res) {
+router.get('/oos', passwordless.restricted({ failureRedirect: '/login', originField: 'origin' }), role.isAny(['admin', 'hq staff']), function(req, res) {
     Program.findAll({ order: 'id ASC', where: { hidden: false }, include: [{model: OOS, as: 'OOS'}] }).success(function(programs) {
         res.render('programs/oos_count', {
             title: 'PJ 2015 Program - Program OOS Count',
