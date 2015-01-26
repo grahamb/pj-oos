@@ -8,6 +8,27 @@
   </head>
   <body>
     {{> navbar}}
+
+    {{#if messages}}
+    <section class="outer messages">
+      {{#if messages.error}}
+        {{#each messages.error}}
+          <div class="flash-error">
+            <span>{{this}}</span>
+          </div>
+        {{/each}}
+      {{/if}}
+
+      {{#if messages.success}}
+        {{#each messages.success}}
+          <div class="flash-success">
+            <span>{{this}}</span>
+          </div>
+        {{/each}}
+      {{/if}}
+    </section>
+    {{/if}}
+
     {{{body}}}
     <script>
         $(document).ready(function() {

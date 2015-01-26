@@ -39,7 +39,8 @@ router.get('/', role.can('view oos'), function(req, res) {
             res.render('oos/index', {
                 title: 'PJ 2015 Program - OOS Listing',
                 programs: results[0],
-                oos: results[1]
+                oos: results[1],
+                messages: req.flash()
             });
         })
         .error(function(err) {
@@ -50,10 +51,13 @@ router.get('/', role.can('view oos'), function(req, res) {
 
 router.get('/:id', role.can('view oos'), function(req, res) {
     find_by_id(req.params.id).then(function(record) {
-        res.render('oos/oos', {
-            oos: record,
-            title: 'PJ 2015 Program - OOS - ' + record.first_name + ' ' + record.last_name
-        });
+        if (!record) { res.render(404); } else {
+
+            res.render('oos/oos', {
+                oos: record,
+                title: 'PJ 2015 Program - OOS - ' + record.first_name + ' ' + record.last_name
+            });
+        }
     });
 });
 
@@ -110,6 +114,15 @@ router.post('/:id', role.can('edit oos'), function(req, res) {
         } else {
             updateOOSRecord(record, data).then(success).catch(failure);
         }
+    });
+});
+
+router.get('/:id/delete', role.can('edit oos'), function(req, res) {
+    OOS.find(req.params.id).then(function(record){
+        record.destroy().then(function() {
+            req.flash('success', 'Deleted ' + record.first_name + ' ' + record.last_name + ' (OOS #' + record.oos_number + ')');
+            res.redirect('/oos');
+        });
     });
 });
 

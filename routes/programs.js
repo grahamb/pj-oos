@@ -29,7 +29,7 @@ router.get('/:id', role.can('view program'), function(req, res) {
     chainer
         .add(Program.find({
             where: { id: req.params.id },
-            include: [{model: OOS, as: 'OOS'}]
+            include: [{model: OOS, as: 'OOS'}, {model: OOS, as: 'pals'}]
         }))
         .add(Program.findAll({ where: {hidden: false}, order: 'name ASC' }))
         .run()
@@ -37,7 +37,7 @@ router.get('/:id', role.can('view program'), function(req, res) {
             res.render('programs/program', {
                 title: 'PJ 2015 Program - ' + results[0].name,
                 program: results[0],
-                all_programs: results[1]
+                all_programs: results[1],
             });
         });
 });
