@@ -2,12 +2,12 @@ var express = require('express');
 var router = express.Router();
 var models = require('../models');
 var Program = models.Program, OOS = models.OOS;
-var QueryChainer = require('sequelize').Utils.QueryChainer;
 var passwordless = require('passwordless');
 var role = require('connect-acl')(require('../lib/roles'));
+var Promise = require('sequelize').Promise;
 
 router.get('/', role.can('view program'), function(req, res) {
-    Program.findAll({ where: {hidden: false}, order: 'name ASC' }).success(function(programs) {
+    Program.findAll({ where: {hidden: false}, order: 'name ASC' }).then(function(programs) {
         res.render('programs/program', {
             title: 'PJ 2015 Program - All Programs',
             all_programs: programs
@@ -16,7 +16,7 @@ router.get('/', role.can('view program'), function(req, res) {
 });
 
 router.get('/oos', passwordless.restricted({ failureRedirect: '/login', originField: 'origin' }), role.isAny(['admin', 'hq staff']), function(req, res) {
-    Program.findAll({ order: 'id ASC', where: { hidden: false }, include: [{model: OOS, as: 'OOS'}] }).success(function(programs) {
+    Program.findAll({ order: 'id ASC', where: { hidden: false }, include: [{model: OOS, as: 'OOS'}] }).then(function(programs) {
         res.render('programs/oos_count', {
             title: 'PJ 2015 Program - Program OOS Count',
             programs: programs
@@ -25,21 +25,22 @@ router.get('/oos', passwordless.restricted({ failureRedirect: '/login', originFi
 });
 
 router.get('/:id', role.can('view program'), function(req, res) {
-    var chainer = new QueryChainer;
-    chainer
-        .add(Program.find({
+    Promise.all([
+        Program.find({
             where: { id: req.params.id },
-            include: [{model: OOS, as: 'OOS'}, {model: OOS, as: 'pals'}]
-        }))
-        .add(Program.findAll({ where: {hidden: false}, order: 'name ASC' }))
-        .run()
-        .success(function(results) {
-            res.render('programs/program', {
-                title: 'PJ 2015 Program - ' + results[0].name,
-                program: results[0],
-                all_programs: results[1],
-            });
+            include: [{model: OOS, as: 'OOS'}]
+        }),
+        Program.findAll({ where: {hidden: false}, order: 'name ASC' })
+    ]).then(function(results) {
+        res.render('programs/program', {
+            title: 'PJ 2015 Program - ' + results[0].name,
+            program: results[0],
+            all_programs: results[1],
         });
+    }).catch(function(error) {
+        debug(error);
+        res.send(500);
+    });
 });
 
 router.post('/:id', role.can('edit program'), passwordless.restricted({

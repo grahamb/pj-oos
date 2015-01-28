@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var models = require('../models');
 var OOS = models.OOS, Program = models.Program;
-var QueryChainer = require('sequelize').Utils.QueryChainer;
+var Promise = require('sequelize').Promise;
 var role = require('connect-acl')(require('../lib/roles'));
 
 function find_by_id(id) {
@@ -24,29 +24,24 @@ router.get('/', role.can('view oos'), function(req, res) {
         where.import_id = req.query.import_id;
     }
 
-    var chainer = new QueryChainer;
-    chainer
-        .add(Program.findAll({
-            order: 'id ASC'
-        }))
-        .add(OOS.findAll({
+    Promise.all([
+        Program.findAll({ order: 'id ASC' }),
+        OOS.findAll({
             where: where,
             include: [ { model: Program, where: assignmentFilter } ],
             order: 'oos_number ASC'
-        }))
-        .run()
-        .success(function(results) {
-            res.render('oos/index', {
-                title: 'PJ 2015 Program - OOS Listing',
-                programs: results[0],
-                oos: results[1],
-                messages: req.flash()
-            });
         })
-        .error(function(err) {
-            console.log(err);
-            res.render('error');
+    ]).then(function(results) {
+        res.render('oos/index', {
+            title: 'PJ 2015 Program - OOS Listing',
+            programs: results[0],
+            oos: results[1],
+            messages: req.flash()
         });
+    }).catch(function(error) {
+        console.log(error);
+        res.render('error');
+    })
 });
 
 router.get('/:id', role.can('view oos'), function(req, res) {
@@ -58,6 +53,9 @@ router.get('/:id', role.can('view oos'), function(req, res) {
                 title: 'PJ 2015 Program - OOS - ' + record.first_name + ' ' + record.last_name
             });
         }
+    }).catch(function(error) {
+        degug(error);
+        res.send(500)
     });
 });
 
