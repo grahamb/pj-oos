@@ -4,6 +4,7 @@ var models = require('../models');
 var OOS = models.OOS, Program = models.Program;
 var Promise = require('sequelize').Promise;
 var role = require('connect-acl')(require('../lib/roles'));
+var QueryChainer = require('sequelize').Utils.QueryChainer;
 
 function find_by_id(id) {
     return OOS.find({
