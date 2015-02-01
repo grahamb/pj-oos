@@ -87,6 +87,8 @@ app.use('/oos',
 
 app.use('/programs', routes.programs);
 
+app.use('/program_guide',  passwordless.restricted({ failureRedirect: '/login', originField: 'origin' }), routes.program_guide);
+
 app.use('/admin',
     passwordless.restricted({ failureRedirect: '/login', originField: 'origin' }),
     role.isAny(['admin']),
