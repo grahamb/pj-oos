@@ -67,6 +67,9 @@ module.exports = function(sequelize, DataTypes) {
       full_name_html: function() {
         return this.short_name ? this.name + ' <span class="program_short_name">(' + this.short_name + ')</span>' : this.name;
       },
+      full_name_text: function() {
+        return this.short_name ? this.name + ' (' + this.short_name + ')' : this.name;
+      },
       duration: function() {
         switch (this.program_periods_required) {
           case 1:
