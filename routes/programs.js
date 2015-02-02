@@ -5,6 +5,7 @@ var Program = models.Program, OOS = models.OOS;
 var passwordless = require('passwordless');
 var role = require('connect-acl')(require('../lib/roles'));
 var Promise = require('sequelize').Promise;
+var csv = require('csv');
 
 router.get('/', role.can('view program'), function(req, res) {
     Program.findAll({ where: {hidden: false}, order: 'name ASC' }).then(function(programs) {
@@ -73,5 +74,39 @@ router.get('/:id/edit', role.can('edit program'), passwordless.restricted({
     });
 });
 
+router.get('/:id/oos/csv',  function(req, res) {
+    Program.find({
+        where: { id: req.params.id },
+        include: [{model: OOS, as: 'OOS'}]
+    }).then(function(record) {
+        var data = '';
+        var stringifier = csv.stringify();
+        var program_name = record.full_name_text.toLowerCase().replace(/ /g, '_');
+        var filename = program_name + '_oos_list.csv';
+
+        stringifier.on('readable', function() {
+            while(row = stringifier.read()) {
+                data += row;
+            }
+        });
+
+        stringifier.on('error', function(err) {
+            consol.log(err.message);
+        });
+
+        stringifier.on('finish', function() {
+            res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+            res.setHeader('Content-type', 'video/quicktime');
+            res.send(data);
+        });
+
+        stringifier.write([ 'oos number', 'first name', 'last name', 'email address', 'phone number', 'cell phone' ]);
+        record.OOS.forEach(function(oos) {
+            stringifier.write([ oos.oos_number, oos.first_name, oos.last_name, oos.email, oos.phone, oos.cell_phone ]);
+        });
+        stringifier.end();
+
+    });
+});
 
 module.exports = router;
