@@ -6,6 +6,10 @@ input[type="submit"],
     $green-button-color: #5cb85c;
     $red-button-color: #d9534f;
 
+    &:focus, {
+        color: white;
+    }
+
     &.green {
         background-color: $green-button-color;
 
