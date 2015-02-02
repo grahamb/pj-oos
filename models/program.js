@@ -70,6 +70,9 @@ module.exports = function(sequelize, DataTypes) {
       full_name_text: function() {
         return this.short_name ? this.name + ' (' + this.short_name + ')' : this.name;
       },
+      short_or_long_name: function() {
+        return this.short_name ? this.short_name : this.name;
+      },
       duration: function() {
         switch (this.program_periods_required) {
           case 1:
