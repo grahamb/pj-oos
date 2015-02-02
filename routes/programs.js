@@ -33,14 +33,18 @@ router.get('/:id', role.can('view program'), function(req, res) {
         }),
         Program.findAll({ where: {hidden: false}, order: 'name ASC' })
     ]).then(function(results) {
+        if (!results[0]) {
+            res.status(404).render(404);
+            return false;
+        }
         res.render('programs/program', {
             title: 'PJ 2015 Program - ' + results[0].name,
             program: results[0],
             all_programs: results[1],
         });
     }).catch(function(error) {
-        debug(error);
-        res.send(500);
+        console.log(error);
+        res.status(500).end();
     });
 });
 
@@ -51,6 +55,10 @@ router.post('/:id', role.can('edit program'), passwordless.restricted({
     Program.find({
         where: { id: req.params.id }
     }).then(function(record) {
+        if (!record) {
+            res.status(404).render(404);
+            return false;
+        }
         record.updateAttributes(req.body, { fields: Object.keys(req.body) }).then(function() {
             res.redirect('/programs/' + req.params.id);
         }).catch(function(error) {
@@ -79,6 +87,10 @@ router.get('/:id/oos/csv',  function(req, res) {
         where: { id: req.params.id },
         include: [{model: OOS, as: 'OOS'}]
     }).then(function(record) {
+        if (!record) {
+            res.status(404).render(404);
+            return false;
+        }
         var data = '';
         var stringifier = csv.stringify();
         var program_name = record.full_name_text.toLowerCase().replace(/ /g, '_');

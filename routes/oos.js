@@ -48,7 +48,7 @@ router.get('/', role.can('view oos'), function(req, res) {
 
 router.get('/:id', role.can('view oos'), function(req, res) {
     find_by_id(req.params.id).then(function(record) {
-        if (!record) { res.render(404); } else {
+        if (!record) { res.status(404).render(404); } else {
 
             res.render('oos/oos', {
                 oos: record,
@@ -95,6 +95,11 @@ router.post('/:id', role.can('edit oos'), function(req, res) {
 
     find_by_id(req.params.id).then(function(record) {
 
+        if (!record) {
+            res.status(404).render(404);
+            return false;
+        }
+
         // if program assignment has changed, then find the new program
         // and update both the OOS record and the program assignment
         if (record.Programs[0].id !== program_id) {
@@ -121,6 +126,12 @@ router.get('/:id/send_welcome_email', role.is('admin'), function(req, res) {
     OOS.find({
         where: {id: req.params.id}
     }).then(function(record) {
+
+        if (!record) {
+            res.status(404).render(404);
+            return false;
+        }
+
         email.send('oos_welcome', {
             to: record.email,
             from: 'hello+pjprogram@grahamballantyne.com',
