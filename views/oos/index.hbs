@@ -105,8 +105,14 @@
     $(document).ready(function(){
       $(".dropdown-button").click(function(ev) {
         $this = $(this);
-        $(".dropdown-menu").removeClass("show-menu");
-        $this.next().toggleClass("show-menu");
+        var clearing_current = $this.next().hasClass('show-menu') ? true : false;
+
+        if (clearing_current) {
+            $this.next().toggleClass('show-menu');
+        } else {
+            $(".dropdown-menu").removeClass("show-menu");
+            $this.next().toggleClass('show-menu');
+        }
         $(".dropdown-menu > li").click(function(){
           $(".dropdown-menu").removeClass("show-menu");
         });
