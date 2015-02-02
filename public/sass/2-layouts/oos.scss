@@ -26,15 +26,15 @@ section.oos_assignment {
 
     thead {
         td {
-            &:nth-child(1) {
+            &:nth-child(1), &:nth-child(3), &:nth-child(7) {
                 width: 10%;
             }
             &:nth-child(2) {
                 width: 15%;
             }
-            &:nth-child(3) {
-                width: 10%;
-            }
+            // &:nth-child(3) {
+            //     width: 10%;
+            // }
         }
     }
 
@@ -46,11 +46,18 @@ section.oos_assignment {
         }
     }
 
-    .fa-check-circle {
-        color: #5cb85c
+    .ajax-status {
+        float: left;
+        margin-top: 7px;
+
+        .fa-check-circle {
+            color: #5cb85c
+        }
+
+        .fa-times-circle-o {
+            color: #d9534f;
+        }
     }
 
-    .fa-times-circle-o {
-        color: #d9534f;
-    }
+
 }
