@@ -55,6 +55,11 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       defaultValue: 0,
       allowNull: false
+    },
+    auto_assign: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        required: true
     }
   }, {
     underscored: true,
@@ -99,7 +104,8 @@ module.exports = function(sequelize, DataTypes) {
       premium_activity: castStringToBoolean,
       hidden: castStringToBoolean,
       knowledge_skills_equipment: castStringToArray,
-      prerequisites: castStringToArray
+      prerequisites: castStringToArray,
+      auto_assign: castStringToBoolean
     }
   });
 
