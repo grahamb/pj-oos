@@ -9,6 +9,11 @@
   <body>
     {{> navbar}}
 
+    {{#unless production}}
+      <div class="flash-alert" style="text-align: center">
+        Development Mode
+      </div>
+    {{/unless}}
     {{#if messages}}
     <section class="outer messages">
       {{#if messages.error}}
