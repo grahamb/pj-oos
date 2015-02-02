@@ -55,6 +55,12 @@ app.use(multer({
     dest: './tmp/imports'
 }));
 
+// add the env to locals
+app.use(function(req, res, next) {
+    res.locals.production = 'production' === app.get('env');
+    next();
+});
+
 // add the user id to every request
 app.use(function(req, res, next){
     var roles = require('./lib/roles');
