@@ -79,6 +79,12 @@
                 <option value="false" {{selected hidden false}}>False</option>
                 <option value="true" {{selected hidden true}}>True</option>
             </select>
+            <label for="auto_assign">Automatically Assign Program</label>
+            <p>Automatically assigned programs are assigned to all Units. There is no opt-out of auto-assigned programs.</p>
+            <select name="auto_assign">
+                <option value="false" {{selected auto_assign false}}>False</option>
+                <option value="true" {{selected auto_assign true}}>True</option>
+            </select>
         </fieldset>
         {{/with}}
 
