@@ -8,7 +8,7 @@ var Promise = require('sequelize').Promise;
 var csv = require('csv');
 
 router.get('/', role.can('view program'), function(req, res) {
-    Program.findAll({ where: {hidden: false}, order: 'name ASC' }).then(function(programs) {
+    Program.findAll({ where: {hidden: false}, order: 'premium_activity DESC, name ASC' }).then(function(programs) {
         res.render('programs/program', {
             title: 'PJ 2015 Program - All Programs',
             all_programs: programs
@@ -31,7 +31,7 @@ router.get('/:id', role.can('view program'), function(req, res) {
             where: { id: req.params.id },
             include: [{model: OOS, as: 'OOS'}]
         }),
-        Program.findAll({ where: {hidden: false}, order: 'name ASC' })
+        Program.findAll({ where: {hidden: false}, order: 'premium_activity DESC, name ASC' })
     ]).then(function(results) {
         if (!results[0]) {
             res.status(404).render(404);
