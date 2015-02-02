@@ -21,6 +21,7 @@
             <td>Assigned To</td>
             <td>Recruited By</td>
             <td>Notes</td>
+            <td></td>
         </tr>
     </thead>
     <tbody>
@@ -34,13 +35,23 @@
                     <select data-id="{{this.id}}" name="program_id" class="program_id">
                         {{> programs/program_select oos=this programs=../../programs}}
                     </select>
-                    <span><i data-id="{{this.id}}" class="status fa"></i></span>
                 {{else}}
                     {{this.Programs.0.name}}
                 {{/user_can}}
             </td>
             <td>{{this.recruited_by}}</td>
             <td>{{this.notes}}</td>
+            <td>
+                <span class="ajax-status"><i data-id="{{this.id}}" class="status fa"></i></span>
+                <div class="dropdown">
+                  <div class="dropdown-container">
+                    <p class="dropdown-button"><i class="fa fa-gear"></i></p>
+                    <ul class="dropdown-menu dropdown-select">
+                      <li><a data-id="{{this.id}}" class="send_welcome_email" href="/oos/{{this.id}}/send_welcome_email">Send Welcome Email</a></li>
+                    </ul>
+                  </div>
+                </div>
+            </td>
           </tr>
         {{/each}}
     </tbody>
@@ -79,7 +90,6 @@
             type: 'post',
             data: {program_id: $this.val()},
             success: function(data, status, xhr) {
-
                 $status_icon.addClass('fa-check-circle');
                 window.setTimeout(function() {
                     $status_icon.removeClass('fa-check-circle');
@@ -90,6 +100,42 @@
             }
 
         });
-        // $.post('/oos/' + oosId, {program_id: $this.val()}, function(data, status, xhr) { console.log(arguments);});
     });
+
+    $(document).ready(function(){
+      $(".dropdown-button").click(function(ev) {
+        $this = $(this);
+        $(".dropdown-menu").removeClass("show-menu");
+        $this.next().toggleClass("show-menu");
+        $(".dropdown-menu > li").click(function(){
+          $(".dropdown-menu").removeClass("show-menu");
+        });
+        // $(".dropdown-menu.dropdown-select > li").click(function() {
+        // });
+      });
+
+      $('.send_welcome_email').click(function(ev) {
+        ev.preventDefault();
+        var href = this.href;
+        $this = $(this);
+        var oosId = $this.data('id');
+        var $status_icon = $('i[data-id="' + oosId + '"]');
+        $.ajax({
+            url: href,
+            type: 'get',
+            success: function(data, status, xhr) {
+                $status_icon.addClass('fa-check-circle');
+                window.setTimeout(function() {
+                    $status_icon.removeClass('fa-check-circle');
+                }, 5000);
+            },
+            error: function(xhr, status, error) {
+                $status_icon.addClass('fa-times-circle-o');
+            }
+        });
+      });
+
+    });
+
+
 </script>

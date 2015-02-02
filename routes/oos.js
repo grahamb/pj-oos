@@ -5,6 +5,7 @@ var OOS = models.OOS, Program = models.Program;
 var Promise = require('sequelize').Promise;
 var role = require('connect-acl')(require('../lib/roles'));
 var QueryChainer = require('sequelize').Utils.QueryChainer;
+var email = require('../lib/email');
 
 function find_by_id(id) {
     return OOS.find({
@@ -113,6 +114,31 @@ router.post('/:id', role.can('edit oos'), function(req, res) {
         } else {
             updateOOSRecord(record, data).then(success).catch(failure);
         }
+    });
+});
+
+router.get('/:id/send_welcome_email', role.is('admin'), function(req, res) {
+    OOS.find({
+        where: {id: req.params.id}
+    }).then(function(record) {
+        email.send('oos_welcome', {
+            to: record.email,
+            from: 'hello+pjprogram@grahamballantyne.com',
+            bcc: ['hello@grahamballantyne.com'],
+            fromname: 'Graham Ballantyne (PJ 2015)',
+            subject: 'PJ 2015 Program Offer of Service Assignment (' + record.first_name + ' ' + record.last_name + ' - OOS #' + record.oos_number + ')'
+        }, function(err, result) {
+            if (err) {
+                debug(err);
+                res.redirect(500);
+                return false;
+            }
+            if (req.xhr) {
+                res.status(200).end();
+            } else {
+                res.redirect('/oos/' + req.params.id);
+            }
+        });
     });
 });
 
