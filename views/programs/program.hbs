@@ -43,7 +43,12 @@
                 </table>
             </section>
 
-            <section>
+            <section class="description">
+                {{#if auto_assign}}
+                    <p class="flash-alert">
+                        <strong>You will be automatically assigned to this program. It will not appear for ranking on your progarm selection form.</strong>
+                    </p>
+                {{/if}}
                 {{#markdown typeographer=true}}{{description}}{{/markdown}}
             </section>
 
