@@ -1,7 +1,6 @@
 "use strict";
 module.exports = {
   up: function(migration, DataTypes, done) {
-    console.log('units');
     migration.createTable("Units", {
       id: {
         allowNull: false,
