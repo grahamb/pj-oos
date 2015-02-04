@@ -2,7 +2,7 @@
 module.exports = function(sequelize, DataTypes) {
   var ProgramSelection = sequelize.define("ProgramSelection", {
     unit_number: DataTypes.STRING,
-    program_selection: DataTypes.ARRAY,
+    program_selection: DataTypes.ARRAY(DataTypes.STRING),
     locked: DataTypes.BOOLEAN
   }, {
     classMethods: {
