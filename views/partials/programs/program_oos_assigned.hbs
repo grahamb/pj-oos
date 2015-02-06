@@ -15,7 +15,7 @@
         <tbody>
             {{#each OOS}}
             <tr>
-                <td><a href="/oos/{{this.id}}">{{this.oos_number}}</a></td>
+                <td><a href="/oos/{{this.id}}">{{this.oos_number}}</a>{{{pal_icon this.id ../program_activity_leader_id}}}</td>
                 <td>{{this.first_name}}</td>
                 <td>{{this.last_name}}</td>
                 <td>{{this.email}}</td>
