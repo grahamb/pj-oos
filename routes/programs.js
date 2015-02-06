@@ -73,7 +73,8 @@ router.get('/:id/edit', role.can('edit program'), passwordless.restricted({
     originField: 'origin'
 }), function(req, res) {
     Program.find({
-        where: { id: req.params.id }
+        where: { id: req.params.id },
+        include: [{model: OOS, as: 'OOS'}, {model: OOS, as: 'ProgramActivityLeader'}]
     }).then(function(program) {
         res.render('programs/program_edit', {
             title: 'PJ 2015 Progarm - Edit Program Record',
