@@ -1,5 +1,7 @@
 "use strict";
 
+var helpers = require('../lib/model_helpers');
+
 module.exports = function(sequelize, DataTypes) {
   var OOS = sequelize.define("OOS", {
     oos_number: {
@@ -47,12 +49,12 @@ module.exports = function(sequelize, DataTypes) {
     tableName: 'OOS',
     freezeTableName: true,
     setterMethods: {
-      dob: castEmptyStringToNull
+      dob: helpers.castEmptyStringToNull
     },
     getterMethods: {
-      certifications_na: return_na,
-      previous_experience_na: return_na,
-      recruited_by_na: return_na
+      certifications_na: helpers.return_na,
+      previous_experience_na: helpers.return_na,
+      recruited_by_na: helpers.return_na
     },
     classMethods: {
       associate: function(models) {
@@ -63,14 +65,3 @@ module.exports = function(sequelize, DataTypes) {
 
   return OOS;
 };
-
-function return_na(field) {
-  field = field.split('_na')[0];
-  var val = this.getDataValue(field);
-  return val ? val : 'N/A';
-}
-
-function castEmptyStringToNull(value, field) {
-  value = value === '' ? null : value;
-  this.setDataValue(field, value);
-}

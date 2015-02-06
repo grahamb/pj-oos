@@ -1,5 +1,7 @@
 "use strict";
 
+var helpers = require('../lib/model_helpers');
+
 module.exports = function(sequelize, DataTypes) {
   var Program = sequelize.define("Program", {
     name: {
@@ -97,38 +99,19 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     setterMethods: {
-      program_periods_available: castEmptyStringToNull,
-      max_participants_per_period: castEmptyStringToNull,
-      program_periods_required: castEmptyStringToNull,
-      fee: castEmptyStringToNull,
-      oos_required: castEmptyStringToNull,
-      premium_activity: castStringToBoolean,
-      hidden: castStringToBoolean,
-      knowledge_skills_equipment: castStringToArray,
-      prerequisites: castStringToArray,
-      auto_assign: castStringToBoolean
+      program_periods_available: helpers.castEmptyStringToNull,
+      max_participants_per_period: helpers.castEmptyStringToNull,
+      program_periods_required: helpers.castEmptyStringToNull,
+      fee: helpers.castEmptyStringToNull,
+      oos_required: helpers.castEmptyStringToNull,
+      premium_activity: helpers.castStringToBoolean,
+      hidden: helpers.castStringToBoolean,
+      knowledge_skills_equipment: helpers.castStringToArray,
+      prerequisites: helpers.castStringToArray,
+      auto_assign: helpers.castStringToBoolean,
+      program_activity_leader_id: helpers.castEmptyStringToNull
     }
   });
 
   return Program;
 };
-
-function castStringToBoolean(value, field) {
-  if (value === 'true') { value = true; }
-  if (value === 'false') { value = false; }
-  if (typeof value === 'string') { value = false; }
-  this.setDataValue(field, value);
-}
-
-function castEmptyStringToNull(value, field) {
-  value = value === '' ? null : value;
-  this.setDataValue(field, value);
-}
-
-function castStringToArray(value, field) {
-  if (typeof value === 'string') {
-    this.setDataValue(field, [value]);
-  } else {
-    this.setDataValue(field, value);
-  }
-}
