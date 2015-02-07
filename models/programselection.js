@@ -4,6 +4,10 @@ module.exports = function(sequelize, DataTypes) {
     unit_number: DataTypes.STRING,
     program_selection: DataTypes.ARRAY(DataTypes.STRING),
     locked: DataTypes.BOOLEAN
+    extra_free_period: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
   }, {
     classMethods: {
       associate: function(models) {
