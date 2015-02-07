@@ -1,6 +1,4 @@
 "use strict";
-var roles = require('../lib/roles');
-var rolenames = Object.keys(roles);
 
 module.exports = function(sequelize, DataTypes) {
   var Login = sequelize.define("Login", {
