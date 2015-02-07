@@ -2,7 +2,7 @@
 
 module.exports = {
   up: function(migration, DataTypes, done) {
-    migration.changeColumn('Logins', 'role', DataTypes.ENUM('unit leader', 'pal', 'hq staff', 'management team', 'registrar', 'admin')).done(done);
+    migration.changeColumn('Logins', 'role', DataTypes.ENUM('unit leader', 'pal', 'hq staff', 'admin', 'management team', 'registrar')).done(done);
     done();
   },
 
