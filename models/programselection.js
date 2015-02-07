@@ -10,6 +10,7 @@ module.exports = function(sequelize, DataTypes) {
     locked: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
+    },
   }, {
     classMethods: {
       associate: function(models) {
