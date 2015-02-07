@@ -1,13 +1,11 @@
 "use strict";
+var db = require('../models').Login;
 
 module.exports = {
   up: function(migration, DataTypes, done) {
-    migration.changeColumn('Logins', 'role', DataTypes.ENUM('unit leader', 'pal', 'hq staff', 'admin', 'management team', 'registrar')).done(done);
-    done();
+    db.sequelize.query('ALTER TYPE "enum_Logins_role" ADD VALUE \'management team\' AFTER \'admin\'').done(done).catch(console.error);
   },
 
   down: function(migration, DataTypes, done) {
-    migration.changeColumn('Logins', 'role', DataTypes.ENUM('unit leader', 'pal', 'hq staff', 'admin')).done(done);
-    done();
   }
 };
