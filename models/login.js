@@ -1,4 +1,7 @@
 "use strict";
+var roles = require('../lib/roles');
+var rolenames = Object.keys(roles);
+
 module.exports = function(sequelize, DataTypes) {
   var Login = sequelize.define("Login", {
     email: {
@@ -13,7 +16,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     source_type: DataTypes.STRING,
     source_id: DataTypes.INTEGER,
-    role: DataTypes.ENUM('unit leader', 'pal', 'hq staff', 'admin')
+    role: DataTypes.ENUM('unit leader', 'pal', 'hq staff', 'management team', 'registrar', 'admin')
   }, {
     underscored: true,
     classMethods: {
