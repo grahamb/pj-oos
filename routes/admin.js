@@ -58,19 +58,20 @@ router.post('/import/oos', role.can('import oos'), function(req, res) {
             });
 
             return Promise.map(import_records, function(record) {
-
                 return OOS.findOrCreate({
                     where: { oos_number: record.oos_number },
                     fields: fields,
                     defaults: record,
                     include: [Program]
+                }).catch(function(error) {
+                    console.log(error);
+                    res.status(500).end();
                 });
 
             }).spread(function() {
 
                 // args is an array of [{record}, created]
                 var args = Array.prototype.slice.call(arguments);
-
                 var created_records = [];
                 args.forEach(function(arr) {
                     var record = arr[0], created = arr[1];
@@ -83,10 +84,19 @@ router.post('/import/oos', role.can('import oos'), function(req, res) {
                 });
             }).then(function() {
                 res.redirect('/oos?import_id=' + import_id);
+            }).catch(function(error) {
+                console.log(error);
+                res.status(500).end();
             });
 
+        }).catch(function(error) {
+            console.log(error);
+            res.status(500).end();
         });
 
+    }).catch(function(error) {
+        console.log(error);
+        res.status(500).end();
     });
 });
 
