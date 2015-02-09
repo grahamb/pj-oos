@@ -25,6 +25,17 @@ router.get('/oos', passwordless.restricted({ failureRedirect: '/login', originFi
     });
 });
 
+router.get('/pals', passwordless.restricted({ failureRedirect: '/login', originField: 'origin' }), role.isAny(['admin', 'hq staff']), function(req, res) {
+    Program.findAll({ order: 'id ASC', where: { hidden: false }, include: [{model: OOS, as: 'OOS'}, {model: OOS, as: 'ProgramActivityLeader'}] }).then(function(results) {
+        var programs = { offsite: [], onsite: [] };
+        results.forEach(function(result) { console.log(result.dataValues.location); programs[result.dataValues.location].push(result); });
+        res.render('programs/pals', {
+            title: 'PJ 2015 Program - Program PALs',
+            programs: programs
+        });
+    });
+});
+
 router.get('/:id', role.can('view program'), function(req, res) {
     Promise.all([
         Program.find({

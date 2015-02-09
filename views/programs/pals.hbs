@@ -1,0 +1,51 @@
+<section class="outer pals">
+
+<h1>Program PALs</h1>
+<h2>Onsite</h2>
+<table>
+    <thead>
+        <tr>
+            <td>Program</td>
+            <td>OOS Number</td>
+            <td>First Name</td>
+            <td>Last Name</td>
+            <td>Email</td>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each programs.onsite}}
+          <tr>
+            <td><a href="/programs/{{this.id}}">{{this.short_or_long_name}}</a></td>
+            <td><a href="/oos/{{this.ProgramActivityLeader.id}}">{{this.ProgramActivityLeader.oos_number}}</a></td>
+            <td>{{this.ProgramActivityLeader.first_name}}</td>
+            <td>{{this.ProgramActivityLeader.last_name}}</td>
+            <td>{{this.ProgramActivityLeader.email}}</td>
+          </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<h2>Offsite</h2>
+<table>
+    <thead>
+        <tr>
+            <td>Program</td>
+            <td>OOS Number</td>
+            <td>First Name</td>
+            <td>Last Name</td>
+            <td>Email</td>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each programs.offsite}}
+          <tr>
+            <td><a href="/programs/{{this.id}}">{{this.short_or_long_name}}</a></td>
+            <td><a href="/oos/{{this.ProgramActivityLeader.id}}">{{this.ProgramActivityLeader.oos_number}}</a></td>
+            <td>{{this.ProgramActivityLeader.first_name}}</td>
+            <td>{{this.ProgramActivityLeader.last_name}}</td>
+            <td>{{this.ProgramActivityLeader.email}}</td>
+          </tr>
+        {{/each}}
+    </tbody>
+</table>
+</section>

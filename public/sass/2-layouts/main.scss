@@ -14,3 +14,7 @@ h1, h2 {
 .lighter_weight {
     font-weight: lighter;
 }
+
+table tr:last-child td {
+    border-bottom: none;
+}
