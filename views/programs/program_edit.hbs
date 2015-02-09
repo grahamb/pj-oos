@@ -95,6 +95,12 @@
                 <option value="false" {{selected auto_assign false}}>False</option>
                 <option value="true" {{selected auto_assign true}}>True</option>
             </select>
+            <label for="include_in_welcome_email">Include Program in OOS Welcome Email</label>
+            <p>Set to <i>false</i> to prevent this program from being included in the Welcome Email sent to new OOS.</p>
+            <select name="include_in_welcome_email">
+                <option value="false" {{selected include_in_welcome_email false}}>False</option>
+                <option value="true" {{selected include_in_welcome_email true}}>True</option>
+            </select>
         </fieldset>
         {{/with}}
 

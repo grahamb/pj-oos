@@ -62,6 +62,11 @@ module.exports = function(sequelize, DataTypes) {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
         required: true
+    },
+    include_in_welcome_email: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+      required: true
     }
   }, {
     underscored: true,
@@ -109,7 +114,8 @@ module.exports = function(sequelize, DataTypes) {
       knowledge_skills_equipment: helpers.castStringToArray,
       prerequisites: helpers.castStringToArray,
       auto_assign: helpers.castStringToBoolean,
-      program_activity_leader_id: helpers.castEmptyStringToNull
+      program_activity_leader_id: helpers.castEmptyStringToNull,
+      include_in_welcome_email: helpers.castStringToBoolean
     }
   });
 
