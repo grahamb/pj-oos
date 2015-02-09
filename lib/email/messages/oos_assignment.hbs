@@ -1,0 +1,21 @@
+<p>Hi {{oos.first_name}},</p>
+
+{{#if pal}}
+
+<p>Thank you for volunteering for PJ 2015 and welcome to the Program team! The program you have been assigned to is: <b>{{oos.Programs.0.full_name_text}}</b>. The Program Activity Leader for this program is {{pal.first_name}} {{pal.last_name}}, who is CC'd on this message. {{pal.first_name}} will be in touch with you directly to provide you with more information about this activity.</p>
+
+{{else}}
+
+<p>Thank you for volunteering for PJ 2015 and welcome to the Program team! The program you have been assigned to is: <b>{{oos.Programs.0.full_name_text}}</b>. A Program Activity Leader has not yet been selected for this program. When one is in place they will be in contact with you directly to provide you with more information about this activity.</p>
+
+{{/if}}
+
+<p>Thanks again for volunteering – we'll see you this July at Camp Barnard!</p>
+
+<p>
+Yours in Scouting,<br/>
+<br/>
+Graham Ballantyne<br/>
+PJ 2015 - Program<br/>
+<a href="mailto:hello@grahamballantyne.com">hello@grahamballantyne.com</a><br/>
+604-837-6698<br/>
