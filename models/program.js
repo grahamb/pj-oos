@@ -9,8 +9,8 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     short_name: DataTypes.STRING,
-    description: DataTypes.STRING,
-    short_description: DataTypes.STRING,
+    description: DataTypes.TEXT,
+    short_description: DataTypes.TEXT,
     fitness_level: {
       type: DataTypes.ENUM('average', 'good', 'high'),
       defaultValue: 'average'
