@@ -122,23 +122,21 @@ router.post('/:id', role.can('edit oos'), function(req, res) {
     });
 });
 
-router.get('/:id/send_welcome_email', role.is('admin'), function(req, res) {
-    OOS.find({
-        where: {id: req.params.id}
-    }).then(function(record) {
+router.get('/:id/send_email/:message_type', function(req, res) {
+    var message_type=req.params.message_type;
+    var oos_id = req.params.id;
+    var production = res.locals.production;
+    var message_types = ['welcome', 'assignment'];
 
+    OOS.find({
+        where: { id: oos_id },
+        include: [Program]
+    }).then(function(record) {
         if (!record) {
             res.status(404).render(404);
             return false;
         }
-
-        email.send('oos_welcome', {
-            to: record.email,
-            from: 'hello+pjprogram@grahamballantyne.com',
-            bcc: ['hello@grahamballantyne.com'],
-            fromname: 'Graham Ballantyne (PJ 2015)',
-            subject: 'PJ 2015 Program Offer of Service Assignment (' + record.first_name + ' ' + record.last_name + ' - OOS #' + record.oos_number + ')'
-        }, function(err, result) {
+        email[message_type](record, production, function(err, result) {
             if (err) {
                 debug(err);
                 res.redirect(500);
