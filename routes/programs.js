@@ -120,7 +120,7 @@ router.get('/:id/oos/csv',  function(req, res) {
 
         stringifier.on('finish', function() {
             res.setHeader('Content-disposition', 'attachment; filename=' + filename);
-            res.setHeader('Content-type', 'video/quicktime');
+            res.setHeader('Content-type', 'text/csv');
             res.send(data);
         });
 
