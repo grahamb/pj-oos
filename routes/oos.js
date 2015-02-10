@@ -138,7 +138,7 @@ router.get('/:id/send_email/:message_type', function(req, res) {
         }
         email[message_type](record, production, function(err, result) {
             if (err) {
-                debug(err);
+                console.log(err);
                 res.redirect(500);
                 return false;
             }
