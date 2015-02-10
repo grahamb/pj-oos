@@ -163,7 +163,7 @@ router.post('/:id', role.can('edit oos'), function(req, res) {
     });
 });
 
-router.get('/:id/send_email/:message_type', function(req, res) {
+router.get('/:id/send_email/:message_type', role.isAny(['admin', 'hq staff']), function(req, res) {
     var message_type=req.params.message_type;
     var oos_id = req.params.id;
     var production = res.locals.production;

@@ -33,7 +33,9 @@
             <td>Assigned To</td>
             <td>Recruited By</td>
             <td>Notes</td>
+            {{#user_is 'admin,hq staff'}}
             <td></td>
+            {{/user_is}}
         </tr>
     </thead>
     <tbody>
@@ -53,6 +55,7 @@
             </td>
             <td>{{this.recruited_by}}</td>
             <td>{{this.notes}}</td>
+            {{#user_is 'admin,hq staff'}}
             <td>
                 <span class="ajax-status"><i data-id="{{this.id}}" class="status fa"></i></span>
                 <div class="dropdown">
@@ -65,6 +68,7 @@
                   </div>
                 </div>
             </td>
+            {{/user_is}}
           </tr>
         {{/each}}
     </tbody>
