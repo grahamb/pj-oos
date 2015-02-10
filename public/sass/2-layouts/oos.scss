@@ -60,4 +60,15 @@ section.oos_assignment {
     }
 
 
+    .oos_controls {
+        @include clearfix;
+        .filter {
+            @include span-columns(8);
+        }
+        .buttons {
+            @include span-columns(4);
+            text-align: right;
+        }
+    }
+
 }

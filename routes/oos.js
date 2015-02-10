@@ -6,6 +6,8 @@ var Promise = require('sequelize').Promise;
 var role = require('connect-acl')(require('../lib/roles'));
 var QueryChainer = require('sequelize').Utils.QueryChainer;
 var email = require('../lib/email');
+var csv = require('csv');
+var moment = require('moment');
 
 function find_by_id(id) {
     return OOS.find({
@@ -44,6 +46,45 @@ router.get('/', role.can('view oos'), function(req, res) {
         console.log(error);
         res.render('error');
     })
+});
+
+router.get('/csv', role.can('view oos'), function(req, res) {
+    var include = {
+        model: Program
+    };
+
+    if (req.query.program) {
+        include.where = {id: req.query.program};
+    }
+
+    OOS.findAll({
+        include: [include]
+    }).then(function(records) {
+        var data = '';
+        var stringifier = csv.stringify();
+        var filename = 'oos-' + moment().format("YYYYMMDDHHmmss") + '.csv';
+        stringifier.on('readable', function() {
+            while(row = stringifier.read()) {
+                data += row;
+            }
+        });
+
+        stringifier.on('error', function(err) {
+            consol.log(err.message);
+        });
+
+        stringifier.on('finish', function() {
+            res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+            res.setHeader('Content-type', 'text/csv');
+            res.send(data);
+        });
+
+        stringifier.write([ 'oos number', 'program', 'first name', 'last name', 'email address', 'phone number', 'cell phone' ]);
+        records.forEach(function(oos) {
+            stringifier.write([ oos.oos_number, 'Program - ' + oos.Programs[0].full_name_text, oos.first_name, oos.last_name, oos.email, oos.phone, oos.cell_phone ]);
+        });
+        stringifier.end();
+    }).catch(console.log);
 });
 
 router.get('/:id', role.can('view oos'), function(req, res) {

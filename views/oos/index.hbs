@@ -2,15 +2,27 @@
 
 <h1>Program OOS Assignments</h1>
 
-<p>
-    Filter by Assignment:
-    <select class="assignmentFilter">
-        <option value="all">All</option>
-        {{> programs/program_select}}
-    </select>
-</p>
+<section class="oos_controls">
 
-<p>Total: {{oos.length}}</p>
+    <div class="filter">
+        <p>
+            Filter by Assignment:
+            <select class="assignmentFilter">
+                <option value="all">All</option>
+                {{> programs/program_select}}
+            </select>
+        </p>
+
+        <p>Total: {{oos.length}}</p>
+    </div>
+
+    <div class="buttons">
+        <a class="csv_export button" href="oos/csv"><i class="fa fa-file-text-o"></i>Export OOS list as CSV</a>
+    </div>
+</section>
+
+<hr/>
+
 
 <table>
     <thead>
@@ -57,7 +69,6 @@
         {{/each}}
     </tbody>
 </table>
-
 </section>
 
 
@@ -74,7 +85,10 @@
     }
 
     var filter = getQueryVariable('program');
-    if (filter) { $('.assignmentFilter [value="' + filter + '"]').attr('selected', true); }
+    if (filter) {
+        $('.assignmentFilter [value="' + filter + '"]').attr('selected', true);
+        $('a.csv_export').attr('href', '/oos/csv?program=' + filter);
+    }
 
     $('.assignmentFilter').on('change', function(el) {
         var val = $(this).val();
