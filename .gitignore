@@ -5,3 +5,4 @@ log/*
 public/css
 .sass-cache
 config/config.json
+public/js/*
