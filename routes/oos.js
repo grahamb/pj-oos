@@ -40,7 +40,8 @@ router.get('/', role.can('view oos'), function(req, res) {
             title: 'PJ 2015 Program - OOS Listing',
             programs: results[0],
             oos: results[1],
-            messages: req.flash()
+            messages: req.flash(),
+            bundle: 'oos'
         });
     }).catch(function(error) {
         console.log(error);
