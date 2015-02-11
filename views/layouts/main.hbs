@@ -4,7 +4,7 @@
     <title>{{title}}</title>
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel='stylesheet' href='/css/style.css' />
-    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="/js/{{bundle}}.js"></script>
   </head>
   <body>
     {{> navbar}}
@@ -35,20 +35,6 @@
     {{/if}}
 
     {{{body}}}
-    <script>
-        $(document).ready(function() {
-          $('#js-navigation-menu').removeClass("show");
-
-          $('#js-mobile-menu').on('click', function(e) {
-            e.preventDefault();
-            $('#js-navigation-menu').slideToggle(function(){
-              if($('#js-navigation-menu').is(':hidden')) {
-                $('#js-navigation-menu').removeAttr('style');
-              }
-            });
-          });
-        });
-    </script>
 
     {{#if production}}
 

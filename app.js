@@ -61,6 +61,11 @@ app.use(function(req, res, next) {
     next();
 });
 
+app.use(function(req, res, next) {
+    res.locals.bundle = 'app';
+    next();
+});
+
 // add the user id to every request
 app.use(function(req, res, next){
     var roles = require('./lib/roles');
