@@ -11,6 +11,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var multer  = require('multer');
+var uaCompatible = require('ua-compatible')
 var exphbs = require('express-handlebars');
 var routes = {};
 var routeFiles = fs.readdirSync('./routes');
@@ -36,7 +37,7 @@ app.engine('hbs', exphbs({
 }));
 app.set('view engine', 'hbs');
 
-
+app.use(uaCompatible);
 app.use(cookieParser());
 app.use(logger('dev'));
 app.use(bodyParser.json());
