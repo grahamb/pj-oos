@@ -80,6 +80,7 @@ router.post('/import/oos', role.can('import oos'), function(req, res) {
                     }
                 });
                 return Promise.map(created_records , function(record) {
+                    console.log(record);
                     return record.setPrograms([0]);
                 });
             }).then(function() {

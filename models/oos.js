@@ -54,7 +54,13 @@ module.exports = function(sequelize, DataTypes) {
     getterMethods: {
       certifications_na: helpers.return_na,
       previous_experience_na: helpers.return_na,
-      recruited_by_na: helpers.return_na
+      recruited_by_na: helpers.return_na,
+      current_age: function() {
+        var moment = require('moment');
+        var now = moment(new Date());
+        var dob = moment(new Date(this.dob));
+        return Math.floor(moment.duration(now.diff(dob)).asYears());
+      }
     },
     classMethods: {
       associate: function(models) {

@@ -33,6 +33,7 @@
             <td>Assigned To</td>
             <td>Recruited By</td>
             <td>Notes</td>
+            <td>Age</td>
             {{#user_is 'admin,hq staff'}}
             <td></td>
             {{/user_is}}
@@ -55,6 +56,7 @@
             </td>
             <td>{{this.recruited_by}}</td>
             <td>{{this.notes}}</td>
+            <td>{{this.current_age}}</td>
             {{#user_is 'admin,hq staff'}}
             <td>
                 <span class="ajax-status"><i data-id="{{this.id}}" class="status fa"></i></span>

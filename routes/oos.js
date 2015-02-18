@@ -79,9 +79,9 @@ router.get('/csv', role.can('view oos'), function(req, res) {
             res.send(data);
         });
 
-        stringifier.write([ 'oos number', 'program', 'first name', 'last name', 'email address', 'phone number', 'cell phone' ]);
+        stringifier.write([ 'oos number', 'program', 'first name', 'last name', 'email address', 'phone number', 'cell phone', 'birthdate', 'current age' ]);
         records.forEach(function(oos) {
-            stringifier.write([ oos.oos_number, 'Program - ' + oos.Programs[0].full_name_text, oos.first_name, oos.last_name, oos.email, oos.phone, oos.cell_phone ]);
+            stringifier.write([ oos.oos_number, 'Program - ' + oos.Programs[0].full_name_text, oos.first_name, oos.last_name, oos.email, oos.phone, oos.cell_phone, moment(oos.dob).format('YYYY/MM/DD'), oos.current_age ]);
         });
         stringifier.end();
     }).catch(console.log);

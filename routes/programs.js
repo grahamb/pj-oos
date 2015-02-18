@@ -6,6 +6,7 @@ var passwordless = require('passwordless');
 var role = require('connect-acl')(require('../lib/roles'));
 var Promise = require('sequelize').Promise;
 var csv = require('csv');
+var moment = require('moment');
 
 router.get('/', role.can('view program'), function(req, res) {
     Program.findAll({ where: {hidden: false}, order: 'premium_activity DESC, name ASC' }).then(function(programs) {
@@ -124,9 +125,9 @@ router.get('/:id/oos/csv',  function(req, res) {
             res.send(data);
         });
 
-        stringifier.write([ 'oos number', 'first name', 'last name', 'email address', 'phone number', 'cell phone' ]);
+        stringifier.write([ 'oos number', 'first name', 'last name', 'email address', 'phone number', 'cell phone', 'birthdate', 'current age' ]);
         record.OOS.forEach(function(oos) {
-            stringifier.write([ oos.oos_number, oos.first_name, oos.last_name, oos.email, oos.phone, oos.cell_phone ]);
+            stringifier.write([ oos.oos_number, oos.first_name, oos.last_name, oos.email, oos.phone, oos.cell_phone, moment(oos.dob).format('YYYY/MM/DD'), oos.current_age ]);
         });
         stringifier.end();
 
