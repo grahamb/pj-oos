@@ -97,6 +97,8 @@ app.use('/programs', routes.programs);
 
 app.use('/program_guide', routes.program_guide);
 
+app.use('/program_selection', routes.program_selection);
+
 app.use('/admin',
     passwordless.restricted({ failureRedirect: '/login', originField: 'origin' }),
     role.isAny(['admin']),
