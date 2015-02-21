@@ -8,6 +8,7 @@
       <ul id="js-navigation-menu" class="navigation-menu show">
         <li class="nav-link"><a href="/program_guide">Program Guide</a></li>
         <li class="nav-link"><a href="/programs">Program Activities</a></li>
+        <li class="nav-link"><a href="/program_selection">Program Selection</a></li>
 
         {{#user_can 'view oos'}}
         <li class="nav-link"><a href="/oos">OOS</a></li>
@@ -26,17 +27,10 @@
           </ul>
         </li>
         {{/user_is}}
+        <li class="nav-link"><a href="http://pj2015.ca">pj2015.ca</a></li>
       </ul>
     </div>
     <div class="navigation-tools">
-{{!--       <div class="search-bar">
-        <div class="search-and-submit">
-          <input type="search" placeholder="Enter Search" />
-          <button type="submit">
-            <img src="https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/search-icon.png" alt="Search Icon">
-          </button>
-        </div>
-      </div> --}}
       {{> sign_in_out_button }}
     </div>
   </div>
