@@ -1,4 +1,8 @@
 <section class="outer">
-    <h1>Program Selection is not Available</h1>
-    <p>We're not quite ready for program selection to begin. Registered units will be notified by email when program selection is open.</p>
+    <h1>Program Selections</h1>
+    <ol style="list-style: decimal">
+        {{#each selections}}
+            <li>{{this.Unit.unit_name}} ({{this.id}})</li>
+        {{/each}}
+    </ol>
 </section>
