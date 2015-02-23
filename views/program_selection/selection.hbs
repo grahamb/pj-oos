@@ -1,0 +1,9 @@
+<section class="outer">
+    <h1>Program Selection</h1>
+    <h2>{{unit.unit_name}}</h2>
+    <ol style="list-style: decimal">
+        {{#each programs}}
+            <li>{{this.full_name_text}} ({{this.id}})</li>
+        {{/each}}
+    </ol>
+</section>
