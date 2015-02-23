@@ -14,7 +14,7 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        // associations can be defined here
+        ProgramSelection.belongsTo(models.Unit, {foreignKey: 'unit_id'});
       }
     }
   });
