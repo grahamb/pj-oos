@@ -1,22 +1,59 @@
 var express = require('express');
 var router = express.Router();
+var models = require('../models');
+var shuffle = require('knuth-shuffle').knuthShuffle;
 
-router.get('/', function(req, res) {
-  res.render('program_selection/index');
+router.get('/', role.isAny(['admin', 'hq staff', 'unit leader']), function(req, res) {
 
-  /*
-    If user.is['unit leader']
-      - find the user's unit
-      - find the program selection for the unit
-      - find all programs:
-        - if program selection exists, find with $or, passing int he selection array
-          https://sequelize.readthedocs.org/en/latest/docs/models/#manipulating-the-dataset-with-limit-offset-order-and-group
-        - if no selection exists, just find all programs, maybe randomize it? https://github.com/coolaj86/knuth-shuffle
-      - render the selection view
-
-    If user.isAny['admin', 'program hq']
-      - render an index view of all program selections
-  */
+  if (req.session.user.role === 'unit leader') {
+    var unit_id = req.session.user.source_id;
+    var g_unit;
+    models.Unit.find({
+      where: {
+        id: unit_id
+      },
+      include: [models.ProgramSelection]
+    }).then(function(unit) {
+      var query;
+      g_unit = unit;
+      if (unit.ProgramSelection) {
+        query = models.Program.findAll({
+          where: {
+            hidden: false,
+            id: {
+              $or: [ unit.ProgramSelection.program_selection ]
+            }
+          }
+        });
+      } else {
+        query = models.Program.findAll({
+          where: {
+            hidden: false
+          },
+          order: 'id ASC'
+        }).then(function(programs) {
+          var shuffled = shuffle(programs.slice(0));
+          return shuffled;
+        });
+      }
+      return query;
+    }).then(function(programs) {
+      res.render('program_selection/selection', {
+        unit: g_unit,
+        programs: programs
+      });
+    }).catch(console.error);
+  } else {
+    models.ProgramSelection.findAll({
+      order: 'id ASC',
+      include: [models.Unit]
+    }).then(function(selections) {
+      console.log(selections);
+      res.render('program_selection/index', {
+        selections: selections
+      });
+    });
+  }
 
 });
 
