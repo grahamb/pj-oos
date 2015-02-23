@@ -21,7 +21,7 @@ router.get('/login', function(req, res) {
 router.post('/login',
     passwordless.requestToken(requestTokenFn, {
         failureRedirect: '/login',
-        failureFlash: 'The email address you entered could not be found. Access to this site is restricted to PJ Program Staff, and registered Unit Leaders whose final payment has been received. If you are a unit leader, you will receive an email once your registration is fully paid. For further assistance, please contact us at <a href="mailto:programselection@pj2015.ca">programselection@pj2015.ca</a>.',
+        failureFlash: 'The email address you entered could not be found. Access to this site is restricted to PJ Program Staff, and registered Unit Leaders. If you are a Unit Leader, you will receive an email once your registration has been received from the PJ Registrar. For further assistance, please contact us at <a href="mailto:programselection@pj2015.ca">programselection@pj2015.ca</a>.',
         originField: 'origin',
         successFlash: 'Your sign in email has been sent. Please check your email for a message from programselection@pj2015.ca.'
     }),
