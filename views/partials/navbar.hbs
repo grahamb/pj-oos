@@ -8,7 +8,10 @@
       <ul id="js-navigation-menu" class="navigation-menu show">
         <li class="nav-link"><a href="/program_guide">Program Guide</a></li>
         <li class="nav-link"><a href="/programs">Program Activities</a></li>
+
+        {{#user_is 'admin, hq staff, unit leader'}}
         <li class="nav-link"><a href="/program_selection">Program Selection</a></li>
+        {{/user_is}}
 
         {{#user_can 'view oos'}}
         <li class="nav-link"><a href="/oos">OOS</a></li>
