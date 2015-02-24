@@ -22,3 +22,7 @@ table tr:last-child td {
 thead {
     font-weight: bold;
 }
+
+[draggable] {
+    cursor: move;
+}
