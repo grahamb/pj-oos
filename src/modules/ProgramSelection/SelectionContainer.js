@@ -70,12 +70,15 @@ var SelectionContainer = React.createClass({
       contentType: "application/json; charset=utf-8",
       success: (response) => {
 
-        this.setState({
-            program_selection: response.program_selection,
-            extra_free_period: response.extra_free_period
-          })
-        },
-
+        if (response.locked) {
+          window.location = '/program_selection';
+        } else {
+          this.setState({
+              program_selection: response.program_selection,
+              extra_free_period: response.extra_free_period
+            })
+        }
+      },
       error: (jqxhr, textStatus, error) => {
         // TODO display some sort of warning to the user that the request failed
         this.setState(this.lastSuccessfulState);
