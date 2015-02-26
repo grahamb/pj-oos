@@ -51,7 +51,8 @@ var Program = React.createClass({
           <div {...this.dragSourceFor(ItemTypes.PROGRAM)}
                {...this.dropTargetFor(ItemTypes.PROGRAM)}
                style={{
-                 border: '1px dashed gray',
+                 border: '1px solid #D8D8D8',
+                 borderRadius: '3px',
                  backgroundColor: 'white',
                  padding: '0.5rem',
                  margin: '0.5rem',
