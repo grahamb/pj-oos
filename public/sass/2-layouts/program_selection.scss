@@ -1,0 +1,16 @@
+.program_selection {
+    .program_selection_component {
+        @include span-columns(7);
+    }
+    .notes {
+        @include span-columns(5);
+    }
+
+    ol {
+        list-style: decimal;
+        padding-left: 25px;
+    }
+    .fa-star {
+        color: gold;
+    }
+}
