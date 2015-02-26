@@ -14,3 +14,22 @@
         color: gold;
     }
 }
+
+.program_selection_index {
+    thead {
+        td {
+            &:nth-child(1), &:nth-child(3) {
+                width: 10%;
+            }
+            &:nth-child(2) {
+                width: 30%;
+            }
+            &:nth-child(4) {
+                width: 20%;
+            }
+        }
+    }
+    td a.button {
+        font-size: .75em;
+    }
+}
