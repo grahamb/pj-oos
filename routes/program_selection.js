@@ -15,6 +15,7 @@ router.get('/', role.isAny(['admin', 'hq staff', 'unit leader']), function(req, 
       },
       include: [models.ProgramSelection]
     }).then(function(unit) {
+      req.session.program_selection_id = unit.ProgramSelection.id;
       var query;
       g_unit = unit;
 
