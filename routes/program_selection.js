@@ -53,7 +53,10 @@ router.get('/', role.isAny(['admin', 'hq staff', 'unit leader']), function(req, 
         selection: selection,
         title: '- Program Selection for ' + g_unit.unit_name + ' (' + g_unit.unit_number + ')'
       });
-    }).catch(console.error);
+    }).catch(function(error) {
+        console.log(error);
+        res.render('error');
+    });
   } else {
     models.ProgramSelection.findAll({
       order: 'id ASC',
@@ -91,7 +94,10 @@ router.get('/:id', role.isAny(['admin', 'hq staff']), function(req, res) {
       programs: programs,
       title: '- Program Selection for ' + g_selection.Unit.unit_name + ' (' + g_selection.Unit.unit_number + ')'
     });
-  }).catch(console.error);
+  }).catch(function(error) {
+      console.log(error);
+      res.render('error');
+    });
 
 });
 
