@@ -47,7 +47,7 @@ router.get('/', role.isAny(['admin', 'hq staff', 'unit leader']), function(req, 
     }).then(function(programs) {
       var selection = g_unit.ProgramSelection.toJSON();
       selection.programs = programs.map(function(p) { return p.toJSON() });
-      res.render('program_selection/selection', {
+      res.render('program_selection/selection_unit', {
         unit: g_unit,
         programs: programs,
         selection: selection
