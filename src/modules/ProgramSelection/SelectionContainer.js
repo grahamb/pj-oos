@@ -5,6 +5,7 @@ var update = require('react/lib/update');
 var Program = require('./Program');
 
 var SelectionContainer = React.createClass({
+  lastSuccessfulState: {},
 
   getInitialState() {
     return {
@@ -17,6 +18,10 @@ var SelectionContainer = React.createClass({
         }
       })
     };
+  },
+
+  componentWillMount() {
+    this.lastSuccessfulState = this.state;
   },
 
   moveProgram(id, afterId) {
