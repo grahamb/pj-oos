@@ -69,10 +69,30 @@ router.get('/', role.isAny(['admin', 'hq staff', 'unit leader']), function(req, 
 });
 
 router.get('/:id', role.isAny(['admin', 'hq staff']), function(req, res) {
-  /*
-    - find the program selection, include program model
-    - render template
-   */
+  var g_selection;
+
+  models.ProgramSelection.find({
+    where: {
+      id: parseInt(req.params.id)
+    },
+    include: [models.Unit]
+  }).then(function(results) {
+    if (!results) {
+        res.status(404).render(404);
+        return false;
+    }
+    g_selection = results;
+    return results;
+  }).then(function(selection) {
+    return getProgramsForUnitWithSelection(selection.program_selection);
+  }).then(function(programs) {
+    res.render('program_selection/selection_admin', {
+      selection: g_selection,
+      programs: programs,
+      title: '- Program Selection for ' + g_selection.Unit.unit_name + ' (' + g_selection.Unit.unit_number + ')'
+    });
+  }).catch(console.error);
+
 });
 
 router.get('/:id/edit', role.isAny(['admin', 'hq staff']), function(req, res) {
