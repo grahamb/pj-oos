@@ -87,6 +87,9 @@ var SelectionContainer = React.createClass({
     var checkboxStyle = {
       marginLeft: '10px'
     };
+    var buttonStyle = {
+      marginTop: '20px'
+    };
     return (
       <div>
         {this.state.programs.map((program, index) => {
@@ -107,7 +110,7 @@ var SelectionContainer = React.createClass({
           <input onClick={this.toggleExtraFreePeriod} style={checkboxStyle} type="checkbox" name="extra_free_period" id="extra_free_period" defaultChecked={this.state.extra_free_period}></input>
         </label>
 
-        <button onClick={this.handleSubmit}>Submit</button>
+        <button style={buttonStyle} className="button green" onClick={this.handleSubmit}><i className="fa fa-save"></i>Submit Program Selection</button>
       </div>
     );
   }
