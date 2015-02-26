@@ -8,7 +8,8 @@ var SelectionContainer = React.createClass({
 
   getInitialState() {
     return {
-      programs: this.props.programs.map((program) => {
+      extra_free_period: this.props.selection.extra_free_period,
+      programs: this.props.selection.programs.map((program) => {
         return {
           id: program.id,
           text: program.full_name_text,
