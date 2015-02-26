@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var models = require('../models');
 var shuffle = require('knuth-shuffle').knuthShuffle;
+var sequelize = models.sequelize;
 
 router.get('/', role.isAny(['admin', 'hq staff', 'unit leader']), function(req, res) {
 
