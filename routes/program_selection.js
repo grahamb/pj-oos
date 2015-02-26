@@ -16,15 +16,14 @@ router.get('/', role.isAny(['admin', 'hq staff', 'unit leader']), function(req, 
     }).then(function(unit) {
       var query;
       g_unit = unit;
-      if (unit.ProgramSelection) {
-        query = models.Program.findAll({
-          where: {
-            hidden: false,
-            id: {
-              $or: [ unit.ProgramSelection.program_selection ]
-            }
-          }
-        });
+
+      // if unit has selection, use it for the query
+      if (unit.ProgramSelection && unit.ProgramSelection.program_selection.length > 0) {
+        // need to do this as a raw query to get the ordering right
+        var sql = 'select "Programs"."id", "Programs"."name", "Programs"."short_name", "Programs"."premium_activity" from "Programs" where hidden=false order by idx(array[' + unit.ProgramSelection.program_selection.join(',') + '], "Programs"."id")';
+        var query = sequelize.query(sql, models.Program, {type: sequelize.QueryTypes.SELECT })
+
+      // if unit has no selection, find all programs and shuffle them
       } else {
         query = models.Program.findAll({
           where: {
