@@ -41,7 +41,6 @@ var SelectionContainer = React.createClass({
   },
 
   onMoveEnd() {
-    console.log(this.state.programs.map( (c) => c.id ));
     this.postDataToServer();
   },
 
