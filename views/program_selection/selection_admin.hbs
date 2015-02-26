@@ -1,0 +1,20 @@
+<section class="outer">
+    <h1>Program Selection</h1>
+    <h2>{{selection.Unit.unit_number}} &ndash; {{selection.Unit.unit_name}}</h2>
+
+    <hr/>
+        <p>Status: {{{locked_icon selection.locked}}}</p>
+        <p>Last Updated: {{format_date "YYYY-MM-DD HH:mm:ss" selection.updatedAt}}</p>
+        <p>Extra Free Period: {{selection.extra_free_period}}</p>
+    <hr>
+
+    <div class="program_selection">
+        <h3>Programs</h3>
+        <ol style="list-style:decimal">
+            {{#each programs}}
+            <li>{{this.full_name_text}} {{{starred_activity this false}}}</li>
+            {{/each}}
+        </ol>
+
+    </div>
+</section>
