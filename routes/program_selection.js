@@ -4,6 +4,26 @@ var models = require('../models');
 var shuffle = require('knuth-shuffle').knuthShuffle;
 var sequelize = models.sequelize;
 
+var getProgramsForUnitWithSelection = function(selection) {
+  // need to do this as a raw query to get the ordering right
+  var sql = 'select "Programs"."id", "Programs"."name", "Programs"."short_name", "Programs"."premium_activity" from "Programs" where hidden=false order by idx(array[' + selection.join(',') + '], "Programs"."id")';
+  return sequelize.query(sql, models.Program, {type: sequelize.QueryTypes.SELECT });
+};
+
+var getProgramsForUnitWithouSelection = function() {
+  // if unit has no selection, find all programs and shuffle them
+  return models.Program.findAll({
+    where: {
+      hidden: false
+    },
+    attributes: ['id', 'name', 'short_name', 'premium_activity']
+  }).then(function(programs) {
+    var shuffled = shuffle(programs.slice(0));
+    return shuffled;
+  });
+}
+
+
 router.get('/', role.isAny(['admin', 'hq staff', 'unit leader']), function(req, res) {
 
   if (req.session.user.role === 'unit leader') {
@@ -16,29 +36,13 @@ router.get('/', role.isAny(['admin', 'hq staff', 'unit leader']), function(req, 
       include: [models.ProgramSelection]
     }).then(function(unit) {
       req.session.program_selection_id = unit.ProgramSelection.id;
-      var query;
       g_unit = unit;
 
-      // if unit has selection, use it for the query
       if (unit.ProgramSelection && unit.ProgramSelection.program_selection.length > 0) {
-        // need to do this as a raw query to get the ordering right
-        var sql = 'select "Programs"."id", "Programs"."name", "Programs"."short_name", "Programs"."premium_activity" from "Programs" where hidden=false order by idx(array[' + unit.ProgramSelection.program_selection.join(',') + '], "Programs"."id")';
-        var query = sequelize.query(sql, models.Program, {type: sequelize.QueryTypes.SELECT })
-
-      // if unit has no selection, find all programs and shuffle them
+        return getProgramsForUnitWithSelection(unit.ProgramSelection.program_selection);
       } else {
-        query = models.Program.findAll({
-          where: {
-            hidden: false
-          },
-          attributes: ['id', 'name', 'short_name', 'premium_activity']
-        }).then(function(programs) {
-          var shuffled = shuffle(programs.slice(0));
-          return shuffled;
-        });
+        return getProgramsForUnitWithouSelection();
       }
-
-      return query;
 
     }).then(function(programs) {
       var selection = g_unit.ProgramSelection.toJSON();
