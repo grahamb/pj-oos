@@ -56,6 +56,7 @@ var Program = React.createClass({
                  backgroundColor: 'white',
                  padding: '0.5rem',
                  margin: '0.5rem',
+                 marginLeft: 0,
                  opacity: isDragging ? 0 : 1
                }}>
              Rank: {this.props.rank} - {this.props.text} {premium}
