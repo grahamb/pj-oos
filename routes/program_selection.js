@@ -31,7 +31,7 @@ router.get('/', role.isAny(['admin', 'hq staff', 'unit leader']), function(req, 
           where: {
             hidden: false
           },
-          order: 'id ASC'
+          attributes: ['id', 'name', 'short_name', 'premium_activity']
         }).then(function(programs) {
           var shuffled = shuffle(programs.slice(0));
           return shuffled;
