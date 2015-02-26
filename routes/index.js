@@ -4,9 +4,7 @@ var passwordless = require('passwordless');
 var requestTokenFn = require('../lib/passwordless/requestToken');
 
 router.get('/', function(req, res) {
-    res.render('index', {
-        title: 'PJ 2015 Program'
-    });
+    res.render('index');
 });
 
 router.get('/login', function(req, res) {
@@ -14,7 +12,7 @@ router.get('/login', function(req, res) {
         auth_message: req.flash('passwordless'),
         success_flash: req.flash('passwordless-success'),
         origin: req.query.origin,
-        title: 'PJ 2015 Program - Login'
+        title: '- Login'
     });
 });
 

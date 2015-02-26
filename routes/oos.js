@@ -37,7 +37,7 @@ router.get('/', role.can('view oos'), function(req, res) {
         })
     ]).then(function(results) {
         res.render('oos/index', {
-            title: 'PJ 2015 Program - OOS Listing',
+            title: '- OOS Listing',
             programs: results[0],
             oos: results[1],
             messages: req.flash()
@@ -93,7 +93,7 @@ router.get('/:id', role.can('view oos'), function(req, res) {
 
             res.render('oos/oos', {
                 oos: record,
-                title: 'PJ 2015 Program - OOS - ' + record.first_name + ' ' + record.last_name
+                title: '- OOS - ' + record.first_name + ' ' + record.last_name
             });
         }
     }).catch(function(error) {
@@ -211,7 +211,7 @@ router.get('/:id/edit', role.can('edit oos'), function(req, res) {
             res.render('oos/oos_edit', {
                 programs: results[0],
                 oos: results[1],
-                title: 'PJ 2015 Program - OOS - Edit'
+                title: '- OOS - Edit'
             });
         });
 });

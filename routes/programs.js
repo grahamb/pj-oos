@@ -11,7 +11,7 @@ var moment = require('moment');
 router.get('/', role.can('view program'), function(req, res) {
     Program.findAll({ where: {hidden: false}, order: 'premium_activity DESC, name ASC' }).then(function(programs) {
         res.render('programs/program', {
-            title: 'PJ 2015 Program - All Programs',
+            title: '- All Programs',
             all_programs: programs
         });
     });
@@ -20,7 +20,7 @@ router.get('/', role.can('view program'), function(req, res) {
 router.get('/oos', passwordless.restricted({ failureRedirect: '/login', originField: 'origin' }), role.isAny(['admin', 'hq staff']), function(req, res) {
     Program.findAll({ order: 'id ASC', where: { hidden: false }, include: [{model: OOS, as: 'OOS'}] }).then(function(programs) {
         res.render('programs/oos_count', {
-            title: 'PJ 2015 Program - Program OOS Count',
+            title: '- Program OOS Count',
             programs: programs
         });
     });
@@ -31,7 +31,7 @@ router.get('/pals', passwordless.restricted({ failureRedirect: '/login', originF
         var programs = { offsite: [], onsite: [] };
         results.forEach(function(result) { console.log(result.dataValues.location); programs[result.dataValues.location].push(result); });
         res.render('programs/pals', {
-            title: 'PJ 2015 Program - Program PALs',
+            title: '- Program PALs',
             programs: programs
         });
     });
@@ -50,7 +50,7 @@ router.get('/:id', role.can('view program'), function(req, res) {
             return false;
         }
         res.render('programs/program', {
-            title: 'PJ 2015 Program - ' + results[0].name,
+            title: '- ' + results[0].name,
             program: results[0],
             all_programs: results[1],
         });
@@ -89,7 +89,7 @@ router.get('/:id/edit', role.can('edit program'), passwordless.restricted({
         include: [{model: OOS, as: 'OOS'}, {model: OOS, as: 'ProgramActivityLeader'}]
     }).then(function(program) {
         res.render('programs/program_edit', {
-            title: 'PJ 2015 Progarm - Edit Program Record',
+            title: '- Edit Program Record',
             program: program
         });
     });

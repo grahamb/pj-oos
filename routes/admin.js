@@ -26,7 +26,7 @@ function parse_csv_file(file) {
 
 router.get('/import/oos', role.can('import oos'), function(req, res) {
     res.render('admin/import/oos_import', {
-        title: 'PJ 2015 Program - Admin - OOS - Import CSV File'
+        title: '- Admin - OOS - Import CSV File'
     });
 });
 

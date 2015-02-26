@@ -7,7 +7,7 @@ var role = require('connect-acl')(require('../lib/roles'));
 
 router.get('/', function(req, res) {
     res.render('program_guide/index', {
-        title: 'PJ 2015 Program Guide'
+        title: '- Program Guide'
     });
 });
 
