@@ -1,8 +1,27 @@
-<section class="outer">
+<section class="outer program_selection_index">
     <h1>Program Selections</h1>
-    <ol style="list-style: decimal">
-        {{#each selections}}
-            <li>{{this.Unit.unit_name}} ({{this.id}})</li>
-        {{/each}}
-    </ol>
+
+    <table>
+        <thead>
+            <tr>
+                <td>Unit Number</td>
+                <td>Unit Name</td>
+                <td>Status</td>
+                <td>Last Updated</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each selections}}
+            <tr>
+                <td>{{this.Unit.unit_number}}</td>
+                <td>{{this.Unit.unit_name}}</td>
+                <td>{{{locked_icon this.locked}}}</td>
+                <td>{{format_date "YYYY-MM-DD HH:mm:ss" this.updatedAt}}</td>
+                <td><a href="/program_selection/{{this.id}}" class="button">View Selection</a> <a href="/unit/{{this.Unit.id}}" class="button">View Unit</a></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
 </section>
