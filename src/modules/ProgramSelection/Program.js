@@ -47,6 +47,8 @@ var Program = React.createClass({
   render() {
     var { isDragging } = this.getDragState(ItemTypes.PROGRAM);
     var premium = this.props.premium ? <i style={{color: 'gold'}} className='fa fa-star'></i> : null;
+    var text = `Rank: ${this.props.rank} - ${this.props.text}`;
+    var id = this.props.production ? '' : `(ID: ${this.props.id})`;
         return (
           <div {...this.dragSourceFor(ItemTypes.PROGRAM)}
                {...this.dropTargetFor(ItemTypes.PROGRAM)}
@@ -59,7 +61,7 @@ var Program = React.createClass({
                  marginLeft: 0,
                  opacity: isDragging ? 0 : 1
                }}>
-             Rank: {this.props.rank} - {this.props.text} {premium}
+             {text} {premium} {id}
           </div>
         );
   }
