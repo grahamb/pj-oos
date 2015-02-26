@@ -2,9 +2,48 @@
     <h1>Program Selection</h1>
     <h2>{{unit.unit_name}}</h2>
 
-    <div id="ProgramSelection"></div>
+    <hr/>
 
+    <div class="program_selection">
+
+    {{#unless selection.locked}}
+        <div class="program_selection_component" id="ProgramSelection"></div>
+        <div class="notes">
+            <h3>Instructions</h3>
+            <ul>
+                <li>Rank the programs below into your priority order &ndash; highest-ranked programs at the top &ndash; by dragging and dropping. Your selections will be saved each time you re-order the list.</li>
+                <li>If your patrol would like an extra free period, make sure to check the Extra Free Period box.</li>
+                <li>When you have finished ranking the programs in the order you want, click the Submit button. Once you have submitted your Program Selection, it can not be changed.</li>
+            </ul>
+
+            <h3>Notes</h3>
+            <ul>
+                <li><strong>Premium Activities</strong> are maked with a gold star <i class="fa fa-star"></i>. You will only receive <strong>one</strong> premium activity.</li>
+                <li>Calypso (SCUBA Diving) has an additional $40/person fee. You must pay this fee in full prior to arriving at the Jamboree. If you are assigned this program you will be provided with payment information.</li>
+                <li>You will receive a confirmation email once you submit your program selection.</li>
+                <li>Program assignment will take place in April, 2015. Programs will be assigned to units in order of when final Jamboree payment is received. Units will not be assigned program until their final payment has been received. You will receive an email with your final program once it has been assigned.</li>
+            </ul>
+
+            <h3>Need Help?</h3>
+            <p>If you have questions about selecting your program, please email <a href="mailto:programselection@pj2015.ca">programselection@pj2015.ca</a> </p>
+        </div>
+
+
+    {{else}}
+
+    <p>Your program selection has been received and is now locked. If you need to make any changes, please email <a href="mailto:programselection@pj2015.ca">programselection@pj2015.ca</a>.</p>
+    <p>Program assignment will take place in April, 2015. Programs will be assigned to units in order of when final Jamboree payment is received. Units will not be assigned program until their final payment has been received. You will receive an email with your final program once it has been assigned.</p>
+    <hr/>
+    <ol style="list-style:decimal">
+        {{#each programs}}
+        <li>{{this.full_name_text}} {{{starred_activity this false}}}</li>
+        {{/each}}
+    </ol>
+
+    {{/unless}}
+    </div>
 </section>
+
 
 <script type="application/json" id="selection_json">
     {{{json selection}}}
