@@ -42,10 +42,38 @@ var SelectionContainer = React.createClass({
 
   onMoveEnd() {
     console.log(this.state.programs.map( (c) => c.id ));
+    this.postDataToServer();
   },
 
   handleClick() {
     console.log(this.state.programs.map( (c) => c.id ));
+  postDataToServer(locked=false) {
+    var sel = this.state.programs.map( (c) => c.id );
+    var payload = {
+      program_selection: sel,
+      extra_free_period: this.state.extra_free_period,
+      locked: locked,
+      some_array: ['foo', 'bar']
+    }
+    $.ajax({
+      url: `/program_selection/${this.props.selection.id}`,
+      method: 'POST',
+      dataType: 'json',
+      data: JSON.stringify(payload),
+      contentType: "application/json; charset=utf-8",
+      success: (response) => {
+
+        this.setState({
+            program_selection: response.program_selection,
+            extra_free_period: response.extra_free_period
+          })
+        },
+
+      error: (jqxhr, textStatus, error) => {
+        // TODO display some sort of warning to the user that the request failed
+        this.setState(this.lastSuccessfulState);
+      }.bind(this)
+    });
   },
 
   render() {
