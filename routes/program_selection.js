@@ -37,11 +37,16 @@ router.get('/', role.isAny(['admin', 'hq staff', 'unit leader']), function(req, 
           return shuffled;
         });
       }
+
       return query;
+
     }).then(function(programs) {
+      var selection = g_unit.ProgramSelection.toJSON();
+      selection.programs = programs.map(function(p) { return p.toJSON() });
       res.render('program_selection/selection', {
         unit: g_unit,
-        programs: programs
+        programs: programs,
+        selection: selection
       });
     }).catch(console.error);
   } else {
