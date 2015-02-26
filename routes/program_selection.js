@@ -54,7 +54,6 @@ router.get('/', role.isAny(['admin', 'hq staff', 'unit leader']), function(req, 
       order: 'id ASC',
       include: [models.Unit]
     }).then(function(selections) {
-      console.log(selections);
       res.render('program_selection/index', {
         selections: selections
       });
