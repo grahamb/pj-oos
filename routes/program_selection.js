@@ -50,7 +50,8 @@ router.get('/', role.isAny(['admin', 'hq staff', 'unit leader']), function(req, 
       res.render('program_selection/selection_unit', {
         unit: g_unit,
         programs: programs,
-        selection: selection
+        selection: selection,
+        title: '- Program Selection for ' + g_unit.unit_name + ' (' + g_unit.unit_number + ')'
       });
     }).catch(console.error);
   } else {
@@ -59,7 +60,8 @@ router.get('/', role.isAny(['admin', 'hq staff', 'unit leader']), function(req, 
       include: [models.Unit]
     }).then(function(selections) {
       res.render('program_selection/index', {
-        selections: selections
+        selections: selections,
+        title: '- Program Selections'
       });
     });
   }
