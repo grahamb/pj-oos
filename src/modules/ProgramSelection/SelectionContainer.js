@@ -104,6 +104,7 @@ var SelectionContainer = React.createClass({
                      premium={program.premium}
                      moveProgram={this.moveProgram}
                      onMoveEnd={this.onMoveEnd}
+                     production={this.props.production}
             />
           )
         })}

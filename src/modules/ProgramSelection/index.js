@@ -9,6 +9,7 @@ var ProgramSelection = React.createClass({
       <SelectionContainer
         style={{width: '50%'}}
         selection={JSON.parse(document.getElementById('selection_json').textContent)}
+        production={this.props.production}
       />
     );
   }

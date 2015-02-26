@@ -4,5 +4,6 @@ var ProgramSelection = require('./modules/ProgramSelection');
 
 var target = document.getElementById('ProgramSelection');
 if (target) {
-  React.render(<ProgramSelection />, target);
+  var production = $(target).data('production');
+  React.render(<ProgramSelection production={production} />, target);
 }
