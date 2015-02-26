@@ -45,8 +45,16 @@ var SelectionContainer = React.createClass({
     this.postDataToServer();
   },
 
-  handleClick() {
-    console.log(this.state.programs.map( (c) => c.id ));
+  handleSubmit() {
+    // TODO need to actually do something after this returns - take user to a confirmation page.
+    //      Should maybe do a real browser submit instead of ajax for this one.
+    this.postDataToServer(true);
+  },
+
+  toggleExtraFreePeriod() {
+    this.setState({extra_free_period: !this.state.extra_free_period}, this.postDataToServer);
+  },
+
   postDataToServer(locked=false) {
     var sel = this.state.programs.map( (c) => c.id );
     var payload = {
