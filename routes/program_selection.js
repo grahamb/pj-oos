@@ -77,9 +77,22 @@ router.get('/:id/edit', role.isAny(['admin', 'hq staff']), function(req, res) {
 });
 
 router.post('/:id', role.isAny(['admin', 'hq staff', 'unit leader']), function(req, res) {
-  /*
-    need to make sure that if the user's role is 'unit leader', they can only POST to their own program selection
-   */
+
+  // TODO handle errors
+  // TODO handle the final "locked" submit - redirect after?
+  // TODO differentiate between ajax/non-ajax requests
+
+  if (req.session.user.role === 'unit leader' && (req.session.program_selection_id != req.params.id)) {
+    res.send(403);
+    return false;
+  }
+
+  models.ProgramSelection.update(req.body, {
+    returning: true,
+    where: { id: req.params.id },
+  }).then(function(results) {
+    res.send(results[1][0].toJSON());
+  }).catch(console.error)
 });
 
 module.exports = router;
