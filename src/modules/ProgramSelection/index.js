@@ -8,7 +8,7 @@ var ProgramSelection = React.createClass({
     return (
       <SelectionContainer
         style={{width: '50%'}}
-        programs={JSON.parse(document.getElementById('programs_json').textContent)}
+        selection={JSON.parse(document.getElementById('selection_json').textContent)}
       />
     );
   }
