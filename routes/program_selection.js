@@ -124,7 +124,10 @@ router.post('/:id', role.isAny(['admin', 'hq staff', 'unit leader']), function(r
     where: { id: req.params.id },
   }).then(function(results) {
     res.send(results[1][0].toJSON());
-  }).catch(console.error)
+  }).catch(function(error) {
+      console.log(error);
+      res.render('error');
+    });
 });
 
 module.exports = router;
