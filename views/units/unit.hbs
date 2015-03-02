@@ -1,0 +1,68 @@
+{{#with unit}}
+
+<section class="unit outer">
+    <h1>{{unit_name}} <span class="lighter_weight">&mdash;</span> {{unit_number}}</h1>
+
+    <section class="unit_information">
+        <h2>Unit Information</h2>
+        <p class="label">Contact Scouter</p>
+        <p>{{contact_name}}</p>
+
+        <p class="label">Contact Email</p>
+        <p>{{contact_email}}</p>
+
+        <p class="label">Number of Youth</p>
+        <p>{{number_of_youth}}</p>
+
+        <p class="label">Number of Leaders</p>
+        <p>{{number_of_leaders}}</p>
+
+        <p class="label">Final Payment Date</p>
+        <p>
+            {{#if this.final_payment_date}}
+                <a href=""></a>{{format_date 'YYYY/MM/DD' this.final_payment_date}}
+            {{else}}
+                Not Received
+            {{/if}}
+        </p>
+
+        <p class="label">Notes</p>
+        <p>{{notes}}</p>
+
+    </section>
+
+    <section class="program_selection">
+        <h2>Program Selection</h2>
+
+        <p class="label">Status</p>
+        <p>{{{program_selection_status_icon_helper ProgramSelection}}}</p>
+
+        {{#if ProgramSelection.program_selection.length}}
+
+        <p class="label">Extra Free Period</p>
+        <p>{{{extra_free_period_icon_helper ProgramSelection.extra_free_period}}}</p>
+
+        <p class="label">Program Ranking</p>
+        <ol>
+            {{#each ../../programs}}
+            <li>{{this.full_name_text}} {{{starred_activity this false}}}</li>
+            {{/each}}
+        </ol>
+        {{/if}}
+
+    </section>
+
+</section>
+
+{{#user_can 'edit unit'}}
+<section class="outer">
+        <a href="/units/{{id}}/edit" class="button">
+            <i class="fa fa-edit"></i>Edit Unit
+        </a>
+        <a href="/units/{{id}}/delete" class="button red">
+            <i class="fa fa-remove"></i>Delete Unit
+        </a>
+</section>
+{{/user_can}}
+
+{{/with}}
