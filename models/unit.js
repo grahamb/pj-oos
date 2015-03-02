@@ -7,7 +7,8 @@ module.exports = function(sequelize, DataTypes) {
     contact_email: DataTypes.STRING,
     number_of_youth: DataTypes.INTEGER,
     number_of_leaders: DataTypes.INTEGER,
-    final_payment_date: DataTypes.DATEONLY
+    final_payment_date: DataTypes.DATEONLY,
+    notes: DataTypes.TEXT
   }, {
     classMethods: {
       associate: function(models) {
