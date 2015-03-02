@@ -29,6 +29,18 @@
         <p class="label">Notes</p>
         <p>{{notes}}</p>
 
+        {{#user_can 'edit unit'}}
+        <section class="outer">
+            <a href="/units/{{id}}/edit" class="button">
+                <i class="fa fa-edit"></i>Edit Unit
+            </a>
+            <a href="/units/{{id}}/delete" class="button red">
+                <i class="fa fa-remove"></i>Delete Unit
+            </a>
+        </section>
+        {{/user_can}}
+
+
     </section>
 
     <section class="program_selection">
@@ -50,19 +62,17 @@
         </ol>
         {{/if}}
 
+{{!--         {{#user_can 'edit unit'}}
+        <section class="outer">
+            <a href="/units/{{id}}/edit" class="button">
+                <i class="fa fa-edit"></i>Edit Selection
+            </a>
+        </section>
+        {{/user_can}} --}}
+
     </section>
 
 </section>
 
-{{#user_can 'edit unit'}}
-<section class="outer">
-    <a href="/units/{{id}}/edit" class="button">
-        <i class="fa fa-edit"></i>Edit Unit
-    </a>
-    <a href="/units/{{id}}/delete" class="button red">
-        <i class="fa fa-remove"></i>Delete Unit
-    </a>
-</section>
-{{/user_can}}
 
 {{/with}}
