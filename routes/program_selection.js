@@ -51,7 +51,8 @@ router.get('/', role.isAny(['admin', 'hq staff', 'unit leader']), function(req, 
         unit: g_unit,
         programs: programs,
         selection: selection,
-        title: '- Program Selection for ' + g_unit.unit_name + ' (' + g_unit.unit_number + ')'
+        title: '- Program Selection for ' + g_unit.unit_name + ' (' + g_unit.unit_number + ')',
+        body_scripts: ['/dist/program_selection.js']
       });
     }).catch(function(error) {
         console.log(error);
