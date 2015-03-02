@@ -1,6 +1,7 @@
 'use strict';
 var React = require('react/addons');
-var ProgramSelection = require('./modules/ProgramSelection');
+var ProgramSelection = require('ProgramSelection');
+var $ = require('jquery');
 
 var target = document.getElementById('ProgramSelection');
 if (target) {
