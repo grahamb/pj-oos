@@ -1,8 +1,9 @@
 'use strict';
 
-var React = require('react/addons');
+var React = require('react');
 var update = require('react/lib/update');
 var Program = require('./Program');
+var $ = require('jquery');
 
 var SelectionContainer = React.createClass({
   lastSuccessfulState: {},

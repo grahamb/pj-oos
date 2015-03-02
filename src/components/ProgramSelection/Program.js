@@ -1,6 +1,6 @@
 'use strict';
 
-var React = require('react/addons');
+var React = require('react');
 var ItemTypes = require('./ItemTypes');
 var { PropTypes } = React;
 var { DragDropMixin, DropEffects } = require('react-dnd');

@@ -1,6 +1,6 @@
 'use strict';
 
-var React = require('react/addons');
+var React = require('react');
 var SelectionContainer = require('./SelectionContainer');
 
 var ProgramSelection = React.createClass({
