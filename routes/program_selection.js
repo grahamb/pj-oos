@@ -6,7 +6,7 @@ var sequelize = models.sequelize;
 
 var getProgramsForUnitWithSelection = function(selection) {
   // need to do this as a raw query to get the ordering right
-  var sql = 'select "Programs"."id", "Programs"."name", "Programs"."short_name", "Programs"."premium_activity" from "Programs" where hidden=false order by idx(array[' + selection.join(',') + '], "Programs"."id")';
+  var sql = 'select "Programs"."id", "Programs"."name", "Programs"."short_name", "Programs"."premium_activity" from "Programs" where hidden=false and auto_assign=false order by idx(array[' + selection.join(',') + '], "Programs"."id")';
   return sequelize.query(sql, models.Program, {type: sequelize.QueryTypes.SELECT });
 };
 
