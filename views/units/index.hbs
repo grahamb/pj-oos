@@ -1,0 +1,34 @@
+<section class="outer units">
+
+    <h1>Unit Listing</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <td>Unit Number</td>
+                <td>Unit Name</td>
+                <td>Contact Scouter</td>
+                <td>Contact Email</td>
+                <td># Youth</td>
+                <td># Scouters</td>
+                <td>Final Payment Date</td>
+                <td>Selection Status</td>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each units}}
+              <tr>
+                <td><a href="/unit/{{this.id}}">{{this.unit_number}}</a></td>
+                <td>{{this.unit_name}}</td>
+                <td>{{this.contact_name}}</td>
+                <td>{{this.contact_email}}</td>
+                <td>{{this.number_of_youth}}</td>
+                <td>{{this.number_of_leaders}}</td>
+                <td>{{format_date 'YYYY/MM/DD' this.final_payment_date}}</td>
+                <td>{{{program_selection_status_icon_helper this.ProgramSelection}}}</td>
+              </td>
+            {{/each}}
+        </tbody>
+    </table>
+
+</section>
