@@ -5,9 +5,9 @@ var Unit = models.Unit, ProgramSelection = models.ProgramSelection;
 var Promise = require('sequelize').Promise;
 var role = require('connect-acl')(require('../lib/roles'));
 var email = require('../lib/email');
+var sequelize = models.sequelize;
 
 var program_selection_status_icon_helper = function(selection) {
-    console.log(selection);
     var tmpl = '<i class="fa fa-ICON" title="TITLE"></i>';
     var icons = {
         locked: { icon: 'lock', title: 'Locked' },
@@ -25,7 +25,13 @@ var program_selection_status_icon_helper = function(selection) {
     }
 
     return tmpl.replace('ICON', icon.icon).replace('TITLE', icon.title);
-}
+};
+
+var extra_free_period_icon_helper = function(free_period) {
+    var tmpl = '<i class="fa fa-ICON" title="TITLE"></i>';
+    var ret = free_period ? {icon: 'check', title: 'true'} : {icon: 'times', title: 'false'}
+    return tmpl.replace('ICON', ret.icon).replace('TITLE', ret.title);
+};
 
 
 router.get('/', role.can('view unit'), function(req, res) {
@@ -46,7 +52,42 @@ router.get('/', role.can('view unit'), function(req, res) {
 });
 
 router.get('/:id', role.can('view unit'), function(req, res) {
-    // Show Specific Unit
+    var sql, program_query;
+
+    Unit.find({
+        where: {
+            id: req.params.id
+        },
+        include: [ProgramSelection]
+    }).then(function(unit) {
+        if (!unit) {
+            res.status(404).render(404);
+            return false;
+        }
+
+        if (unit.ProgramSelection.program_selection.length) {
+            sql = 'select "Programs"."id", "Programs"."name", "Programs"."short_name", "Programs"."premium_activity" from "Programs" where hidden=false and auto_assign=false order by idx(array[' + unit.ProgramSelection.program_selection.join(',') + '], "Programs"."id")';
+            program_query = sequelize.query(sql, models.Program, {type: sequelize.QueryTypes.SELECT });
+        } else {
+            program_query = Promise.resolve();
+        }
+
+        program_query.then(function(programs) {
+            res.render('units/unit', {
+                unit: unit,
+                title: '- ' + unit.unit_name + ' (' + unit.unit_number + ')',
+                programs: programs,
+                helpers: {
+                    program_selection_status_icon_helper: program_selection_status_icon_helper,
+                    extra_free_period_icon_helper: extra_free_period_icon_helper
+                }
+            });
+        });
+
+    }).catch(function(error) {
+        console.log(error);
+        res.status(500).end();
+    });
 });
 
 router.post('/:id', role.can('edit unit'), function(req, res) {
