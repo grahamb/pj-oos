@@ -8,9 +8,8 @@
                 <td>Unit Number</td>
                 <td>Unit Name</td>
                 <td>Contact Scouter</td>
-                <td>Contact Email</td>
                 <td># Youth</td>
-                <td># Scouters</td>
+                <td># Leaders</td>
                 <td>Final Payment Date</td>
                 <td>Selection Status</td>
             </tr>
@@ -18,13 +17,18 @@
         <tbody>
             {{#each units}}
               <tr>
-                <td><a href="/unit/{{this.id}}">{{this.unit_number}}</a></td>
+                <td><a href="/units/{{this.id}}">{{this.unit_number}}</a></td>
                 <td>{{this.unit_name}}</td>
-                <td>{{this.contact_name}}</td>
-                <td>{{this.contact_email}}</td>
+                <td><a href="mailto:{{this.contact_email}}">{{this.contact_name}}</a></td>
                 <td>{{this.number_of_youth}}</td>
                 <td>{{this.number_of_leaders}}</td>
-                <td>{{format_date 'YYYY/MM/DD' this.final_payment_date}}</td>
+                <td>
+                    {{#if this.final_payment_date}}
+                        <a href=""></a>{{format_date 'YYYY/MM/DD' this.final_payment_date}}
+                    {{else}}
+                        Not Received
+                    {{/if}}
+                </td>
                 <td>{{{program_selection_status_icon_helper this.ProgramSelection}}}</td>
               </td>
             {{/each}}
