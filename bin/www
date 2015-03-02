@@ -7,13 +7,13 @@ var config = require('config').get('server');
 app.set('port', config.get('port') || 3000);
 
 function start_server() {
-    var server = app.listen(app.get('port'), function() {
-      debug('Express server listening on port ' + server.address().port);
-    });
+  var server = app.listen(app.get('port'), function() {
+    debug('Express server listening on port ' + server.address().port);
+  });
 }
 
 if (process.env.NODE_ENV === 'production') {
-    start_server();
+  start_server();
 } else {
-    models.sequelize.sync().then(start_server).catch(console.log);
+  models.sequelize.sync().then(start_server).catch(console.log);
 }
