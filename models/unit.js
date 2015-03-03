@@ -1,4 +1,7 @@
 "use strict";
+
+var helpers = require('../lib/model_helpers');
+
 module.exports = function(sequelize, DataTypes) {
   var Unit = sequelize.define("Unit", {
     unit_number: {
@@ -20,6 +23,11 @@ module.exports = function(sequelize, DataTypes) {
           onDelete: 'cascade',
         });
       }
+    },
+    setterMethods: {
+      final_payment_date: helpers.castEmptyStringToNull,
+      number_of_youth: helpers.castEmptyStringToNull,
+      number_of_leaders: helpers.castEmptyStringToNull
     }
   });
   return Unit;
