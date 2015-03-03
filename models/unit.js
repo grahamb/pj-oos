@@ -1,7 +1,10 @@
 "use strict";
 module.exports = function(sequelize, DataTypes) {
   var Unit = sequelize.define("Unit", {
-    unit_number: DataTypes.STRING,
+    unit_number: {
+      type: DataTypes.STRING,
+      unique: true
+    },
     unit_name: DataTypes.STRING,
     contact_name: DataTypes.STRING,
     contact_email: DataTypes.STRING,
