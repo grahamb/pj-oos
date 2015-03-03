@@ -15,7 +15,10 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        Unit.hasOne(models.ProgramSelection, { foreignKey: 'unit_id' });
+        Unit.hasOne(models.ProgramSelection, {
+          foreignKey: 'unit_id',
+          onDelete: 'cascade',
+        });
       }
     }
   });
