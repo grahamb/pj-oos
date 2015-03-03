@@ -1,0 +1,39 @@
+<section class="unit outer">
+    <h1>Edit Unit Record</h1>
+
+
+    {{#with unit}}
+    <form action="/units/{{id}}" method="POST">
+
+        <label for="unit_name">Unit Name</label>
+        <input type="text" name="unit_name" value="{{unit_name}}">
+
+        <label for="unit_number">Unit Number</label>
+        <input type="text" name="unit_number" value="{{unit_number}}">
+
+        <label for="contact_name">Contact Scouter</label>
+        <input type="text" name="contact_name" value="{{contact_name}}">
+
+        <label for="contact_email">Contact Email</label>
+        <input type="text" name="contact_email" value="{{contact_email}}">
+
+        <label for="number_of_youth">Number of Youth</label>
+        <input type="text" name="number_of_youth" value="{{number_of_youth}}">
+
+        <label for="number_of_leaders">Number of Leaders</label>
+        <input type="text" name="number_of_leaders" value="{{number_of_leaders}}">
+
+        <label for="final_payment_date">Final Payment Received</label>
+        <input type="text" name="final_payment_date" placeholder="YYYY-MM-DD" value="{{#if final_payment_date}}{{format_date 'YYYY-MM-DD' final_payment_date}}{{/if}}">
+
+        <label for="notes">Notes</label>
+        <textarea name="notes">{{notes}}</textarea>
+
+
+    {{/with}}
+</section>
+
+<section class="outer">
+    <button class="button green" type="submit"><i class="fa fa-save"></i>Save Record</button>
+    <a href="/units/{{unit.id}}" class="button"><i class="fa fa-arrow-left"></i>Cancel</a>
+</section>

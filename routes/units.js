@@ -51,6 +51,13 @@ router.get('/', role.can('view unit'), function(req, res) {
   });
 });
 
+router.get('/create', role.can('edit unit'), function(req, res) {
+  res.render('units/unit_edit', {
+    title: '- Create New Unit',
+    unit: {}
+  });
+});
+
 router.get('/:id', role.can('view unit'), function(req, res) {
   var sql, program_query;
 
@@ -90,12 +97,66 @@ router.get('/:id', role.can('view unit'), function(req, res) {
   });
 });
 
-router.post('/:id', role.can('edit unit'), function(req, res) {
-    // Update Specific Unit
+router.post('/:id?', role.can('edit unit'), function(req, res) {
+  var unit_number = req.body.unit_number;
+
+  Unit.upsert(req.body, {
+    fields: Object.keys(req.body)
+  }).then(function(created) {
+    Unit.find({
+      where: {
+        unit_number: unit_number
+      },
+      include: [models.ProgramSelection]
+    }).then(function(unit) {
+      if (created) {
+        unit.createProgramSelection();
+      }
+      res.redirect('/units/' + unit.id);
+    });
+  }).catch(function(error) {
+    console.log(error);
+    res.render('error', { error: error });
   });
 
+});
+
 router.get('/:id/edit', role.can('edit unit'), function(req, res) {
-    // Edit Specific Unit
+  Unit.find({
+    where: {
+      id: req.params.id
+    },
+    include: [ProgramSelection]
+  }).then(function(unit) {
+    if (!unit) {
+      res.status(404).render(404);
+      return false;
+    }
+
+    res.render('units/unit_edit', {
+      unit: unit,
+      title: '- ' + unit.unit_name + ' (' + unit.unit_number + ')'
+    });
+
+  }).catch(function(error) {
+    console.log(error);
+    res.status(500).end();
   });
+
+});
+
+router.get('/:id/delete', role.can('edit oos'), function(req, res) {
+  Unit.find({
+    where: {
+      id: req.params.id
+    },
+    include: [ProgramSelection]
+  }).then(function(record){
+    record.destroy().then(function() {
+      req.flash('success', 'Deleted ' + record.unit_Name + ' (Unit #' + record.unit_number + ')');
+      res.redirect('/units');
+    });
+  });
+});
 
 module.exports = router;
