@@ -90,7 +90,8 @@ router.get('/:id/edit', role.can('edit program'), passwordless.restricted({
   }).then(function(program) {
     res.render('programs/program_edit', {
       title: '- Edit Program Record',
-      program: program
+      program: program,
+      body_scripts: ['/dist/program_edit.js']
     });
   });
 });
