@@ -8,7 +8,8 @@ module.exports = {
     'main': './src/main.js',
     'ie-less-than-9': './src/ie-less-than-9.js',
     'program_selection': './src/program_selection.js',
-    'oos_listing': './src/oos_listing.js'
+    'oos_listing': './src/oos_listing.js',
+    'program_edit': './src/program_edit.js'
   },
   output: {
     path: path.resolve(__dirname, 'public', 'dist'),
