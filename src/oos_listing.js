@@ -1,2 +1,3 @@
 require('OOSListingProgramFilter');
-require('OOSListingProgramAssignmentToggle')
+require('OOSListingProgramAssignmentToggle');
+require('OOSListingActionMenu');
