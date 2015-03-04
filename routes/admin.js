@@ -24,9 +24,9 @@ function parse_csv_file(file) {
   });
 }
 
-router.get('/import/oos', role.can('import oos'), function(req, res) {
-  res.render('admin/import/oos_import', {
-    title: '- Admin - OOS - Import CSV File'
+router.get('/import', role.is('admin'), function(req, res) {
+  res.render('admin/import/csv_import', {
+    title: '- Admin - Import CSV File'
   });
 });
 
