@@ -1,5 +1,5 @@
 var $ = require('jquery');
-var getQueryVariable = require('getQueryVariable');
+var getQueryVariable = require('GetQueryVariable');
 
 var filter = getQueryVariable('program');
 if (filter) {
