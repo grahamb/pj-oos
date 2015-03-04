@@ -1,6 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
 var commonsPlugin = new webpack.optimize.CommonsChunkPlugin('common.js');
+var argv = require('yargs').argv;
 
 module.exports = {
   entry: {
@@ -24,7 +25,7 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      '__PRODUCTION__': JSON.stringify(JSON.parse(process.env.BUILD_PRODUCTION || 'false'))
+      '__PRODUCTION__': JSON.stringify(JSON.parse(argv.production || 'false'))
     }),
     commonsPlugin
   ]
