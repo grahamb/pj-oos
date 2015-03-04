@@ -45,7 +45,7 @@ gulp.task('dev', ['build'], function() {
   gulp.watch('./src/**/*.js', function(ev) {
     gulp.run('build');
   });
-  gulp.watch(['./public/dist/**/*', './public/css/**/*'], function(ev) {
+  gulp.watch(['./public/dist/**/*', './public/css/**/*', './views/**/*.hbs'], function(ev) {
     lr_server.changed({
       body: {
         files: [ev.path]
