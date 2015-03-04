@@ -3,3 +3,26 @@ ul {
     margin: 16px 0;
     padding-left: 40px;
 }
+
+.fa.fa-star {
+    color: gold;
+}
+
+.program_description {
+    display: none;
+}
+
+.page-break { display: none; }
+
+@media print {
+
+    .page-break { display: block; page-break-before: always; }
+
+    header, .flash-alert, .pdf_download {
+        display: none;
+    }
+
+    .program_description {
+        display: block;
+    }
+}

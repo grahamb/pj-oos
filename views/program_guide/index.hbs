@@ -1,5 +1,7 @@
 <section class="outer program_guide">
 
+<div class="pdf_download" style="float:right; clear:both"><a class="button" href="/PJ%202015%20Program%20Guide.pdf"><i class="fa fa-file-pdf-o"></i>Download PDF</a></div>
+
 {{#markdown}}
 
 # Welcome to PJ 2015
@@ -16,11 +18,15 @@ Maxine McLean<br>
 Deputy Camp Chief, Program<br>
 Pacific Jamboree 2015
 
+<div class="page-break"></div>
+
 # Introduction
 
 This is your guide to the program activities at PJ 2015. After reviewing some important general information about the Jamboree and the program, the guide describes how to select your Unit’s activities. It provides an example of how you and your Patrol can develop a list in order of priority for the many program activities available. We have provided detailed descriptions for each program activity that will aid your Unit in selecting your choices.
 
 The Program Guide also contains information about the Indaba Program for Scouters. These are fun learning sessions that include some Jamboree activities and other skills that leaders can incorporate into their programs back at home.
+
+<div class="page-break"></div>
 
 # The Program Day
 
@@ -50,6 +56,8 @@ Due to transportation requirements, some off-site program activities require tha
 In order to be at the bus departure area on time, you should plan on leaving your sub-camp at least 30 minutes prior to departure time. Turnaround time is short, so it is essential that you are prepared for the day and ready to hike to the bus before departure time.
 
 The afternoon off-site program buses start to leave at noon for some programs, so make sure that once you've got your assignments, you organize yourselves accordingly. As you head to your morning program, you might want to take your lunch and whatever you need for the off-site afternoon program with you, as you will only have half an hour from the end of the morning program until when your bus will depart.
+
+<div class="page-break"></div>
 
 # Building your PJ Program
 
@@ -101,6 +109,8 @@ Don't let little questions become big problems! The program staff is there to do
 
 If you have any questions regarding the completion of the Program Selection Form, please email programselection@pj2015.ca.
 
+<div class="page-break"></div>
+
 # Program Information
 
 The great adventure of attending a jamboree requires hours of planning and preparing. While at the jamboree, your unit will practice known skills, learn new skills, and participate in new activities. Much of the knowledge and many of the skills obtained in preparation for and in taking part in a jamboree fulfill badge requirements. Many of the programs and activities at PJ '15 have been developed with that in mind.
@@ -127,11 +137,11 @@ Off-site programs involve bussing and times may vary. Half & full day excursions
 
 Activities at Camp Barnard offer a variety of challenges and fun, including water activities on Young Lake.
 
-## Premium Activities <i class="fa fa-star" style="color:gold"></i>
+## Premium Activities <i class="fa fa-star"></i>
 
 "Premium" activities are high cost, low participant ratio activities. These include Biking, Kayaking, Stand-Up Paddle Boards and Dragon Boats. **You are only entitled to one of these activities.** A second premium activity may be given if room permits. Units who send their Program Selection Forms first will be the first in line for a second premium activity.
 
-Premium activities are noted in the program descriptions with a gold star <i class="fa fa-star" style="color:gold"></i>.
+Premium activities are noted in the program descriptions with a gold star <i class="fa fa-star"></i>.
 
 ## Extra-Fee Activities
 
@@ -187,6 +197,33 @@ All youth and adult members will be required to wear their jamboree neckerchiefs
 During the Jamboree you will be spending most of your time outdoors, under the sun. Be sure to bring a hat, sunscreen and protective clothing. Exposed skin burns quickly by the ocean. Clothing should be comfortable and non-restrictive; footwear should be supportive, sturdy and broken-in. As the weather can vary on the West Coast, be sure to tuck in your rain gear, including waterproof footwear.
 
 You and your possessions will be in a variety of locations. Be sure everything you bring is clearly marked with your name, address and PJ '15 Unit number.
+
+## Program Activities
+
+{{#each programs}}
+### <a href="/programs/{{this.id}}" target=_blank>{{this.full_name_text}}</a> {{{starred_activity this false}}}
+
+{{#if this.auto_assign}}
+<p><strong>You will be automatically assigned to this program. It will not appear for ranking on your progarm selection form.</strong></p>
+{{/if}}
+
+Location: {{this.location}} &bull; Duration: {{this.duration}} &bull; Fitness Level: {{this.fitness_level}}
+
+
+<div class="program_description">
+
+{{this.description}}
+
+Pre-Requisites:
+
+
+<hr />
+
+</div>
+
+{{/each}}
+
+<div class="page-break"></div>
 
 # Scouters' Corner
 
