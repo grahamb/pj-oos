@@ -91,8 +91,7 @@ router.get('/:id', role.isAny(['admin', 'hq staff', 'unit leader']), function(re
     return selection;
   }).then(function(selection) {
     var unit = selection.Unit;
-
-    if (unit.ProgramSelection && unit.ProgramSelection.program_selection.length > 0) {
+    if (selection && selection.program_selection.length > 0) {
       return getProgramsForUnitWithSelection(selection.program_selection);
     } else {
       return getProgramsForUnitWithouSelection();
