@@ -46,8 +46,6 @@ var SelectionContainer = React.createClass({
   },
 
   handleSubmit() {
-    // TODO need to actually do something after this returns - take user to a confirmation page.
-    //      Should maybe do a real browser submit instead of ajax for this one.
     this.postDataToServer(true);
   },
 
@@ -72,7 +70,7 @@ var SelectionContainer = React.createClass({
       success: (response) => {
 
         if (response.locked) {
-          window.location = '/program_selection';
+          window.location = `/program_selection/${response.id}`;
         } else {
           this.setState({
               program_selection: response.program_selection,

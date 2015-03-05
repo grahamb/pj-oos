@@ -1,0 +1,12 @@
+<section class="outer program_selection_index">
+    <h1>Program Selections</h1>
+
+    <p>According to our records, you are the Contact Scouter for more than one Jamboree Unit. Please select a unit below to create or modify your progam selection.</p>
+
+    {{#each units}}
+    <p>
+        <a href="/program_selection/{{this.ProgramSelection.id}}" title="{{this.unit_name}}">{{this.unit_number}} &ndash; {{this.unit_name}}</a>
+    </p>
+    {{/each}}
+
+</section>
