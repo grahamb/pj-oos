@@ -132,24 +132,28 @@ router.get('/:id/edit', role.isAny(['admin', 'hq staff']), function(req, res) {
 
 router.post('/:id', role.isAny(['admin', 'hq staff', 'unit leader']), function(req, res) {
 
-  // TODO handle errors
-  // TODO handle the final "locked" submit - redirect after?
-  // TODO differentiate between ajax/non-ajax requests
+  models.ProgramSelection.find({
+    where: {
+      id: parseInt(req.params.id)
+    },
+    include: [models.Unit]
+  }).then(function(selection) {
 
-  if (req.session.user.role === 'unit leader' && (req.session.program_selection_id != req.params.id)) {
-    res.send(403);
-    return false;
-  }
+    if (req.session.user.role === 'unit leader' && (req.session.user.email !== selection.Unit.contact_email)) {
+      res.send(403);
+      return false;
+    }
 
-  models.ProgramSelection.update(req.body, {
-    returning: true,
-    where: { id: req.params.id },
-  }).then(function(results) {
-    res.send(results[1][0].toJSON());
+    models.ProgramSelection.update(req.body, {
+      returning: true,
+      where: { id: req.params.id },
+    }).then(function(results) {
+      res.send(results[1][0].toJSON());
+    })
   }).catch(function(error) {
-      console.log(error);
-      res.render('error');
-    });
+    console.log(error);
+    res.render('error');
+  });
 });
 
 module.exports = router;
