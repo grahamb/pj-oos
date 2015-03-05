@@ -27,33 +27,29 @@ var getProgramsForUnitWithouSelection = function() {
 router.get('/', role.isAny(['admin', 'hq staff', 'unit leader']), function(req, res) {
 
   if (req.session.user.role === 'unit leader') {
-    var unit_id = req.session.user.source_id;
+    var leader_email = req.session.user.email;
     var g_unit;
-    models.Unit.find({
+    models.Unit.findAll({
       where: {
-        id: unit_id
+        contact_email: leader_email
       },
       include: [models.ProgramSelection]
-    }).then(function(unit) {
-      req.session.program_selection_id = unit.ProgramSelection.id;
-      g_unit = unit;
+    }).then(function(units) {
 
-      if (unit.ProgramSelection && unit.ProgramSelection.program_selection.length > 0) {
-        return getProgramsForUnitWithSelection(unit.ProgramSelection.program_selection);
-      } else {
-        return getProgramsForUnitWithouSelection();
+      if (!units.length) {
+        res.status(404).render(404);
+        return;
       }
 
-    }).then(function(programs) {
-      var selection = g_unit.ProgramSelection.toJSON();
-      selection.programs = programs.map(function(p) { return p.toJSON() });
-      res.render('program_selection/selection_unit', {
-        unit: g_unit,
-        programs: programs,
-        selection: selection,
-        title: '- Program Selection for ' + g_unit.unit_name + ' (' + g_unit.unit_number + ')',
-        body_scripts: ['/dist/program_selection.js']
+      if (units.length === 1) {
+        res.redirect('/program_selection/' + units[0].ProgramSelection.id);
+        return;
+      }
+
+      res.render('program_selection/unit_leader_index', {
+        units: units
       });
+
     }).catch(function(error) {
         console.log(error);
         res.render('error');
@@ -72,7 +68,7 @@ router.get('/', role.isAny(['admin', 'hq staff', 'unit leader']), function(req, 
 
 });
 
-router.get('/:id', role.isAny(['admin', 'hq staff']), function(req, res) {
+router.get('/:id', role.isAny(['admin', 'hq staff', 'unit leader']), function(req, res) {
   var g_selection;
 
   models.ProgramSelection.find({
@@ -80,16 +76,41 @@ router.get('/:id', role.isAny(['admin', 'hq staff']), function(req, res) {
       id: parseInt(req.params.id)
     },
     include: [models.Unit]
-  }).then(function(results) {
-    if (!results) {
+  }).then(function(selection) {
+    if (!selection) {
         res.status(404).render(404);
         return false;
     }
-    g_selection = results;
-    return results;
+
+    if (req.session.user.role === 'unit leader' && (req.session.user.email !== selection.Unit.contact_email)) {
+      res.status(403).end('nice try');
+      return;
+    }
+
+    g_selection = selection;
+    return selection;
   }).then(function(selection) {
-    return getProgramsForUnitWithSelection(selection.program_selection);
+    var unit = selection.Unit;
+
+    if (unit.ProgramSelection && unit.ProgramSelection.program_selection.length > 0) {
+      return getProgramsForUnitWithSelection(selection.program_selection);
+    } else {
+      return getProgramsForUnitWithouSelection();
+    }
   }).then(function(programs) {
+    if (req.session.user.role === 'unit leader') {
+      var selection = g_selection.toJSON();
+      selection.programs = programs.map(function(p) { return p.toJSON() });
+      res.render('program_selection/selection_unit', {
+        unit: selection.Unit,
+        programs: programs,
+        selection: selection,
+        title: '- Program Selection for ' + selection.Unit.unit_name + ' (' + selection.Unit.unit_number + ')',
+        body_scripts: ['/dist/program_selection.js']
+      });
+      return;
+    }
+
     res.render('program_selection/selection_admin', {
       selection: g_selection,
       programs: programs,
