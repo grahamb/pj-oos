@@ -14,7 +14,8 @@ var getProgramsForUnitWithouSelection = function() {
   // if unit has no selection, find all programs and shuffle them
   return models.Program.findAll({
     where: {
-      hidden: false
+      hidden: false,
+      auto_assign: false
     },
     attributes: ['id', 'name', 'short_name', 'premium_activity']
   }).then(function(programs) {
