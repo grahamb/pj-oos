@@ -9,12 +9,14 @@ module.exports = function(sequelize, DataTypes) {
       unique: true
     },
     unit_name: DataTypes.STRING,
-    contact_name: DataTypes.STRING,
+    contact_first_name: DataTypes.STRING,
+    contact_last_name: DataTypes.STRING,
     contact_email: DataTypes.STRING,
     number_of_youth: DataTypes.INTEGER,
     number_of_leaders: DataTypes.INTEGER,
     final_payment_date: DataTypes.DATEONLY,
-    notes: DataTypes.TEXT
+    notes: DataTypes.TEXT,
+    import_id: DataTypes.INTEGER
   }, {
     classMethods: {
       associate: function(models) {
@@ -28,6 +30,11 @@ module.exports = function(sequelize, DataTypes) {
       final_payment_date: helpers.castEmptyStringToNull,
       number_of_youth: helpers.castEmptyStringToNull,
       number_of_leaders: helpers.castEmptyStringToNull
+    },
+    getterMethods: {
+      contact_name: function() {
+        return this.contact_first_name + ' ' + this.contact_last_name;
+      }
     }
   });
   return Unit;
