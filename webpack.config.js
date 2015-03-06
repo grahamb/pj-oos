@@ -30,5 +30,6 @@ module.exports = {
       '__PRODUCTION__': JSON.stringify(JSON.parse(argv.production || 'false'))
     }),
     commonsPlugin
-  ]
+  ],
+  devtool: 'inline-source-map'
 }
