@@ -35,7 +35,13 @@ var extra_free_period_icon_helper = function(free_period) {
 
 
 router.get('/', role.can('view unit'), function(req, res) {
+  var where = {};
+  if (req.query.import_id) {
+    where.import_id = req.query.import_id;
+  }
   Unit.findAll({
+    where: where,
+    order: 'unit_number ASC',
     include: [ProgramSelection]
   }).then(function(units) {
     res.render('units/index', {
