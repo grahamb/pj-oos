@@ -13,6 +13,13 @@
     .fa-star {
         color: gold;
     }
+    .manualButtonContainer {
+        display: inline;
+
+        i:after {
+            content: none;
+        }
+    }
 }
 
 .program_selection_index {
