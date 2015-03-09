@@ -3,6 +3,7 @@
 var React = require('react');
 var update = require('react/lib/update');
 var Program = require('./Program');
+var ProgramNonDraggable = require('./ProgramNonDraggable');
 var $ = require('jquery');
 
 var SelectionContainer = React.createClass({
@@ -23,6 +24,9 @@ var SelectionContainer = React.createClass({
 
   componentWillMount() {
     this.lastSuccessfulState = this.state;
+    if (window.IE_LTE_9) {
+      document.getElementById('replace_text').textContent = 'using the up and down buttons';
+    }
   },
 
   moveProgram(id, afterId) {
@@ -51,6 +55,24 @@ var SelectionContainer = React.createClass({
 
   toggleExtraFreePeriod() {
     this.setState({extra_free_period: !this.state.extra_free_period}, this.postDataToServer);
+  },
+
+  moveProgramManually(program_id, from_rank, to_rank) {
+    var programs_array = this.state.programs.map(p => p);
+    var from_index = from_rank-1;
+    var to_index = to_rank-1;
+
+    if (to_index < 0 || to_index >= this.state.programs.length) {
+      return false;
+    }
+
+    var tmp = programs_array.splice(from_index, 1);
+    programs_array.splice(to_index, 0, tmp[0]);
+    this.setState({
+      programs: programs_array
+    }, function() {
+      this.postDataToServer();
+    });
   },
 
   postDataToServer(locked=false) {
@@ -85,7 +107,46 @@ var SelectionContainer = React.createClass({
     });
   },
 
+  renderNonDraggable() {
+    return (
+      this.state.programs.map((program,index) => {
+        return (
+          <ProgramNonDraggable key={program.id}
+                               id={program.id}
+                               text={program.text}
+                               rank={index+1}
+                               premium={program.premium}
+                               buttonHandler={this.moveProgramManually}
+                               programCount={this.state.programs.length}
+                               production={this.props.production}
+          />
+        )
+      })
+    )
+
+  },
+
+  renderDraggable() {
+    return (
+      this.state.programs.map((program,index) => {
+        return (
+          <Program key={program.id}
+                   id={program.id}
+                   text={program.text}
+                   rank={index+1}
+                   premium={program.premium}
+                   moveProgram={this.moveProgram}
+                   onMoveEnd={this.onMoveEnd}
+                   programCount={this.state.programs.length}
+                   production={this.props.production}
+          />
+        )
+      })
+    )
+  },
+
   render() {
+    var renderProgams = window.IE_LTE_9 ? this.renderNonDraggable : this.renderDraggable;
     var checkboxStyle = {
       marginLeft: '10px'
     };
@@ -94,19 +155,8 @@ var SelectionContainer = React.createClass({
     };
     return (
       <div>
-        {this.state.programs.map((program, index) => {
-          return (
-            <Program key={program.id}
-                     id={program.id}
-                     text={program.text}
-                     rank={index+1}
-                     premium={program.premium}
-                     moveProgram={this.moveProgram}
-                     onMoveEnd={this.onMoveEnd}
-                     production={this.props.production}
-            />
-          )
-        })}
+
+        {renderProgams()}
 
         <label htmlFor="extra_free_period">
           Extra Free Period
