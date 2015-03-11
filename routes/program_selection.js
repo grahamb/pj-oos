@@ -3,6 +3,7 @@ var router = express.Router();
 var models = require('../models');
 var shuffle = require('knuth-shuffle').knuthShuffle;
 var sequelize = models.sequelize;
+var email = require('../lib/email');
 
 var getProgramsForUnitWithSelection = function(selection) {
   // need to do this as a raw query to get the ordering right
@@ -148,7 +149,30 @@ router.post('/:id', role.isAny(['admin', 'hq staff', 'unit leader']), function(r
       returning: true,
       where: { id: req.params.id },
     }).then(function(results) {
-      res.send(results[1][0].toJSON());
+
+
+      if (req.session.user.role === 'unit leader' && results[1][0].locked) {
+        models.Unit.find({
+          where: { id: results[1][0].unit_id },
+          include: [models.ProgramSelection]
+        }).then(function(unit) {
+          var selection = unit.ProgramSelection.program_selection;
+          getProgramsForUnitWithSelection(selection).then(function(programs) {
+            email.program_selection_confirmation(unit, programs, res.locals.production, function(err, result) {
+              if (err) {
+                console.log(err);
+                res.redirect(500);
+                return false;
+              }
+              res.send(results[1][0].toJSON());
+            });
+          });
+        });
+      } else {
+        res.send(results[1][0].toJSON());
+      }
+
+
     })
   }).catch(function(error) {
     console.log(error);
