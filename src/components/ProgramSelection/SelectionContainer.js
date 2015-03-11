@@ -50,7 +50,9 @@ var SelectionContainer = React.createClass({
   },
 
   handleSubmit() {
-    this.postDataToServer(true);
+    if (window.confirm('Submitting your Program Selection locks in your choices. You will not be able to make further changes to your Program Selection.\n\nDo you want to continue?')) {
+      this.postDataToServer(true);
+    }
   },
 
   toggleExtraFreePeriod() {
