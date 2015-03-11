@@ -1,3 +1,49 @@
+.ReactModal__Overlay {
+  background-color: rgba(0, 0, 0, 0.75);
+}
+.ReactModal__Content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px solid #ccc;
+  background: #fff;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
+  display: table;
+  margin: auto;
+  width: 50%;
+
+
+  h2 {
+    padding-bottom: 5px;
+  }
+
+  .ReactModal__Content--buttons {
+    padding-top: 15px;
+    border-top: 1px solid #ccc;
+
+    button:first-child {
+      margin-right: 15px;
+    }
+  }
+
+}
+@media (max-width: 768px) {
+  .ReactModal__Content {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    padding: 10px;
+  }
+}
+
+
 .program_selection {
     .program_selection_component {
         @include span-columns(7);

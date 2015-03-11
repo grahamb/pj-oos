@@ -5,12 +5,17 @@ var update = require('react/lib/update');
 var Program = require('./Program');
 var ProgramNonDraggable = require('./ProgramNonDraggable');
 var $ = require('jquery');
+var ReactModal = require('react-modal');
+
+var app_element = document.getElementsByClassName('program_selection_component')[0];
+ReactModal.setAppElement(app_element);
 
 var SelectionContainer = React.createClass({
   lastSuccessfulState: {},
 
   getInitialState() {
     return {
+      modalIsOpen: false,
       extra_free_period: this.props.selection.extra_free_period,
       programs: this.props.selection.programs.map((program) => {
         return {
@@ -50,9 +55,8 @@ var SelectionContainer = React.createClass({
   },
 
   handleSubmit() {
-    if (window.confirm('Submitting your Program Selection locks in your choices. You will not be able to make further changes to your Program Selection.\n\nDo you want to continue?')) {
-      this.postDataToServer(true);
-    }
+    this.setState({modalIsOpen: false});
+    this.postDataToServer(true);
   },
 
   toggleExtraFreePeriod() {
@@ -109,6 +113,21 @@ var SelectionContainer = React.createClass({
     });
   },
 
+  openModal(ev) {
+    ev.preventDefault();
+    this.setState({modalIsOpen: true});
+  },
+
+  closeModal(ev) {
+    if (ev) {
+      ev.preventDefault();
+    }
+    this.setState({
+      modalIsOpen: false
+    });
+  },
+
+
   renderNonDraggable() {
     return (
       this.state.programs.map((program,index) => {
@@ -125,7 +144,6 @@ var SelectionContainer = React.createClass({
         )
       })
     )
-
   },
 
   renderDraggable() {
@@ -165,7 +183,22 @@ var SelectionContainer = React.createClass({
           <input onClick={this.toggleExtraFreePeriod} style={checkboxStyle} type="checkbox" name="extra_free_period" id="extra_free_period" defaultChecked={this.state.extra_free_period}></input>
         </label>
 
-        <button style={buttonStyle} className="button green" onClick={this.handleSubmit}><i className="fa fa-save"></i>Submit Program Selection</button>
+        <button style={buttonStyle} className="button green" onClick={this.openModal}><i className="fa fa-save"></i>Submit Program Selection</button>
+        <ReactModal
+          isOpen={this.state.modalIsOpen}
+          onRequestClose={this.closeModal}
+        >
+          <h2>Submit Program Selection</h2>
+            <p>
+              Submitting your Program Selection locks in your choices.
+              You will not be able to make further changes to your Program Selection.
+            </p>
+            <p>Do you want to continue?</p>
+            <div className="ReactModal__Content--buttons">
+              <button onClick={this.closeModal}>Cancel</button>
+              <button onClick={this.handleSubmit} className="button green" autoFocused={true}>Continue</button>
+            </div>
+        </ReactModal>
       </div>
     );
   }
