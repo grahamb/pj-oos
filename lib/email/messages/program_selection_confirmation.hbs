@@ -1,0 +1,24 @@
+<p>Your PJ 2015 Program Selection for Unit {{unit.unit_number}} - {{unit.unit_name}} has been received. Your final Program Seleciton is listed below. Please keep this message for your records. You can also view your <a href="http://program.pj2015.ca/program_selection/{{unit.ProgramSelection.id}}">Program Selection online</a>.</p>
+
+<p>Your Program Selection is now locked. If you need to make any changes to your Program Selection, please contact email us at <a href="mailto:programselection@pj2015.ca">programselection@pj2015.ca</a>.</p>
+
+<p>Program Assignment &ndash; the process where we schedule your Unit's week at PJ based on your Program Selection &ndash; will occur in April. <b>Program Assignment is based on the order in which your final payment is received at the Scouts Canada BC &amp; Yukon Service Centre in Vancouver</b>. If you have not yet made your final payment, you should do so soon! If you have any questions about your Unit's payment status, please contact the PJ Registrar (<a href="mailto:registrar@pj2015">registrar@pj2015</a>).</p>
+
+<p>We can't wait to see you at Camp Barnard in July. Happy Scouting!</p>
+
+<h1>Program Selection Confirmation</h1>
+<h2>Unit {{unit.unit_number}} - {{unit.unit_name}}</h2>
+
+<p>Extra Free Period: {{#if unit.ProgramSelection.extra_free_period}}yes{{else}}no{{/if}}</p>
+<p>Program Ranking:</p>
+<ol>
+{{#each programs}}
+<li><a href="http://program.pj2015.ca/programs/{{this.id}}">{{this.full_name_text}}</a></li>
+{{/each}}
+</ol>
+
+<p>
+--<br/>
+PJ 2015 - Program Team<br/>
+<a href="mailto:programselection@pj2015.ca">programselection@pj2015.ca</a><br/>
+<a href="http://program.pj2015.ca">http://program.pj2015.ca</a><br/>
