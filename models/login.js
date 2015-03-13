@@ -14,11 +14,18 @@ module.exports = function(sequelize, DataTypes) {
     },
     source_type: DataTypes.STRING,
     source_id: DataTypes.INTEGER,
+    unit_id: {
+      type: DataTypes.INTEGER,
+      references: 'Unit',
+      referencesKey: 'id'
+    },
     role: DataTypes.ENUM('unit leader', 'pal', 'hq staff', 'admin', 'management team', 'registrar')
   }, {
     underscored: true,
     classMethods: {
-      associate: function(models) {}
+      associate: function(models) {
+        Login.belongsTo(models.Unit, {foreignKey: 'unit_id'});
+      }
     }
   });
   return Login;
