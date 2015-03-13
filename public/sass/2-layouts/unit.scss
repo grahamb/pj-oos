@@ -13,3 +13,18 @@ section.unit {
         }
     }
 }
+section.units {
+    thead {
+        td {
+            &:nth-child(1) {
+                width: 35%;
+            }
+            &:nth-child(3), &:nth-child(4) {
+                width: 5%;
+            }
+            &:nth-child(6), &:nth-child(7) {
+                width: 10%;
+            }
+        }
+    }
+}

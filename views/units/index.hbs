@@ -5,20 +5,19 @@
     <table>
         <thead>
             <tr>
-                <td>Unit Number</td>
-                <td>Unit Name</td>
+                <td>Unit</td>
                 <td>Contact Scouter</td>
-                <td># Youth</td>
-                <td># Leaders</td>
-                <td>Final Payment Date</td>
+                <td>#Y</td>
+                <td>#L</td>
+                <td>Final Payment</td>
                 <td>Selection Status</td>
+                <td>Can Login?</td>
             </tr>
         </thead>
         <tbody>
             {{#each units}}
               <tr>
-                <td><a href="/units/{{this.id}}">{{this.unit_number}}</a></td>
-                <td>{{this.unit_name}}</td>
+                <td><a href="/units/{{this.id}}">{{this.unit_number}} - {{this.unit_name}}</a></td>
                 <td><a href="mailto:{{this.contact_email}}">{{this.contact_name}}</a></td>
                 <td>{{this.number_of_youth}}</td>
                 <td>{{this.number_of_leaders}}</td>
@@ -30,7 +29,8 @@
                     {{/if}}
                 </td>
                 <td>{{{program_selection_status_icon_helper this.ProgramSelection}}}</td>
-              </td>
+                <td></td>
+              </tr>
             {{/each}}
         </tbody>
     </table>
