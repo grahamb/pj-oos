@@ -25,6 +25,7 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         Login.belongsTo(models.Unit, {foreignKey: 'unit_id'});
+        Login.belongsTo(models.OOS, {foreignKey: 'oos_id'});
       }
     }
   });
