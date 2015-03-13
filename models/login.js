@@ -12,8 +12,6 @@ module.exports = function(sequelize, DataTypes) {
       defaultValue: true,
       allowNull: false
     },
-    source_type: DataTypes.STRING,
-    source_id: DataTypes.INTEGER,
     unit_id: {
       type: DataTypes.INTEGER,
       references: 'Unit',
