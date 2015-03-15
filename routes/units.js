@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var models = require('../models');
-var Unit = models.Unit, ProgramSelection = models.ProgramSelection;
+var Unit = models.Unit, ProgramSelection = models.ProgramSelection, Login = models.Login;
 var Promise = require('sequelize').Promise;
 var role = require('connect-acl')(require('../lib/roles'));
 var email = require('../lib/email');
@@ -27,9 +27,9 @@ var program_selection_status_icon_helper = function(selection) {
   return tmpl.replace('ICON', icon.icon).replace('TITLE', icon.title);
 };
 
-var extra_free_period_icon_helper = function(free_period) {
+var check_or_x = function(data) {
   var tmpl = '<i class="fa fa-ICON" title="TITLE"></i>';
-  var ret = free_period ? {icon: 'check', title: 'true'} : {icon: 'times', title: 'false'}
+  var ret = data ? {icon: 'check', title: 'true'} : {icon: 'times', title: 'false'}
   return tmpl.replace('ICON', ret.icon).replace('TITLE', ret.title);
 };
 
@@ -42,13 +42,14 @@ router.get('/', role.can('view unit'), function(req, res) {
   Unit.findAll({
     where: where,
     order: 'unit_number ASC',
-    include: [ProgramSelection]
+    include: [ProgramSelection, Login]
   }).then(function(units) {
     res.render('units/index', {
       units: units,
       title: '- Unit Listing',
       helpers: {
-        program_selection_status_icon_helper: program_selection_status_icon_helper
+        program_selection_status_icon_helper: program_selection_status_icon_helper,
+        check_or_x: check_or_x
       }
     });
   }).catch(function(error) {
@@ -92,7 +93,7 @@ router.get('/:id', role.can('view unit'), function(req, res) {
         programs: programs,
         helpers: {
           program_selection_status_icon_helper: program_selection_status_icon_helper,
-          extra_free_period_icon_helper: extra_free_period_icon_helper
+          check_or_x: check_or_x
         }
       });
     });
