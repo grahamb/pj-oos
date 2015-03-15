@@ -9,7 +9,7 @@
         <li class="nav-link"><a href="/program_guide">Program Guide</a></li>
         <li class="nav-link"><a href="/programs">Program Activities</a></li>
 
-        {{#user_is 'admin, hq staff, unit leader'}}
+        {{#user_is 'unit leader'}}
         <li class="nav-link"><a href="/program_selection">Program Selection</a></li>
         {{/user_is}}
 
@@ -17,11 +17,12 @@
         <li class="nav-link"><a href="/oos">OOS</a></li>
         {{/user_can}}
 
-       {{#user_is 'admin'}}
-        <li class="nav-link more"><a href="javascript:void(0)">Admin</a>
+       {{#user_is 'admin,hq staff'}}
+        <li class="nav-link more"><a href="javascript:void(0)"><i class="fa fa-ellipsis-h"></i></a>
           <ul class="submenu">
             <li><a href="/units">Units</a>
-            <li><a href="/admin/import">CSV Import</a>
+              <li><a href="/program_selection">Program Selections</a></li>
+            {{#user_is 'admin'}}<li><a href="/admin/import">CSV Import</a>{{/user_is}}
             </li>
           </ul>
         </li>
