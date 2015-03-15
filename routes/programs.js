@@ -41,7 +41,8 @@ router.get('/:id', role.can('view program'), function(req, res) {
   Promise.all([
     Program.find({
       where: { id: req.params.id },
-      include: [{model: OOS, as: 'OOS'}, {model: OOS, as: 'ProgramActivityLeader'}]
+      include: [{model: OOS, as: 'OOS'}, {model: OOS, as: 'ProgramActivityLeader'}],
+      order: [[ { model: OOS, as: 'OOS' }, 'oos_number' ]]
     }),
     Program.findAll({ where: {hidden: false}, order: 'premium_activity DESC, name ASC' })
     ]).then(function(results) {
