@@ -4,8 +4,7 @@ module.exports = function(sequelize, DataTypes) {
   var Login = sequelize.define("Login", {
     email: {
       type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
+      allowNull: false
     },
     enabled: {
       type: DataTypes.BOOLEAN,
