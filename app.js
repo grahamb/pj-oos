@@ -105,7 +105,7 @@ app.use('/admin',
   passwordless.restricted({ failureRedirect: '/login', originField: 'origin' }),
   role.isAny(['admin']),
   routes.admin
-  );
+);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
