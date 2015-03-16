@@ -28,7 +28,10 @@ module.exports = function(sequelize, DataTypes) {
     postal_code: DataTypes.STRING,
     phone: DataTypes.STRING,
     cell_phone: DataTypes.STRING,
-    pre_recruited: DataTypes.BOOLEAN,
+    pre_recruited: {
+      type: DataTypes.BOOLEAN,
+      default_value: false
+    },
     recruited_by: {
       type: DataTypes.STRING,
       defaultValue: null
