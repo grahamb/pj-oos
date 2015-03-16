@@ -1,0 +1,63 @@
+#!/usr/bin/env node
+
+var models = require('../models');
+var email = require('../lib/email');
+var Promise = require('sequelize').Promise;
+var production = 'production' === process.env['NODE_ENV'];
+
+if (production) { process.exit(255); }
+
+
+models.Unit.findAll({
+  where: {
+    program_selection_invitation_sent: false
+  },
+  include: [ models.ProgramSelection, models.Login ]
+}).then(function(units) {
+  console.log('Found %d units', units.length);
+  console.log('Starting run...\n\n');
+
+
+  var create_logins = units.map(function(unit) {
+    var login_op;
+    if (unit.Login) {
+      login_op = unit.Login.update({enabled: true});
+    } else {
+      login_op = unit.createLogin({
+        enabled: true,
+        email: unit.contact_email,
+        role: 'unit leader'
+      });
+    }
+    return login_op.then(function(login) { console.log('  created login for unit id %d', login.unit_id); return login; } );
+  });
+
+  console.log('Creating logins...')
+  Promise.all(create_logins).then(function(login_results) {
+  }).then(function() {
+    console.log('\nSending invitations...');
+    var len = units.length;
+    var sent_units = [];
+    units.forEach(function(unit) {
+      email.program_selection_invitation(unit, production, function(err, result) {
+        if (err) {
+          console.log('  error sending invitation for unit id %d', unit.id);
+        } else {
+          unit.update({program_selection_invitation_sent: true}).then(function(unit) {
+            console.log('  sent invitation for unit id %d', unit.id);
+            console.log('  set program_selection_invitation_sent bit for unit id %d', unit.id);
+            sent_units.push(unit);
+            if (sent_units.length === len) {
+              console.log('\n\nDONE');
+              process.exit(0);
+            }
+          });
+        }
+      })
+    });
+  });
+
+}).catch(function(error) {
+  console.log(error);
+  process.exit(1);
+});
