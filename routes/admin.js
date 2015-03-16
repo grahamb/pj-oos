@@ -17,12 +17,12 @@ router.get('/import', role.is('admin'), function(req, res) {
 
 
 router.post('/import', role.can('import oos'), function(req, res) {
-
+  var g_import_id;
   switch (req.body.import_type) {
     case 'oos':
     importers.oos(req.files.import_file).then(function(results) {
-      var import_id = results[0].import_id;
-      res.redirect('/oos?import_id=' + import_id);
+      results = results.filter(function(e) { return e !== null; });
+      res.redirect('/oos?import_id=' + results[0].import_id);
     }).catch(function(error) {
       console.log(error);
       res.status(500).end();
