@@ -44,6 +44,15 @@
     </section>
 
     <section class="program_selection">
+        <div style="margin-bottom: 20px;">
+            <h2>Login</h2>
+            {{#unless Login.enabled}}
+            <a style="font-size: .75em" class="button" href="/admin/logins/toggle_unit/{{id}}">Enable Login</a>
+            {{else}}
+            <a style="font-size: .75em" class="button red" href="/admin/logins/toggle_unit/{{id}}">Disable Login</a>
+            {{/unless}}
+        </div>
+
         <h2>Program Selection</h2>
 
         <p class="label">Status</p>

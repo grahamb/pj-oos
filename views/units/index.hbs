@@ -11,7 +11,7 @@
                 <td>#L</td>
                 <td>Final Payment</td>
                 <td>Selection Status</td>
-                <td>Can Login?</td>
+                <td></td>
             </tr>
         </thead>
         <tbody>
@@ -29,7 +29,13 @@
                     {{/if}}
                 </td>
                 <td>{{{program_selection_status_icon_helper this.ProgramSelection}}}</td>
-                <td>{{{check_or_x this.Login.enabled}}}</td>
+                <td>
+                    {{#unless this.Login.enabled}}
+                    <a style="font-size: .75em" class="button" href="/admin/logins/toggle_unit/{{this.id}}">Enable Login</a>
+                    {{else}}
+                    <a style="font-size: .75em" class="button red" href="/admin/logins/toggle_unit/{{this.this.id}}">Disable Login</a>
+                    {{/unless}}
+                </td>
               </tr>
             {{/each}}
         </tbody>

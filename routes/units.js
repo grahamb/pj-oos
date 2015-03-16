@@ -72,7 +72,7 @@ router.get('/:id', role.can('view unit'), function(req, res) {
     where: {
       id: req.params.id
     },
-    include: [ProgramSelection]
+    include: [ProgramSelection, Login]
   }).then(function(unit) {
     if (!unit) {
       res.status(404).render(404);

@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var models = require('../models');
-var Import = models.Import, OOS = models.OOS, Program = models.Program;
+var Import = models.Import, OOS = models.OOS, Program = models.Program, Login = models.Login, Unit = models.Unit;
 var path = require('path');
 var Promise = require('sequelize').Promise;
 var fs = require('fs');
@@ -39,9 +39,46 @@ router.post('/import', role.can('import oos'), function(req, res) {
     });
     break;
   }
+});
 
 
+router.get('/logins/toggle_unit/:id', function(req, res) {
+  Unit.find({
+    where: { id: req.params.id },
+    include: [Login]
+  }).then(function(unit) {
+    if (!unit) {
+      res.status(404).render(404);
+      return false;
+    }
+    var op;
+    var referer = req.headers.referer;
+
+    if (unit.Login) {
+      var currentLoginStatus = unit.Login.enabled;
+      op = unit.Login.update({enabled: !unit.Login.enabled});
+    } else {
+      op = unit.createLogin({
+        enabled: true,
+        email: unit.contact_email,
+        role: 'unit leader'
+      });
+    }
+
+    op.then(function() {
+      if (referer) {
+        res.redirect(referer);
+      } else {
+        res.status(200).end('ok');
+      }
+    }).catch(function(error) {
+      console.log(error);
+      res.status(500).end();
+    });
+
+  })
 
 });
+
 
 module.exports = router;
