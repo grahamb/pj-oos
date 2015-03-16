@@ -16,7 +16,11 @@ module.exports = function(sequelize, DataTypes) {
     number_of_leaders: DataTypes.INTEGER,
     final_payment_date: DataTypes.DATEONLY,
     notes: DataTypes.TEXT,
-    import_id: DataTypes.INTEGER
+    import_id: DataTypes.INTEGER,
+    program_selection_invitation_sent: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    }
   }, {
     classMethods: {
       associate: function(models) {
