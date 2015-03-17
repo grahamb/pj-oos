@@ -4,6 +4,10 @@ var fs        = require("fs");
 var path      = require("path");
 var Sequelize = require("sequelize");
 var config    = require('config').get('database');
+if (process.env['NOSQL']) {
+  config.logging = function() {};
+}
+
 var sequelize = new Sequelize(config.get('database'), config.get('username'), config.get('password'), config);
 var db        = {};
 
