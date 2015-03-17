@@ -5,18 +5,16 @@ var email = require('../lib/email');
 var Promise = require('sequelize').Promise;
 var production = 'production' === process.env['NODE_ENV'];
 
-if (production) { process.exit(255); }
-
-
 models.Unit.findAll({
   where: {
     program_selection_invitation_sent: false
   },
-  include: [ models.ProgramSelection, models.Login ]
+  include: [ models.ProgramSelection, models.Login ],
+  limit: 25,
+  order: 'id ASC'
 }).then(function(units) {
   console.log('Found %d units', units.length);
   console.log('Starting run...\n\n');
-
 
   var create_logins = units.map(function(unit) {
     var login_op;
