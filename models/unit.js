@@ -29,7 +29,8 @@ module.exports = function(sequelize, DataTypes) {
           onDelete: 'cascade',
         });
         Unit.hasOne(models.Login, {
-          foreignKey: 'unit_id'
+          foreignKey: 'unit_id',
+          onDelete: 'cascade'
         });
       }
     },

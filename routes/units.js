@@ -163,6 +163,9 @@ router.get('/:id/delete', role.can('edit oos'), function(req, res) {
       req.flash('success', 'Deleted ' + record.unit_Name + ' (Unit #' + record.unit_number + ')');
       res.redirect('/units');
     });
+  }).catch(function(error) {
+    console.log(error);
+    res.status(500).end();
   });
 });
 
