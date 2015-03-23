@@ -1,0 +1,17 @@
+<section class="outer program_selection_stats">
+
+    <h1>Program Selection Stats</h1>
+
+    <p>To date, <strong>{{received_count}}</strong> of <strong>{{total_units}}</strong> units have submitted a Program Selection</p>
+    <p><strong>{{inflect extra_free_period_true_count 'unit' 'units' true}}</strong> have requested an extra free period</p>
+
+    <hr>
+
+    <h2>Program Ranking Distributions</h2>
+    <p>The graphs below show the ranking distribution for each selectable program. The x-axis represents the ranking (1st place, 2nd place ... 17th place) while the y-axis represents the frequency in which the program is placed in a particular ranking.</p>
+    <div id="ProgramSelectionStats"></div>
+</section>
+
+<script type="application/json" id="rankings_json">
+    {{{json rankings}}}
+</script>

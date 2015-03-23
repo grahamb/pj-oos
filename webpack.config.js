@@ -8,6 +8,7 @@ module.exports = {
     'main': './src/main.js',
     'ie-less-than-9': './src/ie-less-than-9.js',
     'program_selection': './src/program_selection.js',
+    'program_selection_stats': './src/program_selection_stats.js',
     'oos_listing': './src/oos_listing.js',
     'program_edit': './src/program_edit.js'
   },

@@ -4,6 +4,7 @@ var models = require('../models');
 var shuffle = require('knuth-shuffle').knuthShuffle;
 var sequelize = models.sequelize;
 var email = require('../lib/email');
+var Promise = require('sequelize').Promise;
 
 var getProgramsForUnitWithSelection = function(selection) {
   // need to do this as a raw query to get the ordering right
@@ -68,6 +69,76 @@ router.get('/', role.isAny(['admin', 'hq staff', 'unit leader']), function(req, 
     });
   }
 
+});
+
+router.get('/stats', role.isAny(['admin', 'hq staff', 'pal']), function(req, res) {
+  // get count of program selections
+  // find all locked program selections
+  // summarize the data
+  // render the template
+
+  Promise.all([
+    models.Program.findAll({ order: 'id ASC', where: { hidden: false }}),
+    models.ProgramSelection.findAll({where: { locked: true }}),
+    models.Unit.count()
+  ]).spread(function(programs, program_selections, total_units) {
+
+    // map ids to program names
+    var programs_map = {};
+    programs.forEach(function(p) {
+      programs_map[p.id.toString()] = p.full_name_text;
+    });
+
+    // program selection stats
+    var extra_free_period_true_count = program_selections.reduce(function(a,b) {
+      var val = b.extra_free_period ? 1 : 0;
+      return val + a;
+    }, 0);
+
+    var rankings = {};
+
+    program_selections[0].program_selection.slice().sort(function(a,b) { return a-b }).forEach(function(p) {
+      rankings[programs_map[p]] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    });
+
+    program_selections.forEach(function(p, i, arr) {
+        p.program_selection.forEach(function(program, i, arr) {
+            var oldRank = rankings[programs_map[program]][i];
+            rankings[programs_map[program]][i] = oldRank ? rankings[programs_map[program]][i] + 1 : 1;
+        });
+    });
+
+    var bar_data = function(arr) {
+        return arr.map(function(d, i) {
+            return {
+                label: (i+1)+'',
+                value: d
+            };
+        });
+    };
+
+    var rankings_array = [];
+
+    for (var i in rankings) {
+        rankings_array.push({
+          name: i,
+          rankings: bar_data(rankings[i])
+        });
+    }
+
+    res.render('program_selection/stats', {
+      title: ' - Program Selection Stats',
+      extra_free_period_true_count: extra_free_period_true_count,
+      rankings: rankings_array,
+      total_units: total_units,
+      received_count: program_selections.length,
+      body_scripts: ['/dist/program_selection_stats.js']
+    });
+
+  }).catch(function(error) {
+      console.log(error);
+      res.render('error');
+  });
 });
 
 router.get('/:id', role.isAny(['admin', 'hq staff', 'unit leader']), function(req, res) {
