@@ -10,7 +10,8 @@ module.exports = {
     'program_selection': './src/program_selection.js',
     'program_selection_stats': './src/program_selection_stats.js',
     'oos_listing': './src/oos_listing.js',
-    'program_edit': './src/program_edit.js'
+    'program_edit': './src/program_edit.js',
+    'unit_bulk_edit_table': './src/unit_bulk_edit_table.js',
   },
   output: {
     path: path.resolve(__dirname, 'public', 'dist'),

@@ -48,7 +48,6 @@ router.get('/', role.can('view unit'), function(req, res) {
   }).then(function(units) {
 
     if (req.xhr) {
-      console.log(units);
       res.status(200).end(JSON.stringify(units));
       return;
     }
@@ -72,6 +71,13 @@ router.get('/create', role.can('edit unit'), function(req, res) {
     title: '- Create New Unit',
     unit: {}
   });
+});
+
+router.get('/edit', role.can('edit unit'), function(req, res) {
+  res.render('units/units_bulk_edit', {
+    title: ' - Edit Units',
+    body_scripts: ['/dist/unit_bulk_edit_table.js']
+  })
 });
 
 router.get('/csv', role.can('view unit'), function(req, res) {
@@ -146,6 +152,9 @@ router.get('/:id', role.can('view unit'), function(req, res) {
 });
 
 router.post('/:id?', role.can('edit unit'), function(req, res) {
+  if (req.params.id) {
+    req.body.id = req.params.id;
+  }
   var unit_number = req.body.unit_number;
 
   Unit.upsert(req.body, {
@@ -160,7 +169,11 @@ router.post('/:id?', role.can('edit unit'), function(req, res) {
       if (created) {
         unit.createProgramSelection();
       }
-      res.redirect('/units/' + unit.id);
+      if (req.xhr) {
+        res.status(200).end('ok');
+      } else {
+        res.redirect('/units/' + unit.id);
+      }
     });
   }).catch(function(error) {
     console.log(error);
@@ -201,8 +214,12 @@ router.get('/:id/delete', role.can('edit oos'), function(req, res) {
     include: [ProgramSelection]
   }).then(function(record){
     record.destroy().then(function() {
-      req.flash('success', 'Deleted ' + record.unit_Name + ' (Unit #' + record.unit_number + ')');
-      res.redirect('/units');
+      if (req.xhr) {
+        res.status(200).end('ok');
+      } else {
+        req.flash('success', 'Deleted ' + record.unit_Name + ' (Unit #' + record.unit_number + ')');
+        res.redirect('/units');
+      }
     });
   }).catch(function(error) {
     console.log(error);
