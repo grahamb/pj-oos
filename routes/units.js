@@ -5,6 +5,8 @@ var Unit = models.Unit, ProgramSelection = models.ProgramSelection, Login = mode
 var Promise = require('sequelize').Promise;
 var role = require('connect-acl')(require('../lib/roles'));
 var email = require('../lib/email');
+var csv = require('csv');
+var moment = require('moment');
 var sequelize = models.sequelize;
 
 var program_selection_status_icon_helper = function(selection) {
@@ -63,6 +65,38 @@ router.get('/create', role.can('edit unit'), function(req, res) {
     title: '- Create New Unit',
     unit: {}
   });
+});
+
+router.get('/csv', role.can('view unit'), function(req, res) {
+
+  Unit.findAll({
+    order: 'unit_number ASC',
+  }).then(function(records) {
+    var data = '';
+    var stringifier = csv.stringify();
+    var filename = 'units-' + moment().format("YYYYMMDDHHmmss") + '.csv';
+    stringifier.on('readable', function() {
+      while(row = stringifier.read()) {
+        data += row;
+      }
+    });
+
+    stringifier.on('error', function(err) {
+      console.log(err.message);
+    });
+
+    stringifier.on('finish', function() {
+      res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+      res.setHeader('Content-type', 'text/csv');
+      res.send(data);
+    });
+
+    stringifier.write([ 'unit_number', 'number_of_youth', 'number_of_leaders', 'contact_first_name', 'contact_last_name', 'contact_email', 'unit_name'  ]);
+    records.forEach(function(unit) {
+      stringifier.write([ unit.unit_number, unit.number_of_youth, unit.number_of_leaders, unit.contact_first_name, unit.contact_last_name, unit.contact_email, unit.unit_name ]);
+    });
+    stringifier.end();
+  }).catch(console.log);
 });
 
 router.get('/:id', role.can('view unit'), function(req, res) {

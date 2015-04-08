@@ -71,7 +71,7 @@ router.get('/csv', role.can('view oos'), function(req, res) {
     });
 
     stringifier.on('error', function(err) {
-      consol.log(err.message);
+      console.log(err.message);
     });
 
     stringifier.on('finish', function() {
