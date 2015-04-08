@@ -46,6 +46,13 @@ router.get('/', role.can('view unit'), function(req, res) {
     order: 'unit_number ASC',
     include: [ProgramSelection, Login]
   }).then(function(units) {
+
+    if (req.xhr) {
+      console.log(units);
+      res.status(200).end(JSON.stringify(units));
+      return;
+    }
+
     res.render('units/index', {
       units: units,
       title: '- Unit Listing',
