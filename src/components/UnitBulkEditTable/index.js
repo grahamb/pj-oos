@@ -7,13 +7,14 @@ const UnitBulkEditTable = React.createClass({
 
   getInitialState() {
     return {
+      ready: false,
       units: []
     };
   },
 
   componentDidMount() {
     $.getJSON('/units', function(units) {
-      this.setState({ units: units });
+      this.setState({ ready: true, units: units });
     }.bind(this));
   },
 
@@ -48,6 +49,14 @@ const UnitBulkEditTable = React.createClass({
     })
   },
 
+  spinner() {
+    var spinner = '';
+    if (this.state.ready === false) {
+      return (<center><img src="http://38.media.tumblr.com/e045f935a8b2f2e7544d70717b751c70/tumblr_mh7ycrdzLv1s3r70co1_500.gif" /></center>);
+    }
+    return spinner;
+  },
+
   render() {
     return (
       <div>
@@ -69,6 +78,7 @@ const UnitBulkEditTable = React.createClass({
             {this.unitTableRows()}
           </tbody>
         </table>
+        {this.spinner()}
       </div>
     );
   }
