@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "sudo passenger start --app-type=node --startup-file=bin/www --port=80",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
