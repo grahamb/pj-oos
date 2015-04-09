@@ -66,6 +66,7 @@ const UnitTableRow = React.createClass({
     var payload = {};
     payload[fieldName] = value;
     $.post(postUrl, payload, (data) => { console.log(data); });
+    this.setState({dirty: false});
   },
 
   unitFields() {
