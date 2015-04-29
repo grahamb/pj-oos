@@ -59,6 +59,7 @@ router.get('/csv', role.can('view oos'), function(req, res) {
   }
 
   OOS.findAll({
+    order: 'oos_number ASC',
     include: [include]
   }).then(function(records) {
     var data = '';
