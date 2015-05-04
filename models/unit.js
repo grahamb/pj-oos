@@ -32,6 +32,7 @@ module.exports = function(sequelize, DataTypes) {
           foreignKey: 'unit_id',
           onDelete: 'cascade'
         });
+        Unit.belongsToMany(models.ProgramPeriod, { through: 'Schedule', foreignKey: 'unit_id' });
       }
     },
     setterMethods: {
