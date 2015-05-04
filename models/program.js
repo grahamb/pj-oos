@@ -73,7 +73,8 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         Program.hasMany(models.OOS, { as: 'OOS', through: 'program_oos_assignments' });
-        Program.belongsTo(models.OOS, { as: 'ProgramActivityLeader', constraints: false })
+        Program.belongsTo(models.OOS, { as: 'ProgramActivityLeader', constraints: false });
+        Program.hasMany(models.ProgramPeriod);
       }
     },
     getterMethods: {
