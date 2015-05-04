@@ -7,7 +7,8 @@ module.exports = function(sequelize, DataTypes) {
     underscored: true,
     classMethods: {
       associate: function(models) {
-        // associations can be defined here
+        ProgramPeriod.belongsToMany(models.Unit, { through: 'Schedule' });
+        ProgramPeriod.belongsTo(models.Program);
       }
     }
   });
