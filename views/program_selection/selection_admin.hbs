@@ -1,6 +1,19 @@
-<section class="outer">
-    <h1>Program Selection</h1>
-    <h2>{{selection.Unit.unit_number}} &ndash; {{selection.Unit.unit_name}}</h2>
+<section class="outer selection_admin">
+    <section class="title_controls">
+      <div class="title">
+        <h1>Program Selection</h1>
+        <h2>{{selection.Unit.unit_number}} &ndash; {{selection.Unit.unit_name}}</h2>
+      </div>
+      <div class="controls">
+      {{#user_can 'edit unit'}}
+          <a href="/program_selection/{{selection.Unit.id}}/edit" class="button">
+              <i class="fa fa-edit"></i>Edit Program Selection
+          </a>
+      {{/user_can}}
+    </section>
+
+
+
 
     <hr/>
         <p>Status: {{{locked_icon selection.locked}}}</p>

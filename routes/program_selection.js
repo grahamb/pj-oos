@@ -189,17 +189,48 @@ router.get('/:id', role.isAny(['admin', 'hq staff', 'unit leader']), function(re
       title: '- Program Selection for ' + g_selection.Unit.unit_name + ' (' + g_selection.Unit.unit_number + ')'
     });
   }).catch(function(error) {
-      console.log(error);
-      res.render('error');
-    });
+    console.log(error);
+    res.render('error');
+  });
 
 });
 
 router.get('/:id/edit', role.isAny(['admin', 'hq staff']), function(req, res) {
-  /*
-    - find the program selection
-    - render the same template as '/' for unit leader
-   */
+   var g_selection;
+   models.ProgramSelection.find({
+    where: {
+      id: parseInt(req.params.id)
+    },
+    include: [models.Unit]
+  }).then(function(selection) {
+    if (!selection) {
+        res.status(404).render(404);
+        return false;
+    }
+    g_selection = selection;
+    return selection;
+  }).then(function(selection) {
+    var unit = selection.Unit;
+    if (selection && selection.program_selection.length > 0) {
+      return getProgramsForUnitWithSelection(selection.program_selection);
+    } else {
+      return getProgramsForUnitWithouSelection();
+    }
+  }).then(function(programs) {
+    var selection = g_selection.toJSON();
+    selection.programs = programs.map(function(p) { return p.toJSON() });
+    res.render('program_selection/selection_edit', {
+      unit: selection.Unit,
+      programs: programs,
+      selection: selection,
+      title: '- Program Selection for ' + selection.Unit.unit_name + ' (' + selection.Unit.unit_number + ')',
+      body_scripts: ['/dist/program_selection.js']
+    });
+  }).catch(function(error) {
+    console.log(error);
+    res.render('error');
+  });
+
 });
 
 router.post('/:id', role.isAny(['admin', 'hq staff', 'unit leader']), function(req, res) {
@@ -220,9 +251,7 @@ router.post('/:id', role.isAny(['admin', 'hq staff', 'unit leader']), function(r
       returning: true,
       where: { id: req.params.id },
     }).then(function(results) {
-
-
-      if (req.session.user.role === 'unit leader' && results[1][0].locked) {
+      if (results[1][0].locked) {
         models.Unit.find({
           where: { id: results[1][0].unit_id },
           include: [models.ProgramSelection]
@@ -242,9 +271,7 @@ router.post('/:id', role.isAny(['admin', 'hq staff', 'unit leader']), function(r
       } else {
         res.send(results[1][0].toJSON());
       }
-
-
-    })
+    });
   }).catch(function(error) {
     console.log(error);
     res.render('error');

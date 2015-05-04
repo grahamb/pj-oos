@@ -15,6 +15,7 @@ var SelectionContainer = React.createClass({
 
   getInitialState() {
     return {
+      locked: this.props.selection.locked,
       modalIsOpen: false,
       extra_free_period: this.props.selection.extra_free_period,
       programs: this.props.selection.programs.map((program) => {
@@ -51,7 +52,9 @@ var SelectionContainer = React.createClass({
   },
 
   onMoveEnd() {
-    this.postDataToServer();
+    if (!this.state.locked) {
+      this.postDataToServer();
+    }
   },
 
   handleSubmit() {
