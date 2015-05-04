@@ -45,7 +45,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({
   store: new ConnectRedisStore({ host: config.get('sessions.redis.host'), port: config.get('sessions.redis.port'), ttl: 2592000 }),
   secret: config.get('sessions.secret'),
-  cookie: { maxAge: 2592000000 }
+  cookie: { maxAge: 2592000000 },
+  resave: false,
+  saveUninitialized: false
 }));
 app.use(flash());
 app.use(passwordless.sessionSupport());
