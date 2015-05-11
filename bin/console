@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+const repl = require('repl');
+var models = require('../models');
+var moment = require('moment');
+models.sequelize.sync().then(function() {
+  var replSession = repl.start({
+    prompt: 'pj-program-selection > '
+  });
+
+  Object.keys(models).forEach(function(model) {
+    replSession.context[model] = model;
+  });
+});
