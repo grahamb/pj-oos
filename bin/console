@@ -3,12 +3,17 @@
 const repl = require('repl');
 var models = require('../models');
 var moment = require('moment');
+require('moment-range');
+
 models.sequelize.sync().then(function() {
   var replSession = repl.start({
     prompt: 'pj-program-selection > '
   });
 
+  replSession.context.moment = moment;
+  replSession.context.fs = require('fs');
+  replSession.context.path = require('path');
   Object.keys(models).forEach(function(model) {
-    replSession.context[model] = model;
+    replSession.context[model] = models[model];
   });
 });
