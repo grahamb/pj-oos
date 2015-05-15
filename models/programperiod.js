@@ -2,7 +2,8 @@
 module.exports = function(sequelize, DataTypes) {
   var ProgramPeriod = sequelize.define('ProgramPeriod', {
     start_at: DataTypes.DATE,
-    end_at: DataTypes.DATE
+    end_at: DataTypes.DATE,
+    spans_periods: DataTypes.INTEGER
   }, {
     underscored: true,
     classMethods: {
