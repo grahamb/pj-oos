@@ -43,6 +43,9 @@ module.exports = function(sequelize, DataTypes) {
     getterMethods: {
       contact_name: function() {
         return this.contact_first_name + ' ' + this.contact_last_name;
+      },
+      total_participants: function() {
+        return this.number_of_youth + this.number_of_leaders;
       }
     }
   });
