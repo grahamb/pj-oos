@@ -1,0 +1,41 @@
+#!/usr/bin/env iojs
+
+'use strict';
+
+const models = require('../models');
+const moment = require('moment');
+const Promise = models.sequelize.Promise;
+require('es6-shim');
+
+const createScheduleForUnit = require('../lib/schedules/createScheduleForUnit');
+
+function getAllUnits() {
+  return models.Unit.findAll({
+    order: 'unit_number ASC',
+    include: [
+      {
+        model: models.ProgramSelection,
+        where: {
+          locked: true
+        }
+      },
+      {
+        model: models.ProgramPeriod,
+        include: [{all:true}]
+      }
+    ]
+  });
+}
+
+const main = Promise.coroutine(function* () {
+  const units = yield getAllUnits();
+  while (units.length > 0) {
+    const unit = yield createScheduleForUnit(units.shift());
+    const unitSchedule = unit.ProgramPeriods.sort(function(a, b) { return a.start_at.getTime() - b.start_at.getTime()});
+    const output = unitSchedule.map(function(s) {return `${s.Program.name}: ${s.start_at} - ${s.end_at}`});
+    console.log(output.join('\n'), '\n\n\n');
+  }
+  process.exit();
+});
+
+main();
