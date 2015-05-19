@@ -128,7 +128,8 @@ module.exports = {
       "start_at": new Date("2015-07-13T16:00:00.000Z"),
       "end_at": new Date("2015-07-13T19:00:00.000Z"),
       "Program": {
-        id: 9
+        id: 9,
+        premium_activity: false
       }
     },
 
@@ -136,7 +137,8 @@ module.exports = {
       "start_at": new Date("2015-07-15T16:00:00.000Z"),
       "end_at": new Date("2015-07-15T23:30:00.000Z"),
       "Program": {
-        id: 25
+        id: 25,
+        premium_activity: false
       }
     },
 
@@ -144,7 +146,8 @@ module.exports = {
       "start_at": new Date("2015-07-16T20:30:00.000Z"),
       "end_at": new Date("2015-07-16T23:30:00.000Z"),
       "Program": {
-        id: 12
+        id: 12,
+        premium_activity: true
       }
     }
 
