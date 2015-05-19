@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var models = require('../models');
-var Unit = models.Unit, ProgramSelection = models.ProgramSelection, Login = models.Login;
+var Unit = models.Unit, ProgramSelection = models.ProgramSelection, Login = models.Login, ProgramPeriod = models.ProgramPeriod;
 var Promise = require('sequelize').Promise;
 var role = require('connect-acl')(require('../lib/roles'));
 var email = require('../lib/email');
