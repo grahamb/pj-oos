@@ -119,7 +119,11 @@ router.get('/:id', role.can('view unit'), function(req, res) {
     where: {
       id: req.params.id
     },
-    include: [ProgramSelection, Login]
+    include: [ProgramSelection, Login, {
+      model: ProgramPeriod,
+      include: [ {all: true} ]
+    }],
+    order: [[ { model: ProgramPeriod }, 'start_at' ]]
   }).then(function(unit) {
     if (!unit) {
       res.status(404).render(404);
