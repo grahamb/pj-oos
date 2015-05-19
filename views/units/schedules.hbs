@@ -1,0 +1,18 @@
+<section class="outer units">
+
+  <h1>Unit Schedules</h1>
+
+  {{#each units}}
+
+    <h2>{{this.unit_number}} - {{this.unit_name}} ({{period_count this.ProgramPeriods}})</h2>
+    <p>Extra free period: {{this.ProgramSelection.extra_free_period}}</p>
+    {{#each this.ProgramPeriods}}
+      <h3>{{format_date "dddd HH:mm" this.start_at}} - {{format_date "dddd HH:mm" this.end_at}}</h3>
+      <p>{{this.Program.full_name_text}} {{{starred_activity this.Program false}}}</p>
+    {{/each}}
+
+    <hr/>
+    <div class="page-break"></div>
+  {{/each}}
+
+</section>
