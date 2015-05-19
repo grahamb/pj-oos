@@ -112,6 +112,32 @@ router.get('/csv', role.can('view unit'), function(req, res) {
   }).catch(console.log);
 });
 
+router.get('/schedules', function(req, res) {
+  Unit.findAll({
+    include: [
+      { model: ProgramPeriod, include: [models.Program] },
+      ProgramSelection
+    ],
+    order: [ 'unit_number', [ { model: ProgramPeriod }, 'start_at' ]]
+  }).then(function(units) {
+
+    res.render('units/schedules', {
+      units: units,
+      title: '- Unit Schedules',
+      helpers: {
+        period_count: function(programPeriods) {
+          if (programPeriods.length === 0) { return 0; }
+          return programPeriods.map(function(period) {
+            return period.spans_periods;
+          }).reduce(function(prev, curr) {
+            return prev + curr;
+          });
+        }
+      }
+    });
+  });
+});
+
 router.get('/:id', role.can('view unit'), function(req, res) {
   var sql, program_query;
 
