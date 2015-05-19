@@ -4,6 +4,7 @@ const repl = require('repl');
 var models = require('../models');
 var moment = require('moment');
 require('moment-range');
+require('es6-shim');
 
 models.sequelize.sync().then(function() {
   var replSession = repl.start({
@@ -11,8 +12,11 @@ models.sequelize.sync().then(function() {
   });
 
   replSession.context.moment = moment;
+  replSession.context.sequelize = models.sequelize;
+  replSession.context.Promise = models.sequelize.Promise;
   replSession.context.fs = require('fs');
   replSession.context.path = require('path');
+  replSession.context.models = models;
   Object.keys(models).forEach(function(model) {
     replSession.context[model] = models[model];
   });
