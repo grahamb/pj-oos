@@ -43,6 +43,17 @@
 
     </section>
 
+    <section class="unit_schedule">
+        <h2>Unit Schedule</h2>
+        {{#if ProgramPeriods.length}}
+            <ul>
+            {{#each ProgramPeriods}}
+                <li>{{format_date "ddd MMM D HH:mm" this.start_at}} - {{format_date "HH:mm" this.end_at}}<br/> {{this.Program.name}}</li>
+            {{/each}}
+            </ul>
+        {{/if}}
+    </section>
+
     <section class="program_selection">
         <div style="margin-bottom: 20px;">
             <h2>Login</h2>
