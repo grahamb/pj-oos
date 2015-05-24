@@ -97,7 +97,7 @@ router.get('/:id/edit', role.can('edit program'), passwordless.restricted({
   });
 });
 
-router.get('/:id/oos/csv',  function(req, res) {
+router.get('/:id/oos/csv', function(req, res) {
   Program.find({
     where: { id: req.params.id },
     include: [{model: OOS, as: 'OOS'}]
@@ -134,6 +134,61 @@ router.get('/:id/oos/csv',  function(req, res) {
     stringifier.end();
 
   });
+});
+
+router.get('/:id/schedule', role.can('view schedule'), function(req, res) {
+  models.ProgramPeriod.findAll(
+    { where: { program_id: req.params.id },
+    order: ['start_at', [ {model: models.Unit}, 'unit_number']],
+    include: [{all: true}]
+  }).then(function(periods) {
+    var program = periods[0].Program;
+    res.render('programs/schedule', {
+      program: program,
+      periods: periods,
+      title: ' - Program Schedule - ' + program.full_name_text,
+      helpers: {
+        total_participants: function(units) {
+          if (!units.length) { return 0; }
+          return units.map(function(unit) {
+            return unit.number_of_youth + unit.number_of_leaders;
+          }).reduce(function(previous, current) {
+            return previous + current;
+          });
+        },
+        number_of_leaders: function(units) {
+          if (!units.length) { return 0; }
+          return units.map(function(unit) {
+            return unit.number_of_leaders;
+          }).reduce(function(previous, current) {
+            return previous + current;
+          });
+        },
+        number_of_youth: function(units) {
+          if (!units.length) { return 0; }
+          return units.map(function(unit) {
+            return unit.number_of_youth;
+          }).reduce(function(previous, current) {
+            return previous + current;
+          });
+        },
+        remaining_space: function(period, units) {
+          if (!units.length) { return period.Program.max_participants_per_period; }
+          const total = units.map(function(unit) {
+            return unit.number_of_youth + unit.number_of_leaders;
+          }).reduce(function(previous, current) {
+            return previous + current;
+          });
+          return period.Program.max_participants_per_period - total;
+        },
+
+      }
+    });
+  }).catch(function(error) {
+      console.log(error);
+      res.status(500).end();
+    });
+
 });
 
 module.exports = router;
