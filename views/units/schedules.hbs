@@ -1,13 +1,15 @@
 <section class="outer units">
 
   <h1>Unit Schedules</h1>
+  <p>{{units.length}} Units</p>
 
   {{#each units}}
 
-    <h2>{{this.unit_number}} - {{this.unit_name}} ({{period_count this.ProgramPeriods}})</h2>
+    <h2><a href="/units/{{this.id}}" target=_blank>{{this.id}} - {{this.unit_number}} - {{this.unit_name}} ({{period_count this.ProgramPeriods}} of {{max this}})</a></h2>
+    <p>Final Payment Date: {{format_date "YYYY-MM-DD" this.final_payment_date}}</p>
     <p>Extra free period: {{this.ProgramSelection.extra_free_period}}</p>
     {{#each this.ProgramPeriods}}
-      <h3>{{format_date "dddd HH:mm" this.start_at}} - {{format_date "dddd HH:mm" this.end_at}}</h3>
+      <h3>{{this.id}} - {{format_date "dddd HH:mm" this.start_at}} - {{format_date "dddd HH:mm" this.end_at}}</h3>
       <p>{{this.Program.full_name_text}} {{{starred_activity this.Program false}}}</p>
     {{/each}}
 
