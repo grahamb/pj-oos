@@ -1,0 +1,36 @@
+<section class="program outer">
+
+<h1>{{program.name}}</h1>
+<p>Maximum Participants per Period: {{program.max_participants_per_period}}</p>
+{{#each periods}}
+  <hr/>
+  <h2>{{format_date 'dddd MMMM DD HH:mm' this.start_at}}</h2>
+  <p>Units: {{this.Units.length}}</p>
+  <p>Youth: {{number_of_youth this.Units}} • Leaders: {{number_of_leaders this.Units}} • Total: {{total_participants this.Units}}</p>
+  <p>Remaining Sapce: {{remaining_space this this.Units}}
+{{!--   <table>
+      <thead>
+          <tr>
+              <td>Unit Number</td>
+              <td>Unit Name</td>
+              <td># of Youth</td>
+              <td># of Leaders</td>
+              <td>Total Participants</td>
+          </tr>
+      </thead>
+      <tbody>
+        {{#each this.Units}}
+          <tr>
+            <td>{{this.unit_number}}</td>
+            <td>{{this.unit_name}}</td>
+            <td>{{this.number_of_youth}}</td>
+            <td>{{this.number_of_leaders}}</td>
+            <td>{{this.total_participants}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table> --}}
+
+{{/each}}
+
+</section>
