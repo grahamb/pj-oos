@@ -1,0 +1,13 @@
+<section class="outer">
+{{#each units}}
+  <h2>{{this.ORDER}} --- {{this.unit_number}} - {{this.unit_name}}</h2>
+
+  <ol style="list-style:decimal; margin-left:25px;">
+      {{#each this.PROGRAMS}}
+      <li>{{this.full_name_text}} {{{starred_activity this false}}}</li>
+      {{/each}}
+  </ol>
+  <div class="page-break"></div>
+
+{{/each}}
+</section>
