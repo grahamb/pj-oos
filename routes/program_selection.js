@@ -71,6 +71,38 @@ router.get('/', role.isAny(['admin', 'hq staff', 'unit leader']), function(req, 
 
 });
 
+router.get('/all', role.isAny(['admin', 'hq staff']), function(req, res) {
+
+  models.Unit.findAll({
+      order: ['final_payment_date', 'unit_number'],
+      include: [
+        {
+          model: models.ProgramSelection,
+          where: {
+            locked: true
+          }
+        }
+      ]
+    }).then(function(units) {
+      var promises = units.map(function(unit) {
+        return getProgramsForUnitWithSelection(unit.ProgramSelection.program_selection);
+      });
+      Promise.all(promises).spread(function() {
+        console.log('*****', arguments.length);
+        for (var i = 0; i < arguments.length; i++) {
+          units[i].PROGRAMS = arguments[i];
+          units[i].ORDER = i+1;
+        };
+        console.log('rendering?');
+        res.render('program_selection/all', {
+          units: units,
+          title: ' - Program Selections Ordered by Payment Date'
+        });
+      });
+    });
+
+});
+
 router.get('/stats', role.isAny(['admin', 'hq staff', 'pal']), function(req, res) {
   // get count of program selections
   // find all locked program selections
