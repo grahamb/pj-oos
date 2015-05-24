@@ -5,13 +5,14 @@
 const models = require('../models');
 const moment = require('moment');
 const Promise = models.sequelize.Promise;
+
 require('es6-shim');
 
 const createScheduleForUnit = require('../lib/schedules/createScheduleForUnit');
 
 function getAllUnits() {
   return models.Unit.findAll({
-    order: 'unit_number ASC',
+    order: ['final_payment_date', 'unit_number'],
     include: [
       {
         model: models.ProgramSelection,
@@ -28,12 +29,12 @@ function getAllUnits() {
 }
 
 const main = Promise.coroutine(function* () {
-  const units = yield getAllUnits();
+  let units = yield getAllUnits();
   while (units.length > 0) {
     const unit = yield createScheduleForUnit(units.shift());
     const unitSchedule = unit.ProgramPeriods.sort(function(a, b) { return a.start_at.getTime() - b.start_at.getTime()});
     const output = unitSchedule.map(function(s) {return `${s.Program.name}: ${s.start_at} - ${s.end_at}`});
-    console.log(output.join('\n'), '\n\n\n');
+    console.log('\n\n', output.join('\n'), '\n\n\n');
   }
   process.exit();
 });
