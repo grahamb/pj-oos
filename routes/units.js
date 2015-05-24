@@ -118,8 +118,25 @@ router.get('/schedules', function(req, res) {
       { model: ProgramPeriod, include: [models.Program] },
       ProgramSelection
     ],
-    order: [ 'unit_number', [ { model: ProgramPeriod }, 'start_at' ]]
+    order: [ 'final_payment_date', 'unit_number', [ { model: ProgramPeriod }, 'start_at' ]]
   }).then(function(units) {
+
+    if (req.query.not_full) {
+      units = units.filter(function(unit) {
+        var periods = unit.ProgramPeriods;
+        if (!periods.length) {
+          return true;
+        }
+
+        var numPeriods = periods.map(function(period) {
+          return period.spans_periods;
+        }).reduce(function(prev, curr) {
+          return prev + curr;
+        });
+        var max = unit.ProgramSelection.extra_free_period ? 8 : 9;
+        return numPeriods < max;
+      });
+    }
 
     res.render('units/schedules', {
       units: units,
@@ -132,6 +149,9 @@ router.get('/schedules', function(req, res) {
           }).reduce(function(prev, curr) {
             return prev + curr;
           });
+        },
+        max: function(unit) {
+          return unit.ProgramSelection.extra_free_period ? 8 : 9;
         }
       }
     });
