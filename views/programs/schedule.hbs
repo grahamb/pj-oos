@@ -4,7 +4,7 @@
 <p>Maximum Participants per Period: {{program.max_participants_per_period}}</p>
 {{#each periods}}
   <hr/>
-  <h2>{{format_date 'dddd MMMM DD HH:mm' this.start_at}}</h2>
+  <h2>{{this.id}} • {{format_date 'dddd MMMM DD HH:mm' this.start_at}}</h2>
   <p>Units: {{this.Units.length}}</p>
   <p>Youth: {{number_of_youth this.Units}} • Leaders: {{number_of_leaders this.Units}} • Total: {{total_participants this.Units}}</p>
   <p>Remaining Space: {{remaining_space this this.Units}}
