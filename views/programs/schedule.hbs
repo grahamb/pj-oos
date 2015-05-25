@@ -7,8 +7,8 @@
   <h2>{{format_date 'dddd MMMM DD HH:mm' this.start_at}}</h2>
   <p>Units: {{this.Units.length}}</p>
   <p>Youth: {{number_of_youth this.Units}} • Leaders: {{number_of_leaders this.Units}} • Total: {{total_participants this.Units}}</p>
-  <p>Remaining Sapce: {{remaining_space this this.Units}}
-{{!--   <table>
+  <p>Remaining Space: {{remaining_space this this.Units}}
+   <table>
       <thead>
           <tr>
               <td>Unit Number</td>
@@ -29,7 +29,7 @@
           </tr>
         {{/each}}
       </tbody>
-    </table> --}}
+    </table>
 
 {{/each}}
 

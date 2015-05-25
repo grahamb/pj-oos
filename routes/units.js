@@ -133,7 +133,7 @@ router.get('/schedules', function(req, res) {
         }).reduce(function(prev, curr) {
           return prev + curr;
         });
-        var max = unit.ProgramSelection.extra_free_period ? 8 : 9;
+        var max = unit.ProgramSelection.extra_free_period ? 10 : 11;
         return numPeriods < max;
       });
     }
