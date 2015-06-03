@@ -29,6 +29,19 @@ section.units {
     }
 }
 
+@media print {
+  section.outer.units.schedules {
+        h3 {
+            font-size: 1.3em;
+        }
+        hr {
+            display: none;
+        }
+        font-size: .9em;
+    }
+}
+
+
 section.units_edit {
     td {
         padding: 0.75em;

@@ -12,6 +12,7 @@
                 <td>Contact Scouter</td>
                 <td>#Y</td>
                 <td>#L</td>
+                <td></td>
                 <td>Final Payment</td>
                 <td>Selection Status</td>
                 <td></td>
@@ -24,6 +25,7 @@
                 <td><a href="mailto:{{this.contact_email}}">{{this.contact_name}}</a></td>
                 <td>{{this.number_of_youth}}</td>
                 <td>{{this.number_of_leaders}}</td>
+                <td>{{this.total_participants}}</td>
                 <td>
                     {{#if this.final_payment_date}}
                         <a href=""></a>{{format_date 'YYYY/MM/DD' this.final_payment_date}}

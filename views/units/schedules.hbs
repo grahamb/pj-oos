@@ -1,4 +1,4 @@
-<section class="outer units">
+<section class="outer units schedules">
 
   <h1>Unit Schedules</h1>
   <p>{{units.length}} Units</p>
@@ -6,6 +6,7 @@
   {{#each units}}
 
     <h2><a href="/units/{{this.id}}" target=_blank>{{this.id}} - {{this.unit_number}} - {{this.unit_name}} ({{period_count this.ProgramPeriods}} of 11)</a></h2>
+    <p>Youth: {{this.number_of_youth}} • Leaders: {{this.number_of_leaders}} • Total: {{this.total_participants}}</p>
     <p>Final Payment Date: {{format_date "YYYY-MM-DD" this.final_payment_date}}</p>
     <p>Extra free period: {{this.ProgramSelection.extra_free_period}}</p>
     {{#each this.ProgramPeriods}}

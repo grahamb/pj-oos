@@ -48,7 +48,7 @@
         {{#if ProgramPeriods.length}}
             <ul>
             {{#each ProgramPeriods}}
-                <li>{{format_date "ddd MMM D HH:mm" this.start_at}} - {{format_date "HH:mm" this.end_at}}<br/> {{this.Program.name}}</li>
+                <li>{{format_date "ddd MMM D HH:mm" this.start_at}} - {{format_date "HH:mm" this.end_at}}<br/>{{this.id}} - {{this.Program.name}} {{{starred_activity this.Program false}}}</li>
             {{/each}}
             </ul>
         {{/if}}
