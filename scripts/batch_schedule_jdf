@@ -3,7 +3,7 @@
 const models = require('../models');
 const moment = require('moment');
 const Promise = models.sequelize.Promise;
-const createScheduleForUnit = require('../lib/schedules/createScheduleForUnit2');
+const createScheduleForUnit = require('../lib/schedules/createJDFScheduleForUnit');
 const DEFAULT_PROGRAM_SELECTION = [13,8,2,15,11,14,16,5,7,18,6,1,10,12,4,3,17];
 
 require('es6-shim');
@@ -17,16 +17,10 @@ function getAllUnits() {
         $not: null
       }
     },
-    //   $or: [
-    //     { final_payment_date: null },
-    //     { final_payment_date: { $gte: new Date('2015-05-01') }}
-    //   ]
-    // },
     order: `final_payment_date ${sort}`,
     include: [
       {
         model: models.ProgramSelection,
-        // where: { extra_free_period: false }
       },
       {
         model: models.ProgramPeriod,
@@ -50,7 +44,7 @@ function getUnit(id) {
 };
 
 const FREE_PERIOD = 25;
-const TOWNSITE = 9;
+const JDF = 3;
 
 
 const main = Promise.coroutine(function* () {
@@ -79,8 +73,10 @@ const main = Promise.coroutine(function* () {
     for (var i = 0; i < data.length; i++) {
       console.log(data[i]);
       console.log('\n');
-      let result = yield createScheduleForUnit(data[i], counter);
-      data[i] = result;
+      if (data[i].program_selection[counter] === JDF) {
+        let result = yield createScheduleForUnit(data[i], counter);
+        data[i] = result;
+      }
     };
     counter++;
   }

@@ -3,8 +3,8 @@
 const models = require('../models');
 const moment = require('moment');
 const Promise = models.sequelize.Promise;
-const createScheduleForUnit = require('../lib/schedules/createScheduleForUnit2');
-const DEFAULT_PROGRAM_SELECTION = [13,8,2,15,11,14,16,5,7,18,6,1,10,12,4,3,17];
+const createScheduleForUnit = require('../lib/schedules/createExtraFreePeriodScheduleForUnit');
+const countFreePeriodsForUnit = require('../lib/scheduleHelpers/countFreePeriodsForUnit.js');
 
 require('es6-shim');
 
@@ -17,16 +17,10 @@ function getAllUnits() {
         $not: null
       }
     },
-    //   $or: [
-    //     { final_payment_date: null },
-    //     { final_payment_date: { $gte: new Date('2015-05-01') }}
-    //   ]
-    // },
     order: `final_payment_date ${sort}`,
     include: [
       {
         model: models.ProgramSelection,
-        // where: { extra_free_period: false }
       },
       {
         model: models.ProgramPeriod,
@@ -50,31 +44,27 @@ function getUnit(id) {
 };
 
 const FREE_PERIOD = 25;
-const TOWNSITE = 9;
-
 
 const main = Promise.coroutine(function* () {
   let units = yield getAllUnits();
+  units = units.filter(function(unit) {
+    return countFreePeriodsForUnit(unit) < 2;
+  });
   let data = units.map(function(unit) {
     let data = {
       unit_id: unit.id,
-      program_selection: Array.from(unit.ProgramSelection.program_selection),
+      program_selection: [FREE_PERIOD, FREE_PERIOD],
       periodsToAssign: 11,
       periodsAssigned: !unit.ProgramPeriods.length ? 0 : unit.ProgramPeriods.map(function(p) {
         return p.spans_periods
       }).reduce(function(p, c) { return p + c })
     };
 
-    if (!data.program_selection.length) {
-      data.program_selection = Array.from(DEFAULT_PROGRAM_SELECTION);
-      data.use_default_program_selection = true;
-    }
-
     return data;
   });
 
   let counter = 0;
-  while (counter < 17) {
+  while (counter < 2) {
     console.log("\n\n Run %d", counter);
     for (var i = 0; i < data.length; i++) {
       console.log(data[i]);
