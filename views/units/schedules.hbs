@@ -11,7 +11,7 @@
     <p>Extra free period: {{this.ProgramSelection.extra_free_period}}</p>
     {{#each this.ProgramPeriods}}
       <h3>{{this.id}} - {{format_date "dddd HH:mm" this.start_at}} - {{format_date "dddd HH:mm" this.end_at}}</h3>
-      <p>{{this.Program.full_name_text}} {{{starred_activity this.Program false}}}</p>
+      <p>{{{offsite_icon this.Program}}}{{this.Program.full_name_text}} {{{starred_activity this.Program false}}}</p>
     {{/each}}
 
     <hr/>

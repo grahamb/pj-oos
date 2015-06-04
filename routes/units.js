@@ -135,6 +135,13 @@ router.get('/schedules', function(req, res) {
         },
         max: function(unit) {
           return unit.ProgramSelection.extra_free_period ? 8 : 9;
+        },
+        offsite_icon(program) {
+          if (program.location === 'Off-Site') {
+            return '<i class="fa fa-bus"></i>';
+          } else {
+            return '';
+          }
         }
       }
     });
