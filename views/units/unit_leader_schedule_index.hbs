@@ -1,0 +1,12 @@
+<section class="outer program_selection_index">
+    <h1>Unit Schedule</h1>
+
+    <p>According to our records, you are the Contact Scouter for more than one Jamboree Unit. Please select a unit below to view your Unit Schedule.</p>
+
+    {{#each units}}
+    <p>
+        <a href="/units/{{this.id}}/schedule" title="{{this.unit_name}}">{{this.unit_number}} &ndash; {{this.unit_name}}</a>
+    </p>
+    {{/each}}
+
+</section>

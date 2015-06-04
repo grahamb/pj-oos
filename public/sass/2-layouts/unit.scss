@@ -29,8 +29,60 @@ section.units {
     }
 }
 
+
+section.unit.schedule {
+
+    h4 {
+        margin: .5em 0;
+    }
+
+    .program_quickfacts {
+        font-size: .75em;
+        thead td {
+            background: #333;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        td {
+            border-bottom: none;
+            padding: 8px;
+            text-transform: capitalize;
+        }
+    }
+
+    .prerequisites_skills_equipment {
+        @include clearfix;
+        margin-top: 30px;
+        section {
+            @include span-columns(4 of 8);
+            h2 {
+                font-size: 1em;
+            }
+        }
+    }
+
+
+}
+
 @media print {
-  section.outer.units.schedules {
+
+    section.unit.schedule {
+      .program_details, .program_quickfacts {
+        display: none;
+      }
+      h3 {
+          font-size: 1.3em;
+      }
+      h4 {
+          font-size: 1.1em;
+      }
+      a {
+        color: black;
+      }
+    }
+
+    section.outer.units.schedules {
         h3 {
             font-size: 1.3em;
         }

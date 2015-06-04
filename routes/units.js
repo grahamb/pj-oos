@@ -121,23 +121,6 @@ router.get('/schedules', function(req, res) {
     order: [ 'final_payment_date', 'unit_number', [ { model: ProgramPeriod }, 'start_at' ]]
   }).then(function(units) {
 
-    if (req.query.not_full) {
-      units = units.filter(function(unit) {
-        var periods = unit.ProgramPeriods;
-        if (!periods.length) {
-          return true;
-        }
-
-        var numPeriods = periods.map(function(period) {
-          return period.spans_periods;
-        }).reduce(function(prev, curr) {
-          return prev + curr;
-        });
-        var max = 11;
-        return numPeriods < max;
-      });
-    }
-
     res.render('units/schedules', {
       units: units,
       title: '- Unit Schedules',
@@ -156,6 +139,36 @@ router.get('/schedules', function(req, res) {
       }
     });
   });
+});
+
+
+router.get('/schedule', role.isAny(['admin', 'hq staff', 'unit leader']), function(req, res) {
+
+  if (req.session.user.role === 'unit leader') {
+    var leader_email = req.session.user.email;
+    var g_unit;
+    models.Unit.findAll({
+      where: {
+        contact_email: leader_email
+      },
+      include: [{model: models.ProgramPeriod, include: [{all: true}]}]
+    }).then(function(units) {
+      if (!units.length) {
+        res.status(404).render(404);
+        return;
+      }
+
+      if (units.length === 1) {
+        res.redirect(`/units/${units[0].id}/schedule`);
+        return;
+      }
+
+      res.render('units/unit_leader_schedule_index', {
+        units: units
+      });
+    });
+  }
+
 });
 
 router.get('/:id', role.can('view unit'), function(req, res) {
@@ -230,6 +243,32 @@ router.post('/:id?', role.can('edit unit'), function(req, res) {
     res.render('error', { error: error });
   });
 
+});
+
+router.get('/:id/schedule', role.can('view schedule'), function(req, res) {
+  models.Unit.find({
+    where: {
+      id: req.params.id
+    },
+    order: [[ { model: ProgramPeriod }, 'start_at' ]],
+    include: [{model: models.ProgramPeriod, include: [{all: true}]}]
+  }).then(function(unit) {
+    if (!unit) {
+      res.status(404).render(404);
+      return;
+    }
+
+    res.render('units/unit_schedule', {
+      title: ' - Unit Schedule',
+      unit: unit,
+      helpers: {
+        program_link: function(program) {
+          return program.id === 25 ? program.full_name_text : `<a href="/programs/${program.id}">${program.full_name_text}</a>`;
+        }
+      }
+    });
+
+  });
 });
 
 router.get('/:id/edit', role.can('edit unit'), function(req, res) {

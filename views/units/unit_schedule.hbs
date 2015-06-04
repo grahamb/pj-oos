@@ -1,0 +1,50 @@
+<section class="outer unit schedule">
+
+<h1>Unit Schedule</h1>
+<h2>{{unit.unit_number}} - {{unit.unit_name}}</h2>
+<hr/>
+{{#each unit.ProgramPeriods}}
+  <h3>{{format_date "dddd HH:mm" this.start_at}} - {{format_date "dddd HH:mm" this.end_at}}</h3>
+  <h4>{{{program_link this.Program}}} {{{starred_activity this.Program false}}}</h4>
+
+  <section class="program_quickfacts">
+      <table>
+          <thead>
+              <tr>
+                  <td><i class="fa fa-clock-o"></i>Duration</td>
+                  <td><i class="fa fa-map-marker"></i>Location</td>
+                  <td><i class="fa fa-heart-o"></i>Fitness Level</td>
+                  <td><i class="fa fa-dollar"></i>Additional Cost</td>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td>{{this.Program.duration}}</td>
+                  <td>{{this.Program.location}}</td>
+                  <td>{{this.Program.fitness_level}}</td>
+                  <td>{{this.Program.additional_cost}}</td>
+              </tr>
+          </tbody>
+      </table>
+  </section>
+
+
+  <section class="program_details">
+    {{#markdown typeographer=true}}{{this.Program.description}}{{/markdown}}
+    <section class="prerequisites_skills_equipment">
+        <section class="prerequisites">
+            <h2>Prerequisites</h2>
+            {{{list_or_none this.Program.prerequisites}}}
+        </section>
+
+        <section class="skills_equipment">
+            <h2>Skills/Equipment Required</h2>
+            {{{list_or_none this.Program.knowledge_skills_equipment}}}
+        </section>
+    </section>
+
+  </section>
+
+  <hr/>
+{{/each}}
+</section>
