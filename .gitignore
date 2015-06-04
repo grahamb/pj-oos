@@ -2,7 +2,7 @@ node_modules/
 config/local*
 tmp/*
 log/*
-public/css
+public/css/style.css
 .sass-cache
 config/config.json
 public/dist
