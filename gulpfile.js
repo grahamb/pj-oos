@@ -18,7 +18,7 @@ if (PRODUCTION) {
 }
 
 gulp.task('clean', function() {
-  del(['./public/dist/**', './public/css/**'])
+  del(['./public/dist/**', './public/css/style.css'])
 });
 
 gulp.task('sass', function() {
