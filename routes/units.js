@@ -112,7 +112,7 @@ router.get('/csv', role.can('view unit'), function(req, res) {
   }).catch(console.log);
 });
 
-router.get('/schedules', function(req, res) {
+router.get('/schedules', role.isAny(['admin', 'hq staff']), function(req, res) {
   Unit.findAll({
     include: [
       { model: ProgramPeriod, include: [models.Program] },
@@ -174,6 +174,8 @@ router.get('/schedule', role.isAny(['admin', 'hq staff', 'unit leader']), functi
         units: units
       });
     });
+  } else {
+    res.redirect('/units/schedules');
   }
 
 });
