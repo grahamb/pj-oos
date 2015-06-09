@@ -1,7 +1,13 @@
 <section class="program outer">
 
 <h1>{{program.name}}</h1>
+
 <p>Maximum Participants per Period: {{program.max_participants_per_period}}</p>
+
+<a href="/programs/{{program.id}}/schedule.csv" class="button">
+    <i class="fa fa-file-text-o"></i>Download Schedule CSV
+</a>
+
 {{#each periods}}
   <hr/>
   <h2>{{this.id}} • {{format_date 'dddd MMMM DD HH:mm' this.start_at}}</h2>

@@ -184,11 +184,46 @@ router.get('/:id/schedule', role.can('view schedule'), function(req, res) {
 
       }
     });
-  }).catch(function(error) {
-      console.log(error);
-      res.status(500).end();
+  })
+});
+
+router.get('/:id/schedule.csv', role.can('view schedule'), function(req, res) {
+  models.ProgramPeriod.findAll(
+    { where: { program_id: req.params.id },
+    order: ['start_at', [ {model: models.Unit}, 'unit_number']],
+    include: [{all: true}]
+  }).then(function(periods) {
+    var data = '';
+    var stringifier = csv.stringify();
+    var filename = `program-${req.params.id}-schedule-${moment().format("YYYYMMDDHHmmss")}.csv`;
+    stringifier.on('readable', function() {
+      while(row = stringifier.read()) {
+        data += row;
+      }
     });
 
+    stringifier.on('error', function(err) {
+      console.log(err.message);
+    });
+
+    stringifier.on('finish', function() {
+      res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+      res.setHeader('Content-type', 'text/csv');
+      res.send(data);
+    });
+
+    stringifier.write('program_period unit_number unit_name contact_leader_name contact_leader_email number_of_scouts number_of_leaders'.split(' '));
+    periods.forEach(function(period) {
+      var start_at = moment(period.start_at).format('dddd MMMM DD HH:mm');
+      period.Units.forEach(function(u) {
+        stringifier.write([start_at, u.unit_number, u.unit_name, u.contact_name, u.contact_email, u.number_of_youth, u.number_of_leaders]);
+      });
+    });
+    stringifier.end();
+  }).catch(function(error) {
+    console.log(error);
+    res.status(500).end();
+  });
 });
 
 module.exports = router;

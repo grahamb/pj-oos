@@ -64,9 +64,27 @@
                 </section>
             </section>
 
+            {{#user_can 'view schedule'}}
+                <hr>
+                <section>
+                    <h3>Schedule</h3>
+                    <div style="margin-top: 1em;">
+                        <a href="/programs/{{this.id}}/schedule" class="button" style="margin-right: 1em;">
+                            <i class="fa fa-calendar"></i>View Schedule
+                        </a>
+                        <a href="/programs/{{this.id}}/schedule.csv" class="button">
+                            <i class="fa fa-file-text-o"></i>Download Schedule CSV
+                        </a>
+
+                    </div>
+                </section>
+            {{/user_can}}
+
             {{#user_can 'view oos'}}
             {{> programs/program_oos_assigned}}
             {{/user_can}}
+
+
 
         {{/with}}
 
