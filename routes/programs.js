@@ -136,7 +136,7 @@ router.get('/:id/oos/csv', function(req, res) {
   });
 });
 
-router.get('/:id/schedule', role.can('view schedule'), function(req, res) {
+router.get('/:id/schedule', passwordless.restricted({ failureRedirect: '/login', originField: 'origin' }), role.isAny(['admin', 'hq staff', 'pal']), function(req, res) {
   models.ProgramPeriod.findAll(
     { where: { program_id: req.params.id },
     order: ['start_at', [ {model: models.Unit}, 'unit_number']],
