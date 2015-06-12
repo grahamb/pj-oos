@@ -267,6 +267,14 @@ router.get('/:id/schedule', role.can('view schedule'), function(req, res) {
       return;
     }
 
+    if (req.session.user.role === 'unit leader') {
+      var leader_email = req.session.user.email;
+      if (unit.contact_email !== leader_email) {
+        res.status(403).end('Forbidden');
+        return;
+      }
+    }
+
     res.render('units/unit_schedule', {
       title: ' - Unit Schedule',
       unit: unit,
