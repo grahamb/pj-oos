@@ -83,7 +83,17 @@ router.get('/status', function(req, res) {
     });
     console.log(data);
     res.render('status', {
-      data: data
+      data: data,
+      helpers: {
+        offsite_icon(program) {
+          if (program.location === 'Off-Site') {
+            return '<i class="fa fa-bus"></i>';
+          } else {
+            return '';
+          }
+        }
+
+      }
     });
   });
 });
