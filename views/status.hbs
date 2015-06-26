@@ -1,0 +1,45 @@
+<section class="outer">
+
+  <h1>Program Status</h1>
+  <hr/>
+  {{#each data}}
+    <h2>{{this.program.name}}</h2>
+    <p>Loading per-period: {{this.program.max_participants_per_period}}</p>
+    <a href="/programs/{{this.id}}/schedule">Detailed Schedule</a>
+    <table>
+      <thead>
+        <tr>
+          {{#each this.periods}}
+            <td>{{this.start_at}}</td>
+          {{/each}}
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          {{#each this.periods}}
+            <td class="{{this.status}}">{{this.available}}</td>
+          {{/each}}
+        </tr>
+      </tbody>
+    </table>
+
+    <hr/>
+  {{/each}}
+</section>
+
+<style>
+
+table {
+  text-align: center;
+}
+
+th, td {
+  border: 1px solid #ccc !important;
+}
+
+td.red {
+  background-color: rgb(255, 124, 124);
+  font-weight: bold;
+}
+
+</style>
