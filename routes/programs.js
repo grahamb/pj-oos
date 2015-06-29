@@ -180,8 +180,7 @@ router.get('/:id/schedule', passwordless.restricted({ failureRedirect: '/login',
             return previous + current;
           });
           return period.Program.max_participants_per_period - total;
-        },
-
+        }
       }
     });
   })
