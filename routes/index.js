@@ -73,7 +73,7 @@ router.get('/status', function(req, res) {
         }
 
         return {
-          start_at: moment(period.start_at).format('dd hA'),
+          start_at: period.spans_periods === 1 ? moment(period.start_at).format('ddd A') : moment(period.start_at).format('ddd'),
           available: available,
           status: available < 0 ? 'red' : 'ok',
           max_per_period: program.max_participants_per_period
@@ -81,7 +81,6 @@ router.get('/status', function(req, res) {
       });
       return data;
     });
-    console.log(data);
     res.render('status', {
       data: data,
       helpers: {
