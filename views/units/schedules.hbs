@@ -10,7 +10,7 @@
     <p>Final Payment Date: {{format_date "YYYY-MM-DD" this.final_payment_date}}</p>
     <p>Extra free period: {{this.ProgramSelection.extra_free_period}}</p>
     {{#each this.ProgramPeriods}}
-      <h3>{{this.id}} - {{format_date "dddd HH:mm" this.start_at}} - {{format_date "dddd HH:mm" this.end_at}}</h3>
+      <h3>{{this.id}} - {{format_date 'dddd' this.start_at}} {{humanized_period this}}</h3>
       <p>{{{offsite_icon this.Program}}}{{this.Program.full_name_text}} {{{starred_activity this.Program false}}}</p>
     {{/each}}
 

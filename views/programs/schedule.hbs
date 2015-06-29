@@ -10,12 +10,12 @@
 
 {{#each periods}}
   <hr/>
-  <h2>{{this.id}} • {{format_date 'dddd MMMM DD HH:mm' this.start_at}}</h2>
+  <h2 title="{{this.id}}">{{format_date 'dddd' this.start_at}} {{humanized_period this}}</h2>
   <p>Units: {{this.Units.length}}</p>
   <p>Youth: {{number_of_youth this.Units}} • Leaders: {{number_of_leaders this.Units}} • Total: {{total_participants this.Units}}</p>
   <p>Remaining Space: {{remaining_space this this.Units}}
   {{#if this.BusDeparture}}
-  <p>Bus {{this.BusDeparture.bus_number}} @ {{this.BusDeparture.departure_time}}</p>
+  <p>{{{offsite_icon this.Program}}} Bus {{join this.BusDeparture.bus_number ' / '}} &nbsp;&nbsp; <i class="fa fa-clock-o"></i> Departs at {{format_time_string 'h:mm A' this.BusDeparture.departure_time}}</p>
   {{/if}}
    <table>
       <thead>
@@ -30,7 +30,7 @@
       <tbody>
         {{#each this.Units}}
           <tr>
-            <td>{{this.id}} - {{this.unit_number}}</td>
+            <td title="{{this.id}}">{{this.unit_number}}</td>
             <td>{{this.unit_name}}</td>
             <td>{{this.number_of_youth}}</td>
             <td>{{this.number_of_leaders}}</td>
