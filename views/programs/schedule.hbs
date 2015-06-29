@@ -14,6 +14,9 @@
   <p>Units: {{this.Units.length}}</p>
   <p>Youth: {{number_of_youth this.Units}} • Leaders: {{number_of_leaders this.Units}} • Total: {{total_participants this.Units}}</p>
   <p>Remaining Space: {{remaining_space this this.Units}}
+  {{#if this.BusDeparture}}
+  <p>Bus {{this.BusDeparture.bus_number}} @ {{this.BusDeparture.departure_time}}</p>
+  {{/if}}
    <table>
       <thead>
           <tr>
