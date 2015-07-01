@@ -76,7 +76,8 @@ router.get('/status', function(req, res) {
           start_at: period.spans_periods === 1 ? moment(period.start_at).format('ddd A') : moment(period.start_at).format('ddd'),
           available: available,
           status: available < 0 ? 'red' : 'ok',
-          max_per_period: max
+          max_per_period: max,
+          id: period.id
         }
       });
       return data;
