@@ -4,7 +4,8 @@ module.exports = function(sequelize, DataTypes) {
     start_at: DataTypes.DATE,
     end_at: DataTypes.DATE,
     spans_periods: DataTypes.INTEGER,
-    bus_departure_id: DataTypes.INTEGER
+    bus_departure_id: DataTypes.INTEGER,
+    max_participants_override: DataTypes.INTEGER
   }, {
     underscored: true,
     classMethods: {

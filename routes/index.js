@@ -60,23 +60,23 @@ router.get('/status', function(req, res) {
       data.periods = periods.map(function(period) {
         const units = period.Units;
         var available;
-
+        var max = period.max_participants_override || period.Program.max_participants_per_period;
         if (!units.length) {
-          available = period.Program.max_participants_per_period;
+          available = max;
         } else {
           const total = units.map(function(unit) {
             return unit.number_of_youth + unit.number_of_leaders;
           }).reduce(function(previous, current) {
             return previous + current;
           });
-          available = period.Program.max_participants_per_period - total;
+          available = max - total;
         }
 
         return {
           start_at: period.spans_periods === 1 ? moment(period.start_at).format('ddd A') : moment(period.start_at).format('ddd'),
           available: available,
           status: available < 0 ? 'red' : 'ok',
-          max_per_period: program.max_participants_per_period
+          max_per_period: max
         }
       });
       return data;
