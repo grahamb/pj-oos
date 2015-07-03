@@ -111,6 +111,10 @@ const UnitTable = React.createClass({
      if (this.state.sortDir !== null){
        sortDirArrow = this.state.sortDir === SortTypes.DESC ? ' ↓' : ' ↑';
      }
+    const renderLink = (cellData, cellDataKey, rowData, rowIndex, columnData, width) => {
+      return <a href={`/units/${rowData.id}`}>{cellData}</a>;
+    };
+
 
     return (
       <div>
