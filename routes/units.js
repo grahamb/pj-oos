@@ -55,6 +55,7 @@ router.get('/', role.can('view unit'), function(req, res) {
     res.render('units/index', {
       units: units,
       title: '- Unit Listing',
+      body_scripts: ['/dist/unit_table.js'],
       helpers: {
         program_selection_status_icon_helper: program_selection_status_icon_helper,
         check_or_x: check_or_x
