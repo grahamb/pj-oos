@@ -1,49 +1,11 @@
+<link rel="stylesheet" type="text/css" href="/css/fixed-data-table.css">
 <section class="outer units">
 
     <h1>Unit Listing</h1>
-    <div class="buttons">
+    <div style="margin-bottom: 1em" class="buttons">
         <a class="csv_export button" href="units/csv"><i class="fa fa-file-text-o"></i>Export Unit list as CSV</a>
         <a class="button" href="units/edit"><i class="fa fa-pencil"></i>Bulk Edit</a>
     </div>
-    <table>
-        <thead>
-            <tr>
-                <td>Unit</td>
-                <td>Contact Scouter</td>
-                <td>#Y</td>
-                <td>#L</td>
-                <td></td>
-                <td>Final Payment</td>
-                <td>Selection Status</td>
-                <td></td>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each units}}
-              <tr>
-                <td><a href="/units/{{this.id}}">{{this.unit_number}} - {{this.unit_name}}</a></td>
-                <td><a href="mailto:{{this.contact_email}}">{{this.contact_name}}</a></td>
-                <td>{{this.number_of_youth}}</td>
-                <td>{{this.number_of_leaders}}</td>
-                <td>{{this.total_participants}}</td>
-                <td>
-                    {{#if this.final_payment_date}}
-                        <a href=""></a>{{format_date 'YYYY/MM/DD' this.final_payment_date}}
-                    {{else}}
-                        Not Received
-                    {{/if}}
-                </td>
-                <td>{{{program_selection_status_icon_helper this.ProgramSelection}}}</td>
-                <td>
-                    {{#unless this.Login.enabled}}
-                    <a style="font-size: .75em" class="button" href="/admin/logins/toggle_unit/{{this.id}}">Enable Login</a>
-                    {{else}}
-                    <a style="font-size: .75em" class="button red" href="/admin/logins/toggle_unit/{{this.this.id}}">Disable Login</a>
-                    {{/unless}}
-                </td>
-              </tr>
-            {{/each}}
-        </tbody>
-    </table>
+    <div id="unittable"></div>
 
 </section>
