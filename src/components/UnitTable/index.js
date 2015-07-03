@@ -9,11 +9,7 @@ const PropTypes = {React};
 const Column = FixedDataTable.Column;
 const Table = FixedDataTable.Table;
 
-function renderLink() {
-  var rowData = arguments[2];
-  var cellData = arguments[0];
-  return <a href={`/units/${rowData.id}`}>{cellData}</a>;
-}
+
 
 const SortTypes = {
   ASC: 'ASC',
