@@ -1,6 +1,48 @@
-<section class="outer">
+<section class="outer status">
 
   <h1>Program Status</h1>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-header">
+        <p>Units</p>
+      </div>
+      <div class="card-copy">
+        <p>{{unit_count}}</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <p>Participants</p>
+      </div>
+      <div class="card-copy">
+        <p>{{total_participants}}</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <p>Youth</p>
+      </div>
+      <div class="card-copy">
+        <p>{{total_youth}}</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <p>Leaders</p>
+      </div>
+      <div class="card-copy">
+        <p>{{total_leaders}}</p>
+      </div>
+    </div>
+
+
+  </div>
+
+
   <hr/>
   {{#each data}}
     <h2>{{{offsite_icon this.program}}} {{this.program.name}}</h2>

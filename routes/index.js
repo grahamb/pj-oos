@@ -49,52 +49,56 @@ router.get('/status', function(req, res) {
     }],
     order: ['id', [ {model: models.ProgramPeriod}, 'start_at']]
   }).then(function(programs) {
-    // res.end(JSON.stringify(programs)); return;
-    var data = programs.map(function(program) {
-      var periods = program.ProgramPeriods;
-      var data = {
-        id: program.id,
-        program: program,
-      };
+    models.Unit.findAll({}).then(function(Units) {
+      var data = programs.map(function(program) {
+        var periods = program.ProgramPeriods;
+        var data = {
+          id: program.id,
+          program: program,
+        };
 
-      data.periods = periods.map(function(period) {
-        const units = period.Units;
-        var available;
-        var max = period.max_participants_override || period.Program.max_participants_per_period;
-        if (!units.length) {
-          available = max;
-        } else {
-          const total = units.map(function(unit) {
-            return unit.number_of_youth + unit.number_of_leaders;
-          }).reduce(function(previous, current) {
-            return previous + current;
-          });
-          available = max - total;
-        }
-
-        return {
-          start_at: period.spans_periods === 1 ? moment(period.start_at).format('ddd A') : moment(period.start_at).format('ddd'),
-          available: available,
-          status: available < 0 ? 'red' : 'ok',
-          max_per_period: max,
-          id: period.id
-        }
-      });
-      return data;
-    });
-    res.render('status', {
-      data: data,
-      helpers: {
-        offsite_icon(program) {
-          if (program.location === 'Off-Site') {
-            return '<i class="fa fa-bus"></i>';
+        data.periods = periods.map(function(period) {
+          const units = period.Units;
+          var available;
+          var max = period.max_participants_override || period.Program.max_participants_per_period;
+          if (!units.length) {
+            available = max;
           } else {
-            return '';
+            const total = units.map(function(unit) {
+              return unit.number_of_youth + unit.number_of_leaders;
+            }).reduce(function(previous, current) {
+              return previous + current;
+            });
+            available = max - total;
+          }
+
+          return {
+            start_at: period.spans_periods === 1 ? moment(period.start_at).format('ddd A') : moment(period.start_at).format('ddd'),
+            available: available,
+            status: available < 0 ? 'red' : 'ok',
+            max_per_period: max,
+            id: period.id
+          }
+        });
+        return data;
+      });
+      res.render('status', {
+        data: data,
+        unit_count: Units.length,
+        total_youth: Units.map(function(u) { return u.number_of_youth; }).reduce(function(previous, current) { return previous + current }),
+        total_leaders: Units.map(function(u) { return u.number_of_leaders; }).reduce(function(previous, current) { return previous + current }),
+        total_participants: Units.map(function(u) { return u.total_participants; }).reduce(function(previous, current) { return previous + current }),
+        helpers: {
+          offsite_icon(program) {
+            if (program.location === 'Off-Site') {
+              return '<i class="fa fa-bus"></i>';
+            } else {
+              return '';
+            }
           }
         }
-
-      }
-    });
+      });
+    })
   });
 });
 

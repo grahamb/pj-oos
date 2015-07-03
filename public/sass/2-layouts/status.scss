@@ -1,0 +1,21 @@
+.outer.status {
+
+  .cards {
+    margin-top: 2em;
+  }
+
+  .card {
+    text-align: center;
+
+    p {
+      margin-bottom: 0;
+    }
+
+    .card-copy p {
+      font-size: 2em;
+      font-weight: bold;
+      padding: 1em;
+    }
+  }
+
+}
