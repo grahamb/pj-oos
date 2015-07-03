@@ -63,8 +63,6 @@ router.get('/', role.can('view unit'), function(req, res) {
         units: units
       }));
 
-    console.log(JSON.stringify(units));
-
     res.render('units/index', {
       react: reactHtml,
       units: JSON.stringify(units),
@@ -293,6 +291,54 @@ router.get('/:id/schedule', role.can('view schedule'), function(req, res) {
       }
     });
 
+  });
+});
+
+router.delete('/:id/schedule/:period', function(req, res) {
+  // remove :period from the unit's schedule and
+  // replace it with corresponding free period(s)
+
+  models.Unit.find({
+    where: { id: req.params.id },
+    include: [ models.ProgramPeriod ]
+  }).then(function(unit) {
+
+    if (!unit) {
+      res.status(404).json({ error: 404, message: `unit ${req.params.id} does not exist`});
+      return false;
+    }
+
+    var schedule = unit.ProgramPeriods;
+    var programPeriodToRemove = schedule.find(function(p) {
+      return p.id == req.params.period;
+    });
+
+    if (!programPeriodToRemove) {
+      res.status(404).json({ error: 404, message: `unit ${req.params.id} does not have program period ${req.params.period} on its schedule`});
+      return false;
+    }
+
+    unit.removeProgramPeriod(programPeriodToRemove).then(function() {
+      models.ProgramPeriod.findAll({
+        where: {
+          program_id: 25,
+          start_at: {
+            gte: programPeriodToRemove.start_at
+          }
+        },
+        order: 'start_at ASC',
+        limit: programPeriodToRemove.spans_periods
+      }).then(function(freePeriods) {
+        unit.addProgramPeriods(freePeriods).then(function() {
+          models.Unit.find({
+            where: { id: 174 },
+            include: [ models.ProgramPeriod ]
+          }).then(function(unit) {
+            res.status(200).end(JSON.stringify(unit.ProgramPeriods, null, 2));
+          });
+        });
+      });
+    });
   });
 });
 
