@@ -20,6 +20,7 @@ module.exports = {
   module: {
     loaders: [
       { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'},
+      { test: /\.css$/, loader: 'style-loader!css-loader' },
       { test: require.resolve("react"), loader: "expose?React" },
       { test: require.resolve("react"), loader: "imports?shim=es5-shim/es5-shim&sham=es5-shim/es5-sham" }
     ]
