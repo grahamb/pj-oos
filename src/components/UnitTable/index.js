@@ -118,7 +118,7 @@ const UnitTable = React.createClass({
         <input
           type="text"
           onChange={this._onFilterChange}
-          placeholder='Filter by Unit Name'
+          placeholder='Filter by Unit Number or Unit Name'
         />
 
         <Table
