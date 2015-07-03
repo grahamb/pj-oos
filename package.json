@@ -20,6 +20,7 @@
     "express": "~4.9.0",
     "express-handlebars": "^1.1.0",
     "express-session": "^1.9.3",
+    "fixed-data-table": "^0.3.0",
     "gulp": "^3.8.10",
     "handlebars": "^2.0.0",
     "handlebars-helpers": "git://github.com/assemble/handlebars-helpers#v0.6.0",
