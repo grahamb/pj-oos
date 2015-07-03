@@ -12,6 +12,7 @@ module.exports = {
     'oos_listing': './src/oos_listing.js',
     'program_edit': './src/program_edit.js',
     'unit_bulk_edit_table': './src/unit_bulk_edit_table.js',
+    'unit_table': './src/unit_table.js',
   },
   output: {
     path: path.resolve(__dirname, 'public', 'dist'),
