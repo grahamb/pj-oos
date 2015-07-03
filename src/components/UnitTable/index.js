@@ -10,19 +10,16 @@ const PropTypes = {React};
 const Column = FixedDataTable.Column;
 const Table = FixedDataTable.Table;
 
-
-
 const SortTypes = {
   ASC: 'ASC',
   DESC: 'DESC',
 };
 
-
 const UnitTable = React.createClass({
 
   getInitialState() {
     return {
-      rows: [],
+      rows: this.props.units,
       filteredRows: null,
       filterBy: null,
       sortBy: 'unit_number',
@@ -32,12 +29,6 @@ const UnitTable = React.createClass({
 
   componentWillMount() {
     this._filterRowsBy(this.state.filterBy);
-  },
-
-  componentDidMount() {
-    $.getJSON('/units', function(units) {
-      this.setState({ rows: units }, () => { this._filterRowsBy(this.state.filterBy) });
-    }.bind(this));
   },
 
   _sortRowsBy(cellDataKey) {
@@ -102,7 +93,6 @@ const UnitTable = React.createClass({
 
 
   render() {
-
     var sortDirArrow = '';
 
     if (this.state.sortDir !== null){

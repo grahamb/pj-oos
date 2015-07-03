@@ -8,6 +8,10 @@ var email = require('../lib/email');
 var csv = require('csv');
 var moment = require('moment');
 var sequelize = models.sequelize;
+var React = require('react');
+require('babel/register');
+
+var UnitTable = require('../src/components/UnitTable');
 
 var program_selection_status_icon_helper = function(selection) {
   var tmpl = '<i class="fa fa-ICON" title="TITLE"></i>';
@@ -52,8 +56,18 @@ router.get('/', role.can('view unit'), function(req, res) {
       return;
     }
 
+    var component = React.createFactory(UnitTable);
+    var reactHtml = React.renderToString(component({
+        tableHeight: 800,
+        tableWidth: 1087,
+        units: units
+      }));
+
+    console.log(JSON.stringify(units));
+
     res.render('units/index', {
-      units: units,
+      react: reactHtml,
+      units: JSON.stringify(units),
       title: '- Unit Listing',
       body_scripts: ['/dist/unit_table.js'],
       helpers: {
