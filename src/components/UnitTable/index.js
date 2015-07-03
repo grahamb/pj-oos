@@ -3,6 +3,7 @@
 import React from 'react';
 import FixedDataTable from 'fixed-data-table';
 import $ from 'jquery';
+import moment from 'moment';
 
 const PropTypes = {React};
 
@@ -112,6 +113,9 @@ const UnitTable = React.createClass({
       return <a href={`/units/${rowData.id}`}>{cellData}</a>;
     };
 
+    const renderPaymentDate = (cellData, cellDataKey, rowData, rowIndex, columnData, width) => {
+      return (cellData ? <span>{ moment(cellData).format('YYYY/MM/DD') }</span> : <span>Not Received</span>);
+    };
 
     return (
       <div>
@@ -144,7 +148,7 @@ const UnitTable = React.createClass({
             dataKey='unit_name'
             fixed={true}
             label={'Unit Name' + (this.state.sortBy === 'unit_name' ? sortDirArrow : '')}
-            width={375}
+            width={437}
           />
           <Column
             headerRenderer={this._renderHeader}
@@ -166,6 +170,13 @@ const UnitTable = React.createClass({
             fixed={true}
             label={'Total' + (this.state.sortBy === 'total_participants' ? sortDirArrow : '')}
             width={100}
+          />
+          <Column
+            cellRenderer={renderPaymentDate}
+            fixed={true}
+            label='Payment Date'
+            dataKey='final_payment_date'
+            width={200}
           />
         </Table>
       </div>
