@@ -39,60 +39,12 @@
             </a>
         </section>
         {{/user_can}}
-
-
     </section>
 
-    <section class="unit_schedule">
-        <h2>Unit Schedule</h2>
-        {{#if ProgramPeriods.length}}
-            <ul>
-            {{#each ProgramPeriods}}
-                <li>{{format_date "ddd MMM D HH:mm" this.start_at}} - {{format_date "HH:mm" this.end_at}}<br/>{{this.id}} - {{this.Program.name}} {{{starred_activity this.Program false}}}</li>
-            {{/each}}
-            </ul>
-        {{/if}}
-    </section>
-
-    <section class="program_selection">
-        <div style="margin-bottom: 20px;">
-            <h2>Login</h2>
-            {{#unless Login.enabled}}
-            <a style="font-size: .75em" class="button" href="/admin/logins/toggle_unit/{{id}}">Enable Login</a>
-            {{else}}
-            <a style="font-size: .75em" class="button red" href="/admin/logins/toggle_unit/{{id}}">Disable Login</a>
-            {{/unless}}
-        </div>
-
-        <h2>Program Selection</h2>
-
-        <p class="label">Status</p>
-        <p>{{{program_selection_status_icon_helper ProgramSelection}}}</p>
-
-        {{#if ProgramSelection.program_selection.length}}
-
-        <p class="label">Extra Free Period</p>
-        <p>{{{check_or_x ProgramSelection.extra_free_period}}}</p>
-
-        <p class="label">Program Ranking</p>
-        <ol>
-            {{#each ../../programs}}
-            <li>{{this.full_name_text}} {{{starred_activity this false}}}</li>
-            {{/each}}
-        </ol>
-        {{/if}}
-
-{{!--         {{#user_can 'edit unit'}}
-        <section class="outer">
-            <a href="/units/{{id}}/edit" class="button">
-                <i class="fa fa-edit"></i>Edit Selection
-            </a>
-        </section>
-        {{/user_can}} --}}
-
-    </section>
-
+    <section id="unit_schedule" class="unit_schedule">{{{../reactHtml}}}</section>
 </section>
 
 
 {{/with}}
+
+<script type="application/json" id="dehydrated_data">{{{dehydrated_data}}}</script>
