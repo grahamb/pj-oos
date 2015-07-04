@@ -284,11 +284,6 @@ router.get('/:id/schedule', role.can('view schedule'), function(req, res) {
     res.render('units/unit_schedule', {
       title: ' - Unit Schedule',
       unit: unit,
-      helpers: {
-        program_link: function(program) {
-          return program.id === 25 ? program.full_name_text : `<a href="/programs/${program.id}">${program.full_name_text}</a>`;
-        }
-      }
     });
 
   });
