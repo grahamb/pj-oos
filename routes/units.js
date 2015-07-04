@@ -331,8 +331,9 @@ router.delete('/:id/schedule/:period', function(req, res) {
       }).then(function(freePeriods) {
         unit.addProgramPeriods(freePeriods).then(function() {
           models.Unit.find({
-            where: { id: 174 },
-            include: [ models.ProgramPeriod ]
+            where: { id: req.params.id },
+            include: [ { model: models.ProgramPeriod, include: [{all:true}] } ],
+            order: [[ { model: ProgramPeriod }, 'start_at' ]]
           }).then(function(unit) {
             res.status(200).end(JSON.stringify(unit.ProgramPeriods, null, 2));
           });
