@@ -10,8 +10,8 @@ var moment = require('moment');
 var sequelize = models.sequelize;
 var React = require('react');
 require('babel/register');
-
 var UnitTable = require('../src/components/UnitTable');
+var UnitSchedule = require('../src/components/UnitSchedule');
 
 var program_selection_status_icon_helper = function(selection) {
   var tmpl = '<i class="fa fa-ICON" title="TITLE"></i>';
@@ -214,8 +214,13 @@ router.get('/:id', role.can('view unit'), function(req, res) {
     program_query.then(function(programs) {
       res.render('units/unit', {
         unit: unit,
+        reactHtml: React.renderToString(React.createFactory(UnitSchedule)({
+          programPeriods: unit.ProgramPeriods
+        })),
         title: '- ' + unit.unit_name + ' (' + unit.unit_number + ')',
         programs: programs,
+        dehydrated_data: JSON.stringify({ programPeriods: unit.ProgramPeriods, unitId: unit.id }),
+        body_scripts: ['/dist/unit_schedule.js'],
         helpers: {
           program_selection_status_icon_helper: program_selection_status_icon_helper,
           check_or_x: check_or_x
