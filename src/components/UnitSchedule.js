@@ -85,7 +85,7 @@ const UnitSchedule = React.createClass({
     const schedule = this.state.programPeriods.map( (period, i, a) => {
       return (
         <div className="period" key={i}>
-          <h3>{moment(period.start_at).format('dddd')} {humanized_period(period)}</h3>
+          <h3 title={period.id}>{moment(period.start_at).format('dddd')} {humanized_period(period)}</h3>
           <div className="period-info">
             <div>
               <span dangerouslySetInnerHTML={starred_activity(period.Program)}></span>
