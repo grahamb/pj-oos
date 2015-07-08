@@ -9,6 +9,7 @@ var csv = require('csv');
 var moment = require('moment');
 var sequelize = models.sequelize;
 var React = require('react');
+require('es6-shim');
 require('babel/register');
 var UnitTable = require('../src/components/UnitTable');
 var UnitSchedule = require('../src/components/UnitSchedule');
@@ -291,6 +292,205 @@ router.get('/:id/schedule', role.can('view schedule'), function(req, res) {
       unit: unit,
     });
 
+  });
+});
+
+router.get('/:id/schedule/:period/alternatives', /* role.can('view schedule'), */ function(req, res) {
+
+  Promise.all([
+      models.Unit.find({
+        where: { id: req.params.id },
+        include: [ { model: models.ProgramPeriod, include: [{all: true}] } ],
+        order: [[ { model: models.ProgramPeriod }, 'start_at' ]]
+      }),
+      models.ProgramPeriod.find({
+        where: { id: req.params.period }
+      })
+  ]).spread(function(unit, original_period) {
+    const schedule = unit.ProgramPeriods;
+    const current_schedule_ids = schedule.map(function(p) { return p.program_id });
+    var query;
+
+    switch (original_period.spans_periods) {
+      case 1:
+        var offsite_check_period;
+        const positionInSchedule = schedule.findIndex(function(p) {
+          return p.id === original_period.id;
+        });
+        if (moment(original_period.start_at).hour() < 12) {
+          offsite_check_period = schedule[positionInSchedule+=1]
+        } else {
+          offsite_check_period = schedule[positionInSchedule-=1]
+        }
+        const location_filter = offsite_check_period.Program.location === 'On-Site' ? ['onsite', 'offsite'] : ['onsite'];
+
+        query = {
+          where: {
+            spans_periods: 1,
+            start_at: original_period.start_at,
+            program_id: {
+              $notIn: current_schedule_ids
+            }
+          }
+        }
+
+        query.include = [models.Unit, {model: models.Program, where: {
+          'location': {
+            $in: location_filter
+          }
+        }}];
+        query.order = 'start_at ASC';
+        models.ProgramPeriod.findAll(query).then(function(periods) {
+          var ret = periods.map(function(p) {
+            const max = p.max_participants_override || p.Program.max_participants_per_period;
+            const total = p.Units.map(function(unit) {
+              return unit.number_of_youth + unit.number_of_leaders;
+            }).reduce(function(previous, current) {
+              return previous + current;
+            });
+            const available = max - total;
+
+            return {
+              id: p.id,
+              name: p.Program.name,
+              start_at: p.start_at,
+              end_at: p.end_at,
+              spans_periods: p.spans_periods,
+              available: available,
+              location: p.Program.location
+            }
+          });
+          res.status(200).json(ret);
+        });
+        return;
+        break;
+
+      case 2:
+        var morning_period_start_at = original_period.start_at;
+        var afternoon_period_start_at = new Date(moment(original_period.start_at).hour(13).minute(30));
+        Promise.all([
+          models.ProgramPeriod.findAll({
+            where: {
+              spans_periods: 1,
+              start_at: morning_period_start_at,
+              program_id: {
+                $notIn: current_schedule_ids
+              },
+            },
+            include: [models.Unit, models.Program]
+
+          }),
+          models.ProgramPeriod.findAll({
+            where: {
+              spans_periods: 1,
+              start_at: afternoon_period_start_at,
+              program_id: {
+                $notIn: current_schedule_ids
+              },
+            },
+            include: [models.Unit, models.Program]
+          })
+        ]).spread(function(morning_periods, afternoon_periods) {
+          var ret = [];
+          [morning_periods, afternoon_periods].forEach(function(periods) {
+
+            var x = periods.map(function(p) {
+              const max = p.max_participants_override || p.Program.max_participants_per_period;
+              const total = p.Units.map(function(unit) {
+                return unit.number_of_youth + unit.number_of_leaders;
+              }).reduce(function(previous, current) {
+                return previous + current;
+              });
+              const available = max - total;
+
+              return {
+                id: p.id,
+                name: p.Program.name,
+                start_at: p.start_at,
+                end_at: p.end_at,
+                spans_periods: p.spans_periods,
+                available: available,
+                location: p.Program.location
+              }
+            });
+            ret.push(x);
+          });
+          res.status(200).json(ret);
+        });
+        return;
+        break;
+
+      case 3:
+        var morning_period_start_at = original_period.start_at;
+        var afternoon_period_start_at = new Date(moment(original_period.start_at).hour(13).minute(30));
+        var next_morning_period_start_at = new Date(moment(original_period.start_at).add(24, 'hours'));
+        Promise.all([
+          models.ProgramPeriod.findAll({
+            where: {
+              spans_periods: 1,
+              start_at: morning_period_start_at,
+              program_id: {
+                $notIn: current_schedule_ids
+              },
+            },
+            include: [models.Unit, models.Program]
+
+          }),
+          models.ProgramPeriod.findAll({
+            where: {
+              spans_periods: 1,
+              start_at: afternoon_period_start_at,
+              program_id: {
+                $notIn: current_schedule_ids
+              },
+            },
+            include: [models.Unit, models.Program]
+          }),
+          models.ProgramPeriod.findAll({
+            where: {
+              spans_periods: 1,
+              start_at: next_morning_period_start_at,
+              program_id: {
+                $notIn: current_schedule_ids
+              },
+            },
+            include: [models.Unit, models.Program]
+          }),
+
+        ]).spread(function(morning_periods, afternoon_periods, next_morning_periods) {
+          var ret = [];
+          [morning_periods, afternoon_periods, next_morning_periods].forEach(function(periods) {
+
+            var x = periods.map(function(p) {
+              const max = p.max_participants_override || p.Program.max_participants_per_period;
+              const total = p.Units.map(function(unit) {
+                return unit.number_of_youth + unit.number_of_leaders;
+              }).reduce(function(previous, current) {
+                return previous + current;
+              });
+              const available = max - total;
+
+              return {
+                id: p.id,
+                name: p.Program.name,
+                start_at: p.start_at,
+                end_at: p.end_at,
+                spans_periods: p.spans_periods,
+                available: available,
+                location: p.Program.location
+              }
+            });
+            ret.push(x);
+          });
+          res.status(200).json(ret);
+        });
+        return;
+        break;
+    }
+
+  }).catch(function(error) {
+    console.log(error);
+    res.status(500).end(error.toString());
   });
 });
 
