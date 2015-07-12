@@ -127,13 +127,23 @@ router.get('/csv', role.can('view unit'), function(req, res) {
 });
 
 router.get('/schedules', role.isAny(['admin', 'hq staff']), function(req, res) {
-  Unit.findAll({
+  var query = {
     include: [
       { model: ProgramPeriod, include: [models.Program] },
       ProgramSelection
     ],
-    order: [ 'final_payment_date', 'unit_number', [ { model: ProgramPeriod }, 'start_at' ]]
-  }).then(function(units) {
+    order: ['unit_number', [ { model: ProgramPeriod }, 'start_at' ]]
+  };
+
+  if (req.query.subcamp) {
+    query.where = {
+      unit_number: {
+        $iLike: `${req.query.subcamp}%`
+      }
+    };
+  }
+
+  Unit.findAll(query).then(function(units) {
 
     res.render('units/schedules', {
       units: units,
@@ -154,7 +164,6 @@ router.get('/schedules', role.isAny(['admin', 'hq staff']), function(req, res) {
     });
   });
 });
-
 
 router.get('/schedule', role.isAny(['admin', 'hq staff', 'unit leader']), function(req, res) {
 
@@ -322,7 +331,10 @@ router.get('/:id/schedule/:period/alternatives', /* role.can('view schedule'), *
         } else {
           offsite_check_period = schedule[positionInSchedule-=1]
         }
-        const location_filter = offsite_check_period.Program.location === 'On-Site' ? ['onsite', 'offsite'] : ['onsite'];
+        var location_filter;
+        if (offsite_check_period) {
+          offsite_check_period.Program.location === 'On-Site' ? ['onsite', 'offsite'] : ['onsite'];
+        }
 
         query = {
           where: {
@@ -334,12 +346,20 @@ router.get('/:id/schedule/:period/alternatives', /* role.can('view schedule'), *
           }
         }
 
-        query.include = [models.Unit, {model: models.Program, where: {
-          'location': {
-            $in: location_filter
-          }
-        }}];
+        query.include = [models.Unit];
+        console.log(location_filter)
+        if (location_filter) {
+          query.include.push = {model: models.Program, where: {
+            'location': {
+              $in: location_filter
+            }
+          }};
+        } else {
+          query.include.push(models.Program);
+        }
+
         query.order = 'start_at ASC';
+
         models.ProgramPeriod.findAll(query).then(function(periods) {
           var ret = periods.map(function(p) {
             const max = p.max_participants_override || p.Program.max_participants_per_period;
@@ -352,7 +372,7 @@ router.get('/:id/schedule/:period/alternatives', /* role.can('view schedule'), *
 
             return {
               id: p.id,
-              name: p.Program.name,
+              name: p.Program.full_name_text,
               start_at: p.start_at,
               end_at: p.end_at,
               spans_periods: p.spans_periods,
@@ -360,7 +380,7 @@ router.get('/:id/schedule/:period/alternatives', /* role.can('view schedule'), *
               location: p.Program.location
             }
           });
-          res.status(200).json(ret);
+          res.status(200).json([ret]);
         });
         return;
         break;
@@ -491,6 +511,53 @@ router.get('/:id/schedule/:period/alternatives', /* role.can('view schedule'), *
   }).catch(function(error) {
     console.log(error);
     res.status(500).end(error.toString());
+  });
+});
+
+router.post('/:id/schedule/:original_period...:swap_period', /* role.can('edit schedule') */ function(req, res) {
+
+  Promise.all([
+    models.Unit.find({
+      where: { id: req.params.id },
+      include: [ models.ProgramPeriod ]
+    }),
+    models.ProgramPeriod.findAll()
+  ]).spread(function(unit, programPeriods) {
+
+    if (!unit) {
+      res.status(404).json({ error: 404, message: `unit ${req.params.id} does not exist`});
+      return false;
+    }
+
+    var schedule = unit.ProgramPeriods;
+    var programPeriodToRemove = schedule.find(function(p) {
+      return p.id == req.params.original_period;
+    });
+
+    var periodsToAdd = [];
+    var periodsToAddIds = req.params.swap_period.split(',');
+    console.log(periodsToAddIds);
+    periodsToAddIds.forEach(function(period) {
+      periodsToAdd.push(programPeriods.find(function(p) {
+        return p.id == period;
+      }));
+    });
+    if (!programPeriodToRemove) {
+      res.status(404).json({ error: 404, message: `unit ${req.params.id} does not have program period ${req.params.original_period} on its schedule`});
+      return false;
+    }
+
+    unit.removeProgramPeriod(programPeriodToRemove).then(function() {
+      unit.addProgramPeriods(periodsToAdd).then(function() {
+        models.Unit.find({
+          where: { id: req.params.id },
+          include: [ { model: models.ProgramPeriod, include: [{all:true}] } ],
+          order: [[ { model: ProgramPeriod }, 'start_at' ]]
+        }).then(function(unit) {
+          res.status(200).end(JSON.stringify(unit.ProgramPeriods, null, 2));
+        });
+      })
+    })
   });
 });
 

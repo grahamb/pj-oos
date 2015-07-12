@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import request from 'superagent';
+import ProgramSwapModal from './ProgramSwapModal';
 
 const PropTypes = {React};
 
@@ -14,7 +15,10 @@ const UnitSchedule = React.createClass({
 
   getInitialState() {
     return {
-      programPeriods: this.props.programPeriods
+      modalIsOpen: false,
+      programPeriods: this.props.programPeriods,
+      alternatives: null,
+      originalPeriod: null
     };
   },
 
@@ -31,8 +35,40 @@ const UnitSchedule = React.createClass({
       }.bind(this));
   },
 
-  swapProgram(period, el) {
-    console.log('swapProgram');
+  closeModal(ev) {
+    if (ev) {
+      ev.preventDefault();
+    }
+    this.setState({
+      modalIsOpen: false
+    });
+  },
+
+  swapProgram(period, ev) {
+    request
+      .get(`/units/${this.props.unitId}/schedule/${period}/alternatives`)
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+        if (res.ok) {
+          this.setState({
+            modalIsOpen: true,
+            originalPeriod: period,
+            alternatives: JSON.parse(res.text)
+          });
+        }
+      }.bind(this));
+  },
+
+  doSwap(newPeriod) {
+    request
+      .post(`/units/${this.props.unitId}/schedule/${this.state.originalPeriod}...${newPeriod.join(',')}`)
+      .end((err, res) => {
+        if (res.ok) {
+          this.setState({
+            programPeriods: JSON.parse(res.text)
+          });
+        }
+      }.bind(this));
   },
 
   render() {
@@ -108,6 +144,14 @@ const UnitSchedule = React.createClass({
       <div>
         <h2>Unit Schedule</h2>
         {schedule}
+
+        <ProgramSwapModal
+          modalIsOpen={this.state.modalIsOpen}
+          alternatives={this.state.alternatives}
+          closeModal={this.closeModal}
+          doSwap={this.doSwap}
+        />
+
       </div>
     );
   }
